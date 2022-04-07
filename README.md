@@ -1,7 +1,7 @@
 # Team B
 team-project-team-b created by GitHub Classroom
 
-## Team members
+## Team Members
 + Jonas Bartels
 + Cole Kleinhans
 + Tin Nguyen
