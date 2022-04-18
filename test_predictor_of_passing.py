@@ -1,4 +1,3 @@
-from mimetypes import init
 import unittest
 from deaths_per import *
 
