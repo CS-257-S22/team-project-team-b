@@ -1,15 +1,15 @@
 import csv
 
-class searchInfo:
-    def  __init__(self,state, age, gender, cause):
+class SearchInfo:
+    def  __init__(self, state, age, gender, cause):
        self.state = state
        self.age = age
        self.gender = gender
        self.cause = cause
 
 def initializeFile(file):
-    file = open("Test Data CSV - Sheet1.csv")
-    read_file = csv.reader(file)
+    file_to_read = open(file)
+    read_file = csv.reader(file_to_read)
     return read_file
 
 def transformCSVDataToArray(file):
@@ -27,7 +27,10 @@ def deaths_per(search, data):
 def getRelevantDeaths(datapoint,search):
     deaths = 0
     if(dataFitsSearch(datapoint,search)):
-        deaths = int(datapoint[5])
+        if datapoint[5] == "under 10":
+            deaths = 0
+        else:
+            deaths = int(datapoint[5])
     return deaths
 
 def dataFitsSearch(datapoint,search):
