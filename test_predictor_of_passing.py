@@ -3,12 +3,6 @@ from deaths_per import *
 
 class TestSOMETHING(unittest.TestCase):
 
-    def test_purposely_wrong_return(self):
-        """ Test that it recognizes the wrong answer """
-        search = SearchInfo("California",None,None,None)
-        result = deaths_per(search, deaths_data)
-        self.assertEqual(result, 100)
-
     def test_sum_deaths_by_state(self):
         """ Test that it can sum the data for one state """
         search = SearchInfo("California",None,None,None)
