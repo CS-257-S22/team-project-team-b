@@ -26,11 +26,8 @@ def deaths_per(search, data):
 
 def getRelevantDeaths(datapoint,search):
     deaths = 0
-    if(dataFitsSearch(datapoint,search)):
-        if datapoint[5] == "under 10":
-            deaths = 0
-        else:
-            deaths = int(datapoint[5])
+    if(dataFitsSearch(datapoint,search) & (datapoint[5] != "under 10")):
+        deaths = int(datapoint[5])
     return deaths
 
 def dataFitsSearch(datapoint,search):
