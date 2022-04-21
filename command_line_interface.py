@@ -1,3 +1,10 @@
+# credit :)
+# organization
+
+"""
+Written by Cole Kleinhans
+"""
+
 from sys import argv
 from deaths_per import *
 
@@ -24,7 +31,7 @@ def return_dictionary_of_arguments():
         "cause": None
     }
     for i, argument in enumerate(argv):
-        if "-" in argument:
+        if "-" == argument[0]:
             argument_value = return_argument_value(argument, argv[i+1])
             argument_dictionary.update(argument_value)
     return argument_dictionary
@@ -49,11 +56,22 @@ def find_deaths_per():
 def find_leading_cause():
     argument_dictionary = return_dictionary_of_arguments()
 
+def check_length_of_argv():
+    if len(argv) < 2:
+        print_usage_statement()
 
-if argv[1] == "dp" or argv[1] == "deaths_per":
-    deaths = find_deaths_per()
-    print(deaths)
-elif argv[1] == "lc" or argv[1] == "leading_cause":
-    find_leading_cause()
-else:
-    print_usage_statement()
+if __name__ == "__main__":
+    check_length_of_argv()
+    if argv[1] == "dp" or argv[1] == "deaths_per":
+        deaths = find_deaths_per()
+        print(deaths)
+    elif argv[1] == "lc" or argv[1] == "leading_cause":
+        find_leading_cause()
+    else:
+        print_usage_statement()
+
+def find_possible_causes(input):
+    data = initialize_data()
+    for line in data:
+        if input in data:
+            pass
