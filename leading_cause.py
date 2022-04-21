@@ -1,125 +1,43 @@
 """
-Written by Tin Nguyen
+Written by Tin Nguyen, Cole Kleinhans & Kai R. Weiner
 """
 
-def initialize_dataset(input_state,input_age,input_gender): 
-  """Function opens data set and calls function that determinds what the user input"""
-  data_file = open("data.csv","r")
-  initialize_search(data_file,input_state,input_age,input_gender)
-  data_file.close()
+def fits_search(datapoint,search):
+    return equal_or_none(datapoint[0], search.state) & equal_or_none(datapoint[1], search.age)\
+        & equal_or_none(datapoint[2], search.gender)
 
-def initialize_search(data_file, state, age,gender): 
-  "Function determinds what varibles the the user input to determind how the data base should be searched"
-  if state != "" and age != "" and gender != "": 
-    find_leading_cause_based_on_stateAgeGender(data_file, state,age,gender) 
-  elif age != "" and state != "": 
-    find_leading_cause_based_on_stateAge(data_file, state,age) 
-  elif age != "" and gender !="": 
-    find_leading_cause_based_on_ageGender(data_file,age,gender)
-  elif state != "" and gender != "": 
-    find_leading_cause_based_on_stateGender(data_file,state,gender)
-  elif age != "": 
-    find_leading_cause_based_on_age(data_file, age) 
-  elif state != "":
-    find_leading_cause_based_on_state(data_file,state)
-  elif gender != "": 
-    find_leading_cause_based_on_gender(data_file,gender)
+def equal_or_none(compared, value):
+    return (value == compared) | (value == None)
 
+def return_data_entry(datapoint, data_dictionary):
+    if datapoint[3] in data_dictionary.keys():
+        new_entry = {datapoint[3]: int(data_dictionary[datapoint[3]]) + int(datapoint[5])}
+    else:
+        new_entry = {datapoint[3]: int(datapoint[5])}
+    return new_entry
 
-def find_leading_cause_based_on_state(data_file, input_state):
-  """ Search  database for a specific state and create array for each instance """
-  data = []
-  for datapoint in data_file:
-    if datapoint.split(",")[0] == input_state:
-      state = datapoint.split(",")[0] 
-      cause_of_death = datapoint.split(",")[3]
-      num_of_death =  datapoint.split(",")[5]
-      instance = [state,cause_of_death,num_of_death]
-      print(instance)
-      data.append(instance)
-  return data
+def return_cause_of_death_dictionary(data_file, search_info):
+    """
+    Search database for the passed search info and returns a dictionary
+    with all the matching causes and the number of deaths per each one.
+    """
+    data_dictionary = {}
+    for datapoint in data_file:
+        if fits_search(datapoint, search_info) and datapoint[3] != "Miscellaneous":
+            new_entry = return_data_entry(datapoint, data_dictionary)
+            data_dictionary.update(new_entry)
+    return data_dictionary
 
-def find_leading_cause_based_on_age(data_file,input_age): 
-  """ Search  database for a specific age and create array for each instance """
-  data = []
-  for datapoint in data_file:
-    if datapoint.split(",")[1] == input_age:
-      age = datapoint.split(",")[1] 
-      cause_of_death = datapoint.split(",")[3]
-      num_of_death =  datapoint.split(",")[5]
-      instance = [age,cause_of_death,num_of_death]
-      data.append(instance)
-  return data
+def find_most_common_cause_of_death(data_dictionary):
+    max_number_of_deaths = 0
+    leading_cause_of_death = ""
+    for key in data_dictionary:
+        if data_dictionary[key] > max_number_of_deaths:
+            max_number_of_deaths = data_dictionary[key]
+            leading_cause_of_death = key
+    return [leading_cause_of_death, max_number_of_deaths]
 
-  
-def find_leading_cause_based_on_gender(data_file,input_gender): 
-  """ Search  database for a specific gender and create array for each instance """
-  data = []
-  for datapoint in data_file:
-    if datapoint.split(",")[2] == input_gender:
-      gender = datapoint.split(",")[2] 
-      cause_of_death = datapoint.split(",")[3]
-      num_of_death =  datapoint.split(",")[5]
-      instance = [gender,cause_of_death,num_of_death]
-      data.append(instance)
-  return data
-
-
-def find_leading_cause_based_on_stateAge(data_file, input_state,input_age):
-  """ Search  database for a specific state and age and create array for each instance """
-  data = []
-  for datapoint in data_file:
-    """should I put the varibles out here or in the if loop"""
-    if (datapoint.split(",")[0] == input_state) and (datapoint.split(",")[1] == input_age):
-      age = datapoint.split(",")[1] 
-      state = datapoint.split(",")[0]
-      cause_of_death = datapoint.split(",")[3]
-      num_of_death =  datapoint.split(",")[5]
-      instance = [state, age,cause_of_death,num_of_death]
-      data.append(instance) 
-  return data
-
-def find_leading_cause_based_on_stateGender(data_file,input_state,input_gender):
-  """ Search  database for a specific state and gender and create array for each instance """
-  data = []
-  for datapoint in data_file:
-    """should I put the varibles out here or in the if loop"""
-    if (datapoint.split(",")[0] == input_state) and (datapoint.split(",")[2] == input_gender):
-      gender = datapoint.split(",")[2] 
-      state = datapoint.split(",")[0]
-      cause_of_death = datapoint.split(",")[3]
-      num_of_death =  datapoint.split(",")[5]
-      instance = [state,gender,cause_of_death,num_of_death]
-      data.append(instance) 
-  return data
-
-def find_leading_cause_based_on_ageGender(data_file, input_age,input_gender): 
-    """ Search  database for a specific age and gender and create array for each instance """
-  data = []
-  for datapoint in data_file:
-    """should I put the varibles out here or in the if loop"""
-    if (datapoint.split(",")[1] == input_age) and (datapoint.split(",")[2] == input_gender):
-      gender = datapoint.split(",")[2] 
-      age = datapoint.split(",")[1]
-      cause_of_death = datapoint.split(",")[3]
-      num_of_death =  datapoint.split(",")[5]
-      instance = [age,gender,cause_of_death,num_of_death]
-      data.append(instance) 
-      print(instance)
-  return data
-  
-def find_leading_cause_based_on_stateAgeGender(data_file,input_state,input_age,input_gender):
-    """ Search  database for a specific state, age and gender and create array for each instance """
-  data = []
-  for datapoint in data_file:
-    """should I put the varibles out here or in the if loop"""
-    if (datapoint.split(",")[0] == input_state) and (datapoint.split(",")[1] == input_age) and (datapoint.split(",")[2] == input_gender):
-      state = datapoint.split(",")[0]
-      gender = datapoint.split(",")[2] 
-      age = datapoint.split(",")[1]
-      cause_of_death = datapoint.split(",")[3]
-      num_of_death =  datapoint.split(",")[5]
-      instance = [state,age,gender,cause_of_death,num_of_death]
-      data.append(instance)
-      print(instance)
-  return data
+def return_leading_cause(data_file, search_info):
+    data_dictionary = return_cause_of_death_dictionary(data_file, search_info)
+    leading_cause = find_most_common_cause_of_death(data_dictionary)
+    return leading_cause

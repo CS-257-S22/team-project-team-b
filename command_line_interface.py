@@ -7,9 +7,30 @@ Written by Cole Kleinhans
 
 from sys import argv
 from deaths_per import *
+from SearchInfo import *
+from csv_reading import *
+from leading_cause import *
 
 def print_usage_statement():
-    exit("USAGE: command_line_interface.py [deaths_per | leading_cause] [-s state | -a age | -g gender | -c cause]")
+    exit("\nUSAGE: command_line_interface.py [deaths_per | leading_cause | --help] [--state STATE] [--age AGE] [--gender GENDER] [--cause CAUSE]\n")
+
+def print_help_statement():
+    exit("\nUSAGE: command_line_interface.py [deaths_per | leading_cause | --help] [--state STATE] [--age AGE] [--gender GENDER] [--cause CAUSE]\n" +
+         "\n" +
+         "deaths_per (dp) : prints the number of deaths that are tagged with the passed search parameters.\n" +
+         "    POSSIBLE SEARCH PARAMETERS:\n" +
+         "    --state (-s) STATE : replace STATE with the name of the state you want to search for. Case sensitive.\n" +
+         "    --age (-a) AGE : replace AGE with the age you want to search for. Takes integers.\n" +
+         "    --gender (-g) GENDER : replace GENDER with the gender you want to search for. Either M or F.\n" +
+         "    --cause (-c) CAUSE : replace CAUSE with the name of the cause you want to search for. Has to be exactly the same as a cause in data.csv.\n" +
+         "\n" +
+         "leading_cause (lc): prints the leading causes of death that are tagged with the passed search parameters.\n" +
+         "    POSSIBLE SEARCH PARAMETERS:\n" +
+         "    --state (-s) STATE : replace STATE with the name of the state you want to search for. Case sensitive.\n" +
+         "    --age (-a) AGE : replace AGE with the age you want to search for. Takes integers.\n" +
+         "    --gender (-g) GENDER : replace GENDER with the gender you want to search for. Either M or F.\n" +
+         "\n" +
+         "--help (-h): prints this help information.\n")
 
 def return_argument_value(argument, value):
     if argument == "-s" or argument == "--state":
@@ -36,7 +57,8 @@ def return_dictionary_of_arguments():
             argument_dictionary.update(argument_value)
     return argument_dictionary
 
-def create_searchInfo(argument_dictionary):
+def create_search_info():
+    argument_dictionary = return_dictionary_of_arguments()
     state = argument_dictionary["state"]
     age = argument_dictionary["age"]
     gender = argument_dictionary["gender"]
@@ -44,17 +66,18 @@ def create_searchInfo(argument_dictionary):
     return SearchInfo(state, age, gender, cause)
 
 def initialize_data():
-    initialized_file = initializeFile("data.csv")
-    return transformCSVDataToArray(initialized_file)
+    initialized_file = read_CSV("data.csv")
+    return transform_CSV_data_to_array(initialized_file)
 
 def find_deaths_per():
     data = initialize_data()
-    argument_dictionary = return_dictionary_of_arguments()
-    searchInfo = create_searchInfo(argument_dictionary)
-    return deaths_per(searchInfo, data)
+    search_info = create_search_info()
+    return deaths_per(search_info, data)
 
 def find_leading_cause():
-    argument_dictionary = return_dictionary_of_arguments()
+    data = initialize_data()
+    search_info = create_search_info()
+    return return_leading_cause(data, search_info)
 
 def check_length_of_argv():
     if len(argv) < 2:
@@ -62,16 +85,13 @@ def check_length_of_argv():
 
 if __name__ == "__main__":
     check_length_of_argv()
-    if argv[1] == "dp" or argv[1] == "deaths_per":
+    if argv[1] == "deaths_per" or argv[1] == "dp":
         deaths = find_deaths_per()
         print(deaths)
-    elif argv[1] == "lc" or argv[1] == "leading_cause":
-        find_leading_cause()
+    elif argv[1] == "leading_cause" or argv[1] == "lc":
+        leading_cause = find_leading_cause()
+        print(leading_cause)
+    elif argv[1] == "--help" or argv[1] == "-h":
+        print_help_statement()
     else:
         print_usage_statement()
-
-def find_possible_causes(input):
-    data = initialize_data()
-    for line in data:
-        if input in data:
-            pass
