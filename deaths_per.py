@@ -1,40 +1,24 @@
-import csv
-
-class SearchInfo:
-    def  __init__(self, state, age, gender, cause):
-       self.state = state
-       self.age = age
-       self.gender = gender
-       self.cause = cause
-
-def initializeFile(file):
-    file_to_read = open(file)
-    read_file = csv.reader(file_to_read)
-    return read_file
-
-def transformCSVDataToArray(file):
-    data = []
-    for datapoint in file:
-        data.append(datapoint)
-    return data
+"""
+Written By Kai R. Weiner, Cole Kleinhans
+"""
 
 def deaths_per(search, data):
     total_deaths = 0
     for datapoint in data:
-        total_deaths += getRelevantDeaths(datapoint,search)
+        total_deaths += get_relevant_deaths(datapoint,search)
     return total_deaths
 
-def getRelevantDeaths(datapoint,search):
+def get_relevant_deaths(datapoint,search):
     deaths = 0
-    if(dataFitsSearch(datapoint,search) & (datapoint[5] != "under 10")):
+    if(fits_search(datapoint,search) & (datapoint[5] != "under 10")):
         deaths = int(datapoint[5])
     return deaths
 
-def dataFitsSearch(datapoint,search):
-    return equalOrNone(datapoint[0],search.state) & equalOrNone(datapoint[1],search.age)\
-        & equalOrNone(datapoint[2],search.gender) & equalOrNone(datapoint[3],search.cause)
+def fits_search(datapoint,search):
+    return equal_or_none(datapoint[0],search.state) & equal_or_none(datapoint[1],search.age)\
+        & equal_or_none(datapoint[2],search.gender) & equal_or_none(datapoint[3],search.cause)
 
-def equalOrNone(compared, value):
+def equal_or_none(compared, value):
     return (value == compared) | (value == None)
 
 # referenced this article to work with csv's:
