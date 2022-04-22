@@ -2,7 +2,7 @@
 Written by Tin Nguyen, Cole Kleinhans & Kai R. Weiner
 """
 
-def fits_search(datapoint,search):
+def fits_search(datapoint, search):
     return equal_or_none(datapoint[0], search.state) & equal_or_none(datapoint[1], search.age)\
         & equal_or_none(datapoint[2], search.gender)
 
@@ -16,7 +16,7 @@ def return_data_entry(datapoint, data_dictionary):
         new_entry = {datapoint[3]: int(datapoint[5])}
     return new_entry
 
-def return_cause_of_death_dictionary(data_file, search_info):
+def return_cause_of_death_dictionary(search_info, data_file):
     """
     Search database for the passed search info and returns a dictionary
     with all the matching causes and the number of deaths per each one.
@@ -44,7 +44,7 @@ def find_most_common_cause_of_death(data_dictionary):
             leading_cause_of_death = key
     return [leading_cause_of_death, max_number_of_deaths]
 
-def return_leading_cause(data_file, search_info):
+def return_leading_cause(search_info, data_file):
     data_dictionary = return_cause_of_death_dictionary(data_file, search_info)
     leading_cause = find_most_common_cause_of_death(data_dictionary)
     return leading_cause
