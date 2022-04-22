@@ -5,7 +5,9 @@ Written by Tin Nguyen, Kai Weiner
 import unittest
 import SearchInfo
 
-# The test class for leading_cause(arguement) checks whether the function captures the causes and number of deaths of said cause. The function additionally will call a help method to order and return the top causes.   
+###
+The test class for leading_cause(arguement) checks whether the function captures the causes and number of deaths of said cause.
+### 
 
 class test_leading_cause(unittest.TestCase):
 
