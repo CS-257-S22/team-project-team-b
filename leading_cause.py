@@ -3,13 +3,26 @@ Written by Tin Nguyen, Cole Kleinhans & Kai R. Weiner
 """
 
 def fits_search(datapoint,search):
+    """ Take in datapoint, return booleans about whether datapoint matches search param or specifc search is not needed"""
+    
     return equal_or_none(datapoint[0], search.state) & equal_or_none(datapoint[1], search.age)\
         & equal_or_none(datapoint[2], search.gender)
 
 def equal_or_none(compared, value):
+    """Take in two varibles, returns True if the value match compared or None"""
     return (value == compared) | (value == None)
 
 def return_data_entry(datapoint, data_dictionary):
+    """ 
+    Determind if a cause already exists in dictionary. If so, sum the number of   
+    deaths. Otherwise, create new key with the new cause and num of deaths. 
+    
+    Args: 
+        data_file: a two dimentional array with data.csv loaded into it
+        data_dictionary: a dictionary with relevant causes as keys and deaths of said cause as the value. 
+    Returns: 
+        dictionary with updated cause of deaths keys or number of deaths per cause. 
+    """
     if datapoint[3] in data_dictionary.keys():
         new_entry = {datapoint[3]: int(data_dictionary[datapoint[3]]) + int(datapoint[5])}
     else:
@@ -36,6 +49,7 @@ def return_cause_of_death_dictionary(data_file, search_info):
     return data_dictionary
 
 def find_most_common_cause_of_death(data_dictionary):
+    """take in dict of causes, return cause with most deaths"""
     max_number_of_deaths = 0
     leading_cause_of_death = ""
     for key in data_dictionary:
@@ -45,6 +59,7 @@ def find_most_common_cause_of_death(data_dictionary):
     return [leading_cause_of_death, max_number_of_deaths]
 
 def return_leading_cause(data_file, search_info):
+    """takes in dataset & search param, returns cause w/ most deaths"""
     data_dictionary = return_cause_of_death_dictionary(data_file, search_info)
     leading_cause = find_most_common_cause_of_death(data_dictionary)
     return leading_cause
