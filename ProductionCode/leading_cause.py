@@ -4,7 +4,6 @@ Written by Tin Nguyen, Cole Kleinhans & Kai R. Weiner
 
 def fits_search(datapoint,search):
     """ Take in datapoint, return booleans about whether datapoint matches search param or specifc search is not needed"""
-    
     return equal_or_none(datapoint[0], search.state) & equal_or_none(datapoint[1], search.age)\
         & equal_or_none(datapoint[2], search.gender)
 
