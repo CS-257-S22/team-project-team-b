@@ -20,6 +20,13 @@ def return_cause_of_death_dictionary(data_file, search_info):
     """
     Search database for the passed search info and returns a dictionary
     with all the matching causes and the number of deaths per each one.
+
+    Args:
+        data_file: a two dimentional array with data.csv loaded into it
+        search_info: a SearchInfo object with all the search info loaded into it
+    Returns:
+        a dictionary where each entry is a cause of death that fit the search info
+        and the number of deaths attributed to that cause.
     """
     data_dictionary = {}
     for datapoint in data_file:
