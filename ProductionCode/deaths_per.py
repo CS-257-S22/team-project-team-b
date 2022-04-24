@@ -25,12 +25,12 @@ def get_relevant_deaths(datapoint, search):
     return deaths
 
 def fits_search(datapoint,search):
-     """ Take in datapoint, return booleans about whether datapoint matches search param or specifc search is not needed"""
+    """ Take in datapoint, return booleans about whether datapoint matches search param or specifc search is not needed"""
     return equal_or_none(datapoint[0], search.state) & equal_or_none(datapoint[1], search.age)\
         & equal_or_none(datapoint[2], search.gender) & equal_or_none(datapoint[3], search.cause)
 
 def equal_or_none(compared, value):
-     """Take in two varibles, returns True if the value match compared or None"""
+    """Take in two varibles, returns True if the value match compared or None"""
     return (value == compared) | (value == None)
 
 # referenced this article to work with csv's:
