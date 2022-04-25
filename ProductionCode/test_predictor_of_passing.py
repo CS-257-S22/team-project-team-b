@@ -1,5 +1,7 @@
 import unittest
 from deaths_per import *
+import SearchInfo
+from csv_reading import *
 
 class TestSOMETHING(unittest.TestCase):
 
@@ -52,6 +54,6 @@ class TestSOMETHING(unittest.TestCase):
         self.assertEqual(result, 270)
 
 if __name__ == '__main__':
-    initialized_file = initializeFile("Test Data CSV - Sheet1.csv")
-    deaths_data = transformCSVDataToArray(initialized_file)
+    initialized_file = read_CSV("Test Data CSV - Sheet1.csv")
+    deaths_data = transform_CSV_data_to_array(initialized_file)
     unittest.main()
