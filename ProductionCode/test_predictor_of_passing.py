@@ -5,6 +5,10 @@ Written By Kai R. Weiner
 import unittest
 from deaths_per import *
 import SearchInfo
+<<<<<<< HEAD:test_predictor_of_passing.py
+=======
+from csv_reading import *
+>>>>>>> 246ade12cc8db06ff8a79d6bf93969c267ad6017:ProductionCode/test_predictor_of_passing.py
 
 class TestSOMETHING(unittest.TestCase):
 
@@ -57,6 +61,6 @@ class TestSOMETHING(unittest.TestCase):
         self.assertEqual(result, 270)
 
 if __name__ == '__main__':
-    initialized_file = initializeFile("Test Data CSV - Sheet1.csv")
-    deaths_data = transformCSVDataToArray(initialized_file)
+    initialized_file = read_CSV("Test Data CSV - Sheet1.csv")
+    deaths_data = transform_CSV_data_to_array(initialized_file)
     unittest.main()
