@@ -1,5 +1,5 @@
 """
-Written by Cole Kleinhans
+Written by Cole Kleinhans with modifications by Jonas Bartels
 """
 
 from sys import argv
@@ -35,7 +35,7 @@ def print_help_statement():
          "\n" +
          "--help (-h): prints this help information.\n")
 
-def return_argument_value(argument, value):
+def return_argument_value( argument, value):
     """
     Takes an argument and it's value, and then returns a dictionary entry
     with the name of the value and the value itself.
@@ -57,12 +57,12 @@ def return_argument_value(argument, value):
     else:
         print_usage_statement()
 
-def return_dictionary_of_arguments():
+def return_dictionary_of_arguments(input_arguments):
     """
-    Returns a dictionary of the arguments in argv.
+    Returns a dictionary of the arguments in input_arguments.
 
     Returns:
-        a dictionary of the arguments in argv
+        a dictionary of the arguments in input_arguments
     """
     argument_dictionary = {
         "state": None,
@@ -70,13 +70,13 @@ def return_dictionary_of_arguments():
         "gender": None,
         "cause": None
     }
-    for i, argument in enumerate(argv):
+    for i, argument in enumerate(input_arguments):
         if "-" == argument[0]:
-            argument_value = return_argument_value(argument, argv[i+1])
+            argument_value = return_argument_value(argument, input_arguments[i+1])
             argument_dictionary.update(argument_value)
     return argument_dictionary
 
-def create_search_info():
+def create_search_info(input_arguments):
     """
     Creates and returns a SearchInfo object that has
     all of the arguments the user passed loaded into it.
@@ -85,24 +85,24 @@ def create_search_info():
         a SearchInfo object that has all of the arguments
         the user passed loaded into it
     """
-    argument_dictionary = return_dictionary_of_arguments()
+    argument_dictionary = return_dictionary_of_arguments(input_arguments)
     state = argument_dictionary["state"]
     age = argument_dictionary["age"]
     gender = argument_dictionary["gender"]
     cause = argument_dictionary["cause"]
     return SearchInfo(state, age, gender, cause)
 
-def initialize_data():
+def initialize_data(data_file_name):
     """
     Initializes and returns data.csv transformed into an array.
     
     Returns:
         data.csv transformed into an array
     """
-    initialized_file = read_CSV("data.csv")
+    initialized_file = read_CSV(data_file_name)
     return transform_CSV_data_to_array(initialized_file)
 
-def find_deaths_per():
+def find_deaths_per(input_arguments, data_file_name):
     """
     Initializes data, creates a SearchInfo object, and the passes
     them into deaths_per() and returns that output.
@@ -111,11 +111,11 @@ def find_deaths_per():
         an integer of the number of deaths that are a part of the
         group indicated in search_info
     """
-    data = initialize_data()
-    search_info = create_search_info()
+    data = initialize_data(data_file_name)
+    search_info = create_search_info(input_arguments)
     return deaths_per(search_info, data)
 
-def find_leading_cause():
+def find_leading_cause(input_arguments, data_file_name):
     """
     Initializes data, creates a SearchInfo object, and the passes
     them into return_leading_cause() and returns that output.
@@ -124,31 +124,42 @@ def find_leading_cause():
         a list with the first item being the top cause of death of people that matched the
         search_info arguments and the second as the number of deaths attributed to that cause
     """
-    data = initialize_data()
-    search_info = create_search_info()
+    data = initialize_data(data_file_name)
+    search_info = create_search_info(input_arguments)
     return return_leading_cause(data, search_info)
 
-def check_length_of_argv():
+def check_length_of_input_arguments(input_arguments):
     """
-    Checks if the length of argv is less than 2, and if so,
+    Checks if the length of input_arguments is less than 2, and if so,
     print_usage_statement() is called.
     """
-    if len(argv) < 2:
+    if len(input_arguments) < 2:
         print_usage_statement()
 
-if __name__ == "__main__":
+def determine_and_execute_call(input_arguments, data_file_name):
+    """ 
+    Checks the argument containing the request type and executes that request
     """
-    Calls check_length_of_argv(), then calls the correct function depending
-    on what the first argument is.
-    """
-    check_length_of_argv()
-    if argv[1] == "deaths_per" or argv[1] == "dp":
-        deaths = find_deaths_per()
-        print(deaths)
-    elif argv[1] == "leading_cause" or argv[1] == "lc":
-        leading_cause = find_leading_cause()
-        print(leading_cause)
-    elif argv[1] == "--help" or argv[1] == "-h":
+    if input_arguments[1] == "deaths_per" or input_arguments[1] == "dp":
+        deaths = find_deaths_per(input_arguments, data_file_name)
+        return deaths
+    elif input_arguments[1] == "leading_cause" or input_arguments[1] == "lc":
+        leading_cause = find_leading_cause(input_arguments, data_file_name)
+        return leading_cause
+    elif input_arguments[1] == "--help" or input_arguments[1] == "-h":
         print_help_statement()
     else:
         print_usage_statement()
+
+
+
+if __name__ == "__main__":
+    """
+    Calls check_length_of_input_arguments(), then prints the results of determine_and_execute_call()
+    """
+    data_file_name = 'data.csv'
+    input_arguments = argv
+    check_length_of_input_arguments(input_arguments)
+    print(determine_and_execute_call(input_arguments, data_file_name))
+    
+    
