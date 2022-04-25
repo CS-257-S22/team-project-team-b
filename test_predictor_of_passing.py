@@ -1,5 +1,10 @@
+"""
+Written By Kai R. Weiner
+"""
+
 import unittest
 from deaths_per import *
+import SearchInfo
 
 class TestSOMETHING(unittest.TestCase):
 
