@@ -16,7 +16,7 @@ def print_usage_statement():
 
 def print_help_statement():
     """
-    Exits and prints the help statement
+    Exits and prints the help statement.
     """
     exit("\nUSAGE: command_line_interface.py [deaths_per | leading_cause | --help] [--state STATE] [--age AGE] [--gender GENDER] [--cause CAUSE]\n" +
          "\n" +
@@ -59,7 +59,7 @@ def return_argument_value( argument, value):
 
 def return_dictionary_of_arguments(input_arguments):
     """
-    Returns a dictionary of the arguments in input_arguments
+    Returns a dictionary of the arguments in input_arguments.
 
     Returns:
         a dictionary of the arguments in input_arguments
