@@ -35,7 +35,7 @@ def print_help_statement():
          "\n" +
          "--help (-h): prints this help information.\n")
 
-def return_argument_value( argument, value):
+def return_argument_value(argument, value):
     """
     Takes an argument and it's value, and then returns a dictionary entry
     with the name of the value and the value itself.
