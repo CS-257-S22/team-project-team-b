@@ -5,10 +5,7 @@ Written By Kai R. Weiner
 import unittest
 from deaths_per import *
 import SearchInfo
-<<<<<<< HEAD:test_predictor_of_passing.py
-=======
 from csv_reading import *
->>>>>>> 246ade12cc8db06ff8a79d6bf93969c267ad6017:ProductionCode/test_predictor_of_passing.py
 
 class TestSOMETHING(unittest.TestCase):
 
