@@ -4,7 +4,7 @@ Written by Tin Nguyen, Kai Weiner
 
 from leading_cause import *
 import unittest
-import SearchInfo
+from SearchInfo import *
 
 """
 The test class for return_leading_cause(arguement) checks whether the function captures the causes and number of deaths of said cause.
