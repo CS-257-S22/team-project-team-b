@@ -2,7 +2,7 @@
 Written By Kai R. Weiner, Cole Kleinhans
 """
 
-def deaths_per(search, data):
+def deaths_per(data, search):
     """" 
     Search through entire database to return the total number of deaths that matches all of the search parameters.
     
@@ -31,7 +31,7 @@ def get_relevant_deaths(datapoint, search):
         deaths = int(datapoint[5])
     return deaths
 
-def fits_search(datapoint,search):
+def fits_search(datapoint, search):
     """ 
     Determines if a subset of people is relevant to a user's search.
     

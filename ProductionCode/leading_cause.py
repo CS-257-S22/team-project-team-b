@@ -4,16 +4,16 @@ Written by Tin Nguyen, Cole Kleinhans & Kai R. Weiner
 
 def fits_search(datapoint,search):
     """ Take in datapoint, return booleans about whether datapoint matches search param or specifc search is not needed"""
-    return equal_or_none(datapoint[0], search.state) & equal_or_none(datapoint[1], search.age)\
-        & equal_or_none(datapoint[2], search.gender)
+    return is_equal_or_none(datapoint[0], search.state) & is_equal_or_none(datapoint[1], search.age)\
+        & is_equal_or_none(datapoint[2], search.gender)
 
-def equal_or_none(compared, value):
+def is_equal_or_none(compared, value):
     """Take in two varibles, returns True if the value match compared or None"""
     return (value == compared) | (value == None)
 
 def return_data_entry(datapoint, data_dictionary):
     """ 
-    Determind if a cause already exists in dictionary. If so, sum the number of   
+    Determine if a cause already exists in dictionary. If so, sum the number of   
     deaths. Otherwise, create new key with the new cause and num of deaths. 
     
     Args: 

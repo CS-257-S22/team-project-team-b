@@ -161,7 +161,7 @@ def print_deaths_per_search(search):
     string = add_search_term_to_string(string, "age", search)
     string = add_search_term_to_string(string, "gender", search)
     string = add_search_term_to_string(string, "cause", search)
-    string += " is: "+str(deaths_per(search, deaths_data))+"."
+    string += " is: "+str(deaths_per(deaths_data, search))+"."
     return string
 
 def print_leading_cause(search):
@@ -177,7 +177,7 @@ def print_leading_cause(search):
     string = add_search_term_to_string(string, "state", search)
     string = add_search_term_to_string(string, "age", search)
     string = add_search_term_to_string(string, "gender", search)
-    string += " is: "+str(return_leading_cause(search, deaths_data))+"."
+    string += " is: "+str(return_leading_cause(deaths_data, search))+"."
     return string
 
 def add_search_term_to_string(string, term, search):
