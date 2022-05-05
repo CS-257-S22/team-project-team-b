@@ -1,5 +1,5 @@
 """
-Written by Tin Nguyen, Cole Kleinhans & Kai R. Weiner
+Written by Tin Nguyen, Lazuli Kleinhans & Kai R. Weiner
 """
 
 def fits_search(datapoint,search):

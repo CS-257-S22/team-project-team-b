@@ -206,7 +206,7 @@ def page_not_found(e):
     Returns:
         a string that has the usage format within it
     """
-    return "INCORRECT FORMAT. Usage: http://127.0.0.1:5000/[deaths_per | leading_cause]/[STATE]"
+    return "INCORRECT FORMAT. Usage: http://127.0.0.1:5000/[deaths_per | leading_cause]/(SEARCH CONTENT)"
 
 @app.errorhandler(500)
 def python_bug(e):

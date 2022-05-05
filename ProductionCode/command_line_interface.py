@@ -1,5 +1,5 @@
 """
-Written by Cole Kleinhans with modifications by Jonas Bartels
+Written by Lazuli Kleinhans with modifications by Jonas Bartels
 """
 
 from sys import argv
@@ -113,7 +113,7 @@ def find_deaths_per(input_arguments, data_file_name):
     """
     data = initialize_data(data_file_name)
     search_info = create_search_info(input_arguments)
-    return deaths_per(search_info, data)
+    return deaths_per(data, search_info)
 
 def find_leading_cause(input_arguments, data_file_name):
     """

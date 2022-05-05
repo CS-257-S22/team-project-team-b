@@ -1,5 +1,5 @@
 """
-Written By Kai R. Weiner, Cole Kleinhans
+Written By Kai R. Weiner, Lazuli Kleinhans
 """
 
 import csv
