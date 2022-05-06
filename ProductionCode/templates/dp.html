@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>PoP - Deaths Per</title>
+        <link rel="stylesheet" href="../static/datastyle.css">
+    </head>
+    <body>
+        <h1>Predictor of Passing</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/dp">Deaths Per</a></li>
+                <li><a href="/lc">Leading Cause</a></li>
+              </ul> 
+        </nav>
+        <div>
+            <h2>Deaths Per</h2>
+            <div>
+                <p>Which state would you like to see the number of deaths of?</p>
+                <form action="choosestate">
+                    <label for="states">Choose a state:</label>
+                    <select name="statechoice">
+                           
+                        {% for state in states: %}
+                        <option value="{{state}}">{{state}}</option>
+                        {% endfor %}
+                           
+                    </select>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+            <div>
+                {%if chosen_state != "": %}
+                <h3>Number of deaths for {{chosen_state}}:</h3>
+                <p>{{state_data}}</p>
+                {%endif%}
+            </div>
+        </div>
+    </body>
+</html>

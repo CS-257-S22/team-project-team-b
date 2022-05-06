@@ -1,0 +1,75 @@
+h1, h2, h3, h4 {
+    font-family: Verdana, Geneva, sans-serif; 
+}
+
+h1 {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    background-color: blue;
+    color: yellow;
+    text-align: center;
+}
+
+h3 {
+    margin-top: 3em;
+}
+
+p, label {
+    font-family: Arial, Helvetica, sans-serif;
+    /* This next line gives us some extra spacing within a paragraph*/
+    line-height: 1.4;
+}
+
+li {
+    font-family: Verdana, Geneva, sans-serif;
+    line-height: 1.4;
+}
+
+body {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+/* The nav bar is an unordered list whose items are not bulleted. 
+     We only want to apply this styling to unordered lists inside of the nav
+     tag.
+*/
+nav ul {
+    border: 2px solid yellow;
+    list-style-type: none;
+    overflow: hidden;
+}
+
+/* Navigation bar list items should render starting at the left margin. */
+nav li {
+    float: left;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+/* Navigation bar items should link to elements on the page, or to other pages.
+     This is the "a" tag. So this says "apply this style to links within the nav bar".
+*/
+nav li a {
+    display: block;
+    color: blue;
+    text-decoration: none;
+    text-align: center;
+    padding: 14px 16px;
+}
+
+/* When you mouse over something in the nav bar, turn it blue. */
+nav li a:hover {
+    color: yellow;
+    background-color: blue;
+}
+
+div.highlight {
+    background-color: blue;
+    color: yellow;
+    width: 300px;
+    border: 2px solid blue;
+    float: right;
+    padding: 10px;
+    margin: 10px;
+}
