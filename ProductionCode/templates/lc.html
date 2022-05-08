@@ -4,7 +4,7 @@
         <link rel="stylesheet" href="../static/datastyle.css">
     </head>
     <body>
-        <div id = 'header'> 
+        <div id="header"> 
             <h1>Predictor of Passing</h1>
             <nav>
                 <ul>
@@ -14,27 +14,44 @@
                   </ul> 
             </nav>
         </div>
-
         <div>
             <h2>Leading Cause</h2>
             <div>
-                <p>Which state would you like to see the leading cause of death of?</p>
-                <form action="choosestate">
+                <p>Which category of people would you like to see the leading cause of death of? Choose "None" for everyone in all categories.</p>
+                <form action="choose_arguments">
                     <label for="states">Choose a state:</label>
-                    <select name="statechoice">
-                           
+                    <select name="state_choice">
+                        
+                        <option value="None">None</option>
                         {% for state in states: %}
                         <option value="{{state}}">{{state}}</option>
                         {% endfor %}
+                           
+                    </select>
+                    <label for="ages">Choose an age:</label>
+                    <select name="age_choice">
+                        
+                        <option value="None">None</option>
+                        {% for number in range(101): %}
+                        <option value="{{number}}">{{number}}</option>
+                        {% endfor %}
+                           
+                    </select>
+                    <label for="genders">Choose a gender:</label>
+                    <select name="gender_choice">
+                        
+                        <option value="None">None</option>
+                        <option value="F">F</option>
+                        <option value="M">M</option>
                            
                     </select>
                     <input type="submit" value="Submit">
                 </form>
             </div>
             <div>
-                {%if chosen_state != "": %}
-                <h3>Leading cause of death in {{chosen_state}}:</h3>
-                <p>{{state_data}}</p>
+                {%if search_info != None: %}
+                <h3>Leading cause of death for: {{search_info.state}}, {{search_info.age}}, {{search_info.gender}}:</h3>
+                <p>{{data}}</p>
                 {%endif%}
             </div>
         </div>

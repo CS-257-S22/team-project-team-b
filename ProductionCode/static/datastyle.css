@@ -79,3 +79,15 @@ div.fun_facts{
     margin: 10px;
     position: relative;
 }
+
+label{
+    display:block;
+    text-align:right;
+    float:left;
+    padding:0 5px 0 0
+}
+
+select{
+    display:block;
+    margin:10px 0 10px 0;
+}
