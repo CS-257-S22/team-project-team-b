@@ -13,8 +13,9 @@ The test suite for flask app
 class test_return_leading_cause(unittest.TestCase):
 
     def test_sum_deaths_by_state(self):
+        
         """ Test that it can sum the data for one state """
-        result = get_response("deaths_per","(-s%20California)")
+        result = get_response("deaths_per","(-s California)")
         self.assertEqual(result, "The number of people who died under the category: state = California, age = all, gender = all, cause = all, is: 90.")
 
     # def test_sum_deaths_by_cause(self):
@@ -38,6 +39,4 @@ class test_return_leading_cause(unittest.TestCase):
     #     self.assertEqual(result_gender, sample_CoD_gender)
 
 if __name__ == '__main__':
-    initialized_file = read_CSV("Test Data CSV - Sheet1.csv")
-    deaths_data = transform_CSV_data_to_array(initialized_file)
     unittest.main()

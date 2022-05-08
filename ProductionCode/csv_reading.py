@@ -4,29 +4,33 @@ Written By Kai R. Weiner, Lazuli Kleinhans
 
 import csv
 
-def read_CSV(file):
+def get_CSV_data_as_list(filepath):
     """
-    Reads a CSV file.
+    Returns a list of data from a specified CSV file.
 
     Args:
-        file : the CSV file to be read
+        filepath : the path leading to the CSV file to be returned as a list
     Return:
-        read_file : the read version of the CSV
+        data : the CSV file in list form
     """
-    file_to_read = open(file)
+    file_to_read = open(filepath)
     read_file = csv.reader(file_to_read)
-    return read_file
+    data = load_CSV_list(read_file)
+    
+    file_to_read.close()
+    return data
 
-def transform_CSV_data_to_array(file):
+def load_CSV_list(file):
     """
-    Transforms a CSV file into a list.
+    Returns a list filled with data from a CSV file
 
     Args:
-        file : the CSV file to be transformed into a list
+        file : the CSV file to be returned as a list
     Return:
         data : the CSV file in list form
     """
     data = []
     for datapoint in file:
         data.append(datapoint)
+    
     return data

@@ -92,15 +92,15 @@ def create_search_info(input_arguments):
     cause = argument_dictionary["cause"]
     return SearchInfo(state, age, gender, cause)
 
-def initialize_data(data_file_name):
-    """
-    Initializes and returns data.csv transformed into an array.
+# def initialize_data(data_file_name):
+#     """
+#     Initializes and returns data.csv transformed into an array.
     
-    Returns:
-        data.csv transformed into an array
-    """
-    initialized_file = read_CSV(data_file_name)
-    return transform_CSV_data_to_array(initialized_file)
+#     Returns:
+#         data.csv transformed into an array
+#     """
+#     initialized_file = read_CSV(data_file_name)
+#     return transform_CSV_data_to_array(initialized_file)
 
 def find_deaths_per(input_arguments, data_file_name):
     """
@@ -111,7 +111,7 @@ def find_deaths_per(input_arguments, data_file_name):
         an integer of the number of deaths that are a part of the
         group indicated in search_info
     """
-    data = initialize_data(data_file_name)
+    data = get_CSV_data_as_list(data_file_name)
     search_info = create_search_info(input_arguments)
     return deaths_per(data, search_info)
 
@@ -124,7 +124,7 @@ def find_leading_cause(input_arguments, data_file_name):
         a list with the first item being the top cause of death of people that matched the
         search_info arguments and the second as the number of deaths attributed to that cause
     """
-    data = initialize_data(data_file_name)
+    data = get_CSV_data_as_list(data_file_name)
     search_info = create_search_info(input_arguments)
     return return_leading_cause(data, search_info)
 

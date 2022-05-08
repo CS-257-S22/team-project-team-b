@@ -37,7 +37,7 @@ def homepage():
            "    -> gender : replace GENDER with the gender you want to search for. Either M or F.\n"
 
 @app.route('/<selected_function>/<search>', strict_slashes=False)
-def get_response(selected_function, search):
+def get_response(selected_function, search, ):
     """
     Takes the selected function and the search parameter and returns 
     the output of the selected function when run with that search parameter.
@@ -48,12 +48,15 @@ def get_response(selected_function, search):
     Returns:
         the output of the selected function when run with that state as the parameter
     """
+
+    deaths_data = get_CSV_data_as_list("Test Data CSV - Sheet1.csv")
+    
     search = create_search_info(search)
 
     if selected_function == "deaths_per" or selected_function == "dp":
-        return print_deaths_per_search(search)
+        return deaths_per_to_string(deaths_data, search)
     elif selected_function == "leading_cause" or selected_function == "lc":
-        return print_leading_cause(search)
+        return leading_cause_to_string(deaths_data, search)
     else:
         return page_not_found(1)
 
@@ -121,7 +124,8 @@ def update_argument_value(term, new_value, search):
         the updated search containing factors that the user wants the death information for
     """
     if(term == "s" or term == "state"):
-        search.set_state(new_value[0])
+        state = return_full_state_name(new_value)
+        search.set_state(state)
     if(term == "a" or term == "age"):
         search.set_age(new_value[0])
     if(term == "g" or term == "gender"):
@@ -130,6 +134,19 @@ def update_argument_value(term, new_value, search):
         new_value = fix_cause(new_value)
         search.set_cause(new_value)
     return search
+
+def return_full_state_name(search):
+    """
+    Returns the full name of a state
+
+    Args:
+        search : the search by the user, containing the state's name in the first word or two words
+    Returns:
+        the full name of the state
+    """
+    if((search[0] == "New") | (search[0] == "North") | (search[0] == "Rhode") | (search[0] == "South") | (search[0] == "West")):
+        return " ".join(search[:2])
+    return search[0]
 
 def fix_cause(string):
     """
@@ -147,29 +164,32 @@ def fix_cause(string):
         cause.append(i)
     return " ".join(cause)
 
-def print_deaths_per_search(search):
+def deaths_per_to_string(dataset, search):
     """
     Displays a string containing a search's terms and the number of deaths per the search.
 
     Args:
         search : the search containing factors that the user wants the number of deaths for
+        dataset : the dataset being searched through
     Returns:
         a string containing a search's terms and the number of deaths per the search.
     """
+
     string = "The number of people who died under the category:"
     string = add_search_term_to_string(string, "state", search)
     string = add_search_term_to_string(string, "age", search)
     string = add_search_term_to_string(string, "gender", search)
     string = add_search_term_to_string(string, "cause", search)
-    string += " is: "+str(deaths_per(deaths_data, search))+"."
+    string += " is: "+str(deaths_per(dataset, search))+"."
     return string
 
-def print_leading_cause(search):
+def leading_cause_to_string(dataset, search):
     """
     Displays a string containing a search's terms and the leading causes of death for the search.
 
     Args:
         search : the search containing factors that the user wants the leading causes of death for
+        dataset : the dataset being searched through
     Returns:
         a string containing a search's terms and the leading causes of death per the search.
     """
@@ -177,7 +197,7 @@ def print_leading_cause(search):
     string = add_search_term_to_string(string, "state", search)
     string = add_search_term_to_string(string, "age", search)
     string = add_search_term_to_string(string, "gender", search)
-    string += " is: "+str(return_leading_cause(deaths_data, search))+"."
+    string += " is: "+str(return_leading_cause(dataset, search))+"."
     return string
 
 def add_search_term_to_string(string, term, search):
@@ -222,6 +242,5 @@ if __name__ == '__main__':
     """
     Runs the app.
     """
-    initialized_file = read_CSV("Test Data CSV - Sheet1.csv")
-    deaths_data = transform_CSV_data_to_array(initialized_file)
+    
     app.run()

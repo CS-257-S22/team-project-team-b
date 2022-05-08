@@ -3,6 +3,7 @@ Written By Kai R. Weiner
 """
 
 import unittest
+from webbrowser import get
 from deaths_per import *
 from SearchInfo import *
 from csv_reading import *
@@ -58,6 +59,5 @@ class TestSOMETHING(unittest.TestCase):
         self.assertEqual(result, 270)
 
 if __name__ == '__main__':
-    initialized_file = read_CSV("Test Data CSV - Sheet1.csv")
-    deaths_data = transform_CSV_data_to_array(initialized_file)
+    deaths_data = get_CSV_data_as_list("Test Data CSV - Sheet1.csv")
     unittest.main()

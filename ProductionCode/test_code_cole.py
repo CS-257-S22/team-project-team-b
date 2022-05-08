@@ -42,13 +42,12 @@ def check_deaths_per_results(self, search, expected_result):
     assert_equal(self, result, expected_result)
 
 def check_equal_or_none_results(self, value1, value2):
-    result = equal_or_none(value1, value2)
+    result = is_equal_or_none(value1, value2)
     assert_equal(self, result, True)
 
 def assert_equal(self, result, expected_result):
     self.assertEqual(result, expected_result)
 
 if __name__ == '__main__':
-    read_file = read_CSV("Test Data CSV - Sheet1.csv")
-    data = transform_CSV_data_to_array(read_file)
+    data = get_CSV_data_as_list("Test Data CSV - Sheet1.csv")
     unittest.main()
