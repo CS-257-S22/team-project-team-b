@@ -154,6 +154,7 @@ def reformat_date(date):
     return reformated
 
 def make_prediction(inputs_list, seed_influencer):
+    ''' Takes in inputs_list and a seed_influencer and returns a prediction'''
     name, state, birthday, gender = inputs_list[0], inputs_list[1], inputs_list[2], inputs_list[3]
     gender = get_gender(gender)
     age, date_of_birth = get_age(birthday)
