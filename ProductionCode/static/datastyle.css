@@ -2,10 +2,14 @@ h1, h2, h3, h4 {
     font-family: Verdana, Geneva, sans-serif; 
 }
 
+#header { 
+    background-color: rgb(0, 0, 255);
+    position: relative;
+}
+
 h1 {
     padding-top: 1em;
-    padding-bottom: 1em;
-    background-color: blue;
+    padding-bottom: .3em;
     color: yellow;
     text-align: center;
 }
@@ -35,7 +39,8 @@ body {
      tag.
 */
 nav ul {
-    border: 2px solid yellow;
+    border: 1px solid rgba(244, 244, 143, 0.151);
+    background-color: rgb(88, 30, 246);
     list-style-type: none;
     overflow: hidden;
 }
@@ -52,7 +57,7 @@ nav li {
 */
 nav li a {
     display: block;
-    color: blue;
+    color: aqua;
     text-decoration: none;
     text-align: center;
     padding: 14px 16px;
@@ -64,7 +69,7 @@ nav li a:hover {
     background-color: blue;
 }
 
-div.highlight {
+div.fun_facts{
     background-color: blue;
     color: yellow;
     width: 300px;
@@ -72,4 +77,5 @@ div.highlight {
     float: right;
     padding: 10px;
     margin: 10px;
+    position: relative;
 }
