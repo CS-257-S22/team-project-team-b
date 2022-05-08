@@ -94,6 +94,10 @@ def fix_string_spaces(string):
         a split version of the given string
     """
     string = string.split("%20")
+
+    if len(string) > 1:
+        string = [" ".join(string)]
+
     string = string[0].split(" ")
     return string
 
@@ -107,6 +111,7 @@ def convert_string_to_search(string):
         a SearchInfo object with the search terms provided by the initial string
     """
     search = SearchInfo(None, None, None, None)
+
     for word_index, word in enumerate(string):
         if word[0] == "-":
             search = update_argument_value(word[1:], string[word_index + 1:], search)
@@ -193,11 +198,12 @@ def leading_cause_to_string(dataset, search):
     Returns:
         a string containing a search's terms and the leading causes of death per the search.
     """
-    string = "The number of people who died under the category:"
+    string = "The leading cause of death for people under the category:"
     string = add_search_term_to_string(string, "state", search)
     string = add_search_term_to_string(string, "age", search)
     string = add_search_term_to_string(string, "gender", search)
-    string += " is: "+str(return_leading_cause(dataset, search))+"."
+    leading_death_cause = return_leading_cause(dataset, search)
+    string += " is: "+leading_death_cause[0]+", which was responsible for the deaths of "+str(leading_death_cause[1])+" people in this catergory."
     return string
 
 def add_search_term_to_string(string, term, search):
