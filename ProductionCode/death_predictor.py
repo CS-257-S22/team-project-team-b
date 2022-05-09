@@ -158,6 +158,7 @@ def make_prediction(inputs_list, seed_influencer):
     name, state, birthday, gender = inputs_list[0], inputs_list[1], inputs_list[2], inputs_list[3]
     gender = get_gender(gender)
     age, date_of_birth = get_age(birthday)
+    
     search_info = SearchInfo(state, age, gender, None)
     data, misc_data = initialize_data("data.csv"), initialize_data("all_states_misc.csv")
     relevant_data, total_relevant_deaths = find_relevant_lines(data, search_info)
