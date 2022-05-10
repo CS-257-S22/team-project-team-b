@@ -32,6 +32,7 @@ li {
 body {
     margin-left: 5%;
     margin-right: 5%;
+    backgroun-color: aliceblue; 
 }
 
 /* The nav bar is an unordered list whose items are not bulleted. 
