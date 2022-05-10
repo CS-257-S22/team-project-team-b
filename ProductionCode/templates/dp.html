@@ -1,6 +1,9 @@
 <html>
     <head>
         <title>PoP - Deaths Per</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="../static/datastyle.css">
     </head>
     <body>
@@ -47,12 +50,20 @@
                         <option value="M">M</option>
                            
                     </select>
-                    <label for="causes">Choose a cause of death:</label>
-                    <select name="cause_choice">
-                        
-                        <option value="None">None</option>
-                           
-                    </select>
+                    <label for="causes">Type a cause:</label>
+                    <textarea type="text" id="cause_choice" name="cause_choice" rows="1" cols="20">None</textarea>
+                        <script>
+                        $(function() {
+                            var availableTags = [
+                                {% for cause in causes %}
+                                    "{{cause}}",
+                                {% endfor %}
+                            ];
+                            $( "#cause_choice" ).autocomplete({
+                            source: availableTags
+                            });
+                        });
+                        </script>
                     <input type="submit" value="Submit">
                 </form>
             </div>

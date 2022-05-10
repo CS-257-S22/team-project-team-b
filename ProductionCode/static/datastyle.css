@@ -135,7 +135,6 @@ select{
     animation-delay: 1.5s;
 }
 
-
 .animate-fadeIn h3, .animate-fadeIn p, .animate-fadeIn button{ 
     animation-fill-mode: backwards;
     animation-name: fade_in;
@@ -161,7 +160,6 @@ input {
 input:hover { 
     background-color:blue;
 }
-
 
 h2 { 
     border-bottom: 4px double rgba(0, 0, 0, 0.483);
