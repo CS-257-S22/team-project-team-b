@@ -17,7 +17,12 @@ states = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado",
     "North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania",
     "Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah",
     "Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]
-# states = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado"]
+
+#list of fun facts to use on welcome and home pages
+facts = ["The leading cause of death for infants younger than 1 is extreme immaturity with 13,660 deaths", 
+    "For people 100 and up, the leading cause of death is dementia with 16,661 deaths.", "The most common cause of death for males is atherosclerotic heart disease, with 463,155 deaths.", 
+    "The age group with the most deaths is 88 years old with 399,487 deaths.", "The most common cause of death for females is alzheimer's disease with 406,313 deaths"]
+
 
 def get_data(function_type, search_info):
     """
@@ -88,7 +93,28 @@ def return_render_template(function_type):
     return render_template(f'{function_type}.html', states=states, 
         search_info=search_info, data=returned_data)
 
+def get_fact() 
+    """
+    Retrieve fact from facts at given random int
+    
+    Returns: 
+        a string from facts 
+    """ 
+    index = random.randint(0,4)
+    random_fact = facts[index]
+    return random_fact
+
 @app.route('/')
+def welcomepage():
+    """
+    Returns the welcome render template.
+    
+    Returns:
+        the welcome render template
+    """
+    return render_template('welcome.html',fact = get_fact())
+
+@app.route('/home')
 def homepage():
     """
     Returns the homepage render template.
@@ -96,7 +122,7 @@ def homepage():
     Returns:
         the homepage render template
     """
-    return render_template('home.html')
+    return render_template("home.html",fact = get_fact())
 
 @app.route('/dp/')
 def deaths_per_template():
