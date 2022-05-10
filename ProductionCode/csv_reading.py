@@ -16,7 +16,6 @@ def get_CSV_data_as_list(filepath):
     file_to_read = open(filepath)
     read_file = csv.reader(file_to_read)
     data = load_CSV_list(read_file)
-    
     file_to_read.close()
     return data
 
@@ -32,5 +31,4 @@ def load_CSV_list(file):
     data = []
     for datapoint in file:
         data.append(datapoint)
-    
     return data

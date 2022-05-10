@@ -80,6 +80,9 @@ div.fun_facts{
     position: relative;
 }
 
+/* Making the form items be on new lines
+    https://stackoverflow.com/questions/10349276/how-to-put-web-form-elements-on-a-new-line#10349338
+*/
 label{
     display:block;
     text-align:right;
@@ -87,6 +90,9 @@ label{
     padding:0 5px 0 0
 }
 
+/* Making the form items be on new lines
+    https://stackoverflow.com/questions/10349276/how-to-put-web-form-elements-on-a-new-line#10349338
+*/
 select{
     display:block;
     margin:10px 0 10px 0;
