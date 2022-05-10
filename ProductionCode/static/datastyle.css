@@ -32,6 +32,7 @@ li {
 body {
     margin-left: 5%;
     margin-right: 5%;
+    background-color: aliceblue; 
 }
 
 /* The nav bar is an unordered list whose items are not bulleted. 
@@ -97,3 +98,84 @@ select{
     display:block;
     margin:10px 0 10px 0;
 }
+#new_fact{ 
+    display: block;
+    padding: 16px;
+    background-color: aqua;
+    border: none;
+    margin: auto;
+}
+
+#new_fact a{ 
+    text-decoration: none;
+    color: black;
+    font: Verdana, Geneva, sans-serif;
+}
+
+#new_fact:hover{ 
+    background-color: rgb(1, 112, 112);
+}
+
+@keyframes fade_in {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+#welcome h1 { 
+    animation-fill-mode: backwards;
+    animation-name: fade_in; 
+    animation-duration: 2s;
+    color: black;
+} 
+
+.animate-fadeIn h2{
+    animation-fill-mode: backwards;
+    animation-name: fade_in; 
+    animation-duration: 4s;
+    animation-delay: 1.5s;
+}
+
+
+.animate-fadeIn h3, .animate-fadeIn p, .animate-fadeIn button{ 
+    animation-fill-mode: backwards;
+    animation-name: fade_in;
+    animation-duration: 4s; 
+    animation-delay: 2s;
+}
+
+.animation-fadeIn { 
+    animation-fill-mode: backwards;
+    animation-name: fade_in; 
+    animation-delay: 4.5s;
+    animation-duration: 1s;
+}
+
+input { 
+    display: block;
+    padding: 16px;
+    border: none; 
+    margin: auto;
+    background-color: aqua; 
+}
+
+input:hover { 
+    background-color:blue;
+}
+
+
+h2 { 
+    border-bottom: 4px double rgba(0, 0, 0, 0.483);
+}
+
+#welcome{ 
+    padding: 8px;
+    margin: 25px;
+}
+
+#ux { 
+    padding: 8px;
+    margin: 25px;
+    border-bottom: 4px double rgba(0, 0, 0, 0.483);
+}
+
+
