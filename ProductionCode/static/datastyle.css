@@ -32,7 +32,7 @@ li {
 body {
     margin-left: 5%;
     margin-right: 5%;
-    backgroun-color: aliceblue; 
+    background-color: aliceblue; 
 }
 
 /* The nav bar is an unordered list whose items are not bulleted. 
@@ -149,7 +149,13 @@ input {
     padding: 16px;
     border: none; 
     margin: auto;
+    background-color: aqua; 
 }
+
+input:hover { 
+    background-color:blue;
+}
+
 
 h2 { 
     border-bottom: 4px double rgba(0, 0, 0, 0.483);

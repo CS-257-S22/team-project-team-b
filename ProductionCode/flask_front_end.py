@@ -5,6 +5,7 @@ from SearchInfo import SearchInfo
 from deaths_per import *
 from leading_cause import *
 from csv_reading import *
+import random
 
 app = Flask(__name__)
 
@@ -93,7 +94,7 @@ def return_render_template(function_type):
     return render_template(f'{function_type}.html', states=states, 
         search_info=search_info, data=returned_data)
 
-def get_fact() 
+def get_fact():
     """
     Retrieve fact from facts at given random int
     
@@ -122,7 +123,7 @@ def homepage():
     Returns:
         the homepage render template
     """
-    return render_template("home.html",fact = get_fact())
+    return render_template("home.html",fact = get_fact() )
 
 @app.route('/dp/')
 def deaths_per_template():
