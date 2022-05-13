@@ -2,16 +2,16 @@ h1, h2, h3, h4 {
     font-family: Verdana, Geneva, sans-serif; 
 }
 
-#header { 
-    background-color: rgb(0, 0, 255);
-    position: relative;
-}
-
 h1 {
     padding-top: 1em;
-    padding-bottom: .3em;
-    color: yellow;
+    padding-bottom: 1em;
+    background-color: #004e6d;
+    color: #f5edaa;
     text-align: center;
+}
+
+h2 { 
+    border-bottom: 4px double rgba(0, 0, 0, 0.483);
 }
 
 h3 {
@@ -40,8 +40,7 @@ body {
      tag.
 */
 nav ul {
-    border: 1px solid rgba(244, 244, 143, 0.151);
-    background-color: rgb(88, 30, 246);
+    border: 2px solid #f5edaa;
     list-style-type: none;
     overflow: hidden;
 }
@@ -58,7 +57,7 @@ nav li {
 */
 nav li a {
     display: block;
-    color: aqua;
+    color: #004e6d;
     text-decoration: none;
     text-align: center;
     padding: 14px 16px;
@@ -66,15 +65,15 @@ nav li a {
 
 /* When you mouse over something in the nav bar, turn it blue. */
 nav li a:hover {
-    color: yellow;
-    background-color: blue;
+    color: #f5edaa;
+    background-color: #004e6d;
 }
 
 div.fun_facts{
-    background-color: blue;
-    color: yellow;
+    background-color: #004e6d;
+    color: #f5edaa;
     width: 300px;
-    border: 2px solid blue;
+    border: 2px solid #f5edaa;
     float: right;
     padding: 10px;
     margin: 10px;
@@ -98,22 +97,44 @@ select{
     display:block;
     margin:10px 0 10px 0;
 }
+
+input { 
+    display: block;
+    padding: 16px;
+    border: none; 
+    margin: auto;
+    color: #f5edaa;
+    background-color: #004e6d; 
+}
+
+input:hover {
+    color: #004e6d;
+    background-color: #f5edaa; 
+}
+
 #new_fact{ 
     display: block;
     padding: 16px;
-    background-color: aqua;
+    color: #f5edaa;
+    background-color: #004e6d;
     border: none;
     margin: auto;
 }
 
 #new_fact a{ 
     text-decoration: none;
-    color: black;
+    color: #f5edaa;
     font: Verdana, Geneva, sans-serif;
 }
 
-#new_fact:hover{ 
-    background-color: rgb(1, 112, 112);
+#new_fact:hover{
+    background-color: #f5edaa;
+}
+
+#new_fact a:hover{ 
+    text-decoration: none;
+    color: #004e6d;
+    font: Verdana, Geneva, sans-serif;
 }
 
 @keyframes fade_in {
@@ -147,22 +168,6 @@ select{
     animation-name: fade_in; 
     animation-delay: 4.5s;
     animation-duration: 1s;
-}
-
-input { 
-    display: block;
-    padding: 16px;
-    border: none; 
-    margin: auto;
-    background-color: aqua; 
-}
-
-input:hover { 
-    background-color:blue;
-}
-
-h2 { 
-    border-bottom: 4px double rgba(0, 0, 0, 0.483);
 }
 
 #welcome{ 
