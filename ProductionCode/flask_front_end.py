@@ -44,7 +44,7 @@ def get_data(function_type, search_args):
     """
     CSV_data = get_CSV_data_as_list("data.csv")
     if function_type == 'dp':
-        return deaths_per(CSV_data, search_args)
+        return get_deaths_per_arguments(CSV_data, search_args)
     else:
         return return_leading_cause(CSV_data, search_args)
 
@@ -133,7 +133,7 @@ def homepage():
     return render_template("home.html",fact = get_fact() )
 
 @app.route('/dp/')
-def deaths_per_template():
+def get_deaths_per_arguments_template():
     """
     Returns the render template for deaths per with no search_args.
     
@@ -143,7 +143,7 @@ def deaths_per_template():
     return render_template('dp.html', states=states, search_args=None, causes=causes_list)
 
 @app.route('/dp/choose_arguments')
-def deaths_per_template_arguments():
+def get_deaths_per_arguments_template_arguments():
     """
     Returns the render template for deaths per.
 

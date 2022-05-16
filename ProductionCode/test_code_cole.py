@@ -38,7 +38,7 @@ class TestSearchResults(unittest.TestCase):
 
 
 def check_deaths_per_results(self, search, expected_result):
-    result = deaths_per(search, data)
+    result = get_deaths_per_arguments(search, data)
     assert_equal(self, result, expected_result)
 
 def check_equal_or_none_results(self, value1, value2):
