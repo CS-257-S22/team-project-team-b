@@ -51,8 +51,8 @@
                 </form>
             </div>
             <div>
-                {%if search_info != None: %}
-                <h3>Leading cause of death for: {{search_info.state}}, {{search_info.age}}, {{search_info.gender}}:</h3>
+                {%if search_args != None: %}
+                <h3>Leading cause of death for: {{search_args.state}}, {{search_args.age}}, {{search_args.gender}}:</h3>
                 <p>{{data}}</p>
                 {%endif%}
             </div>

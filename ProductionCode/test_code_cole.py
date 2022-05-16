@@ -1,33 +1,33 @@
 import unittest
 from deaths_per import *
-from SearchInfo import *
+from search_args import *
 from csv_reading import *
 
 class TestSearchResults(unittest.TestCase):
 
     def test_state_age_gender(self):
         """ Test that it can sum the data for a state, an age, and a gender """
-        search = SearchInfo("California","37","M",None)
+        search = SearchArgs("California","37","M",None)
         check_deaths_per_results(self, search, 80)
 
     def test_state_age_cause(self):
         """ Test that it can sum the data for a state, an age, and a cause """
-        search = SearchInfo("California","37",None,"Heart Attack")
+        search = SearchArgs("California","37",None,"Heart Attack")
         check_deaths_per_results(self, search, 80)
 
     def test_state_gender_cause(self):
         """ Test that it can sum the data for a state, a gender and a cause """
-        search = SearchInfo("California",None,"M","Heart Attack")
+        search = SearchArgs("California",None,"M","Heart Attack")
         check_deaths_per_results(self, search, 80)
 
     def test_age_gender_cause(self):
         """ Test that it can sum the data for an age, a gender and a cause """
-        search = SearchInfo(None,"37","F","Heart Attack")
+        search = SearchArgs(None,"37","F","Heart Attack")
         check_deaths_per_results(self, search, 20)
         
     def test_edge_case(self):
         """ Test that it can find a very specific data point """
-        search = SearchInfo("New Jersey","20","M","Infection")
+        search = SearchArgs("New Jersey","20","M","Infection")
         check_deaths_per_results(self, search, 50)
         
     def test_equal_or_none(self):
