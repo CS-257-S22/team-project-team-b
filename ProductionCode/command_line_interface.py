@@ -113,7 +113,7 @@ def find_deaths_per(input_arguments, data_file_name):
     """
     data = get_CSV_data_as_list(data_file_name)
     search_info = create_search_info(input_arguments)
-    return deaths_per(data, search_info)
+    return get_deaths_per_arguments(data, search_info)
 
 def find_leading_cause(input_arguments, data_file_name):
     """

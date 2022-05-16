@@ -54,7 +54,7 @@ def get_response(selected_function, search, ):
     search = create_search_info(search)
 
     if selected_function == "deaths_per" or selected_function == "dp":
-        return deaths_per_to_string(deaths_data, search)
+        return get_deaths_per_arguments_to_string(deaths_data, search)
     elif selected_function == "leading_cause" or selected_function == "lc":
         return leading_cause_to_string(deaths_data, search)
     else:
@@ -169,7 +169,7 @@ def fix_cause(string):
         cause.append(i)
     return " ".join(cause)
 
-def deaths_per_to_string(dataset, search):
+def get_deaths_per_arguments_to_string(dataset, search):
     """
     Displays a string containing a search's terms and the number of deaths per the search.
 
@@ -185,7 +185,7 @@ def deaths_per_to_string(dataset, search):
     string = add_search_term_to_string(string, "age", search)
     string = add_search_term_to_string(string, "gender", search)
     string = add_search_term_to_string(string, "cause", search)
-    string += " is: "+str(deaths_per(dataset, search))+"."
+    string += " is: "+str(get_deaths_per_arguments(dataset, search))+"."
     return string
 
 def leading_cause_to_string(dataset, search):
