@@ -118,7 +118,6 @@ def find_death_date(date_of_birth, age_at_death):
     ''' takes in date_of_birth and age_at_death and randomly chooses a date according to those parameters'''
     death_age_in_days = int(age_at_death*365.25)
     earliest_date_of_death = date_of_birth + timedelta(days = death_age_in_days)
-    
     extra_days = random.randint(0,364)
     date_of_death = earliest_date_of_death + timedelta(days = extra_days)
     return date_of_death
@@ -158,7 +157,7 @@ def make_prediction(inputs_list, seed_influencer):
     name, state, birthday, gender = inputs_list[0], inputs_list[1], inputs_list[2], inputs_list[3]
     gender = get_gender(gender)
     age, date_of_birth = get_age(birthday)
-    
+
     search_info = SearchInfo(state, age, gender, None)
     data, misc_data = initialize_data("data.csv"), initialize_data("all_states_misc.csv")
     relevant_data, total_relevant_deaths = find_relevant_lines(data, search_info)
@@ -194,8 +193,6 @@ def make_prediction(inputs_list, seed_influencer):
     
 
 if __name__ == "__main__":
-    # bleep = random.randint(-50000000,50000000)+random.random()
-    # print('seed_influencer = ',bleep)
     seed_influencer = 0
     input_list = argv[1:]
     message = make_prediction(input_list, seed_influencer)
