@@ -3,22 +3,22 @@ Written by Jonas Bartels
 '''
 from datetime import date, timedelta
 from sys import argv
-from SearchInfo import*
+from search_args import *
 import random
-from csv_reading import*
+from csv_reading import *
 
 def initialize_data(data_file_name):
     ''' Takes in file_name and returns contained data as array'''
     initialized_file = get_CSV_data_as_list(data_file_name)
     return load_CSV_list(initialized_file)
 
-def find_relevant_lines(data, search_info):
-    ''' Takes in data array and search_info object and finds all lines that fit the search_info parameters'''
+def find_relevant_lines(data, search_args):
+    ''' Takes in data array and SearchArgs object and finds all lines that fit the search_args parameters'''
     relevant_lines = []
     total_relevant_deaths = 0
     for line in data:
-        if equal_or_none(line[0], search_info.state) & equal_or_none(line[2], search_info.gender):
-            if int(line[1]) >= int(search_info.age):
+        if equal_or_none(line[0], search_args.state) & equal_or_none(line[2], search_args.gender):
+            if int(line[1]) >= int(search_args.age):
                 relevant_lines.append(line)
                 if line[5] == "under 10":
                     line[5] = 5
@@ -43,13 +43,13 @@ def get_codes_list(relevant_data,age):
             codes_list.append(line[4])
     return codes_list
 
-def find_relevant_misc_lines(data, search_info, codes_list):
+def find_relevant_misc_lines(data, search_args, codes_list):
     ''' Creates a list of alternate deaths to replace a 'Miscellaneous' result'''
     relevant_lines = []
     total_relevant_deaths = 0
     for line in data:
-        if equal_or_none(line[0], search_info.state) & equal_or_none(line[2], search_info.gender) & (line[4] not in codes_list):
-            if check_bounds(line[1],int(search_info.age)):
+        if equal_or_none(line[0], search_args.state) & equal_or_none(line[2], search_args.gender) & (line[4] not in codes_list):
+            if check_bounds(line[1],int(search_args.age)):
                 relevant_lines.append(line)
                 total_relevant_deaths += int(line[5])
     return relevant_lines, total_relevant_deaths
@@ -157,10 +157,10 @@ def make_prediction(inputs_list, seed_influencer):
     name, state, birthday, gender = inputs_list[0], inputs_list[1], inputs_list[2], inputs_list[3]
     gender = get_gender(gender)
     age, date_of_birth = get_age(birthday)
-
-    search_info = SearchInfo(state, age, gender, None)
+    
+    search_args = SearchArgs(state, age, gender, None)
     data, misc_data = initialize_data("data.csv"), initialize_data("all_states_misc.csv")
-    relevant_data, total_relevant_deaths = find_relevant_lines(data, search_info)
+    relevant_data, total_relevant_deaths = find_relevant_lines(data, search_args)
     random_seed = generate_seed(name,date_of_birth, seed_influencer)
     set_seed(random_seed)
 
@@ -181,8 +181,8 @@ def make_prediction(inputs_list, seed_influencer):
     
     if cause_of == "Miscellaneous" or cause_of == "Other ill-defined and unspecified causes of mortality":
         codes_list = get_codes_list(relevant_data, age_at)
-        search_info_misc = SearchInfo(None, age_at, gender, None)
-        relevant_misc_lines, misc_deaths = find_relevant_misc_lines(misc_data, search_info_misc, codes_list)
+        search_args_misc = SearchArgs(None, age_at, gender, None)
+        relevant_misc_lines, misc_deaths = find_relevant_misc_lines(misc_data, search_args_misc, codes_list)
         misc_line = find_death_circumstances(relevant_misc_lines, misc_deaths)
         message_base = "Date: {} | ({}) {} (at age {})"
         message = message_base.format(reformat_date(date_of),cause_of, misc_line[3],age_at)

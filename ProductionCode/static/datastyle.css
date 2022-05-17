@@ -1,4 +1,4 @@
-h1, h2, h3, h4 {
+h1, h2, h3 {
     font-family: Verdana, Geneva, sans-serif; 
 }
 
@@ -69,17 +69,6 @@ nav li a:hover {
     background-color: #004e6d;
 }
 
-div.fun_facts{
-    background-color: #004e6d;
-    color: #f5edaa;
-    width: 300px;
-    border: 2px solid #f5edaa;
-    float: right;
-    padding: 10px;
-    margin: 10px;
-    position: relative;
-}
-
 /* Making the form items be on new lines
     https://stackoverflow.com/questions/10349276/how-to-put-web-form-elements-on-a-new-line#10349338
 */
@@ -121,20 +110,19 @@ input:hover {
     margin: auto;
 }
 
+#new_fact:hover{ 
+    background-color: #f5edaa
+}
+
 #new_fact a{ 
+    padding: 18px;
     text-decoration: none;
     color: #f5edaa;
     font: Verdana, Geneva, sans-serif;
 }
 
-#new_fact:hover{
-    background-color: #f5edaa;
-}
-
 #new_fact a:hover{ 
-    text-decoration: none;
     color: #004e6d;
-    font: Verdana, Geneva, sans-serif;
 }
 
 @keyframes fade_in {

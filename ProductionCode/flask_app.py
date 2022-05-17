@@ -2,7 +2,7 @@ from flask import Flask
 from leading_cause import *
 from csv_reading import *
 from deaths_per import *
-from SearchInfo import *
+from search_args import *
 
 app = Flask(__name__)
 
@@ -51,21 +51,21 @@ def get_response(selected_function, search, ):
 
     deaths_data = get_CSV_data_as_list("Test Data CSV - Sheet1.csv")
     
-    search = create_search_info(search)
+    search = create_search_args(search)
 
     if selected_function == "deaths_per" or selected_function == "dp":
-        return deaths_per_to_string(deaths_data, search)
+        return get_deaths_per_arguments_to_string(deaths_data, search)
     elif selected_function == "leading_cause" or selected_function == "lc":
         return leading_cause_to_string(deaths_data, search)
     else:
         return page_not_found(1)
 
-def create_search_info(search_terms):
+def create_search_args(search_terms):
     """
-    Creates and returns a SearchInfo object that has all of the arguments the user passed loaded into it.
+    Creates and returns a SearchArgs object that has all of the arguments the user passed loaded into it.
 
     Returns:
-        a SearchInfo object that has all of the arguments
+        a SearchArgs object that has all of the arguments
         the user passed loaded into it
     """
     search_terms = remove_parenthesis(search_terms)
@@ -103,14 +103,14 @@ def fix_string_spaces(string):
 
 def convert_string_to_search(string):
     """
-    Converts a string with search terms into the SearchInfo class.
+    Converts a string with search terms into the SearchArgs class.
 
     Args:
         string : the string with search term
     Returns:
-        a SearchInfo object with the search terms provided by the initial string
+        a SearchArgs object with the search terms provided by the initial string
     """
-    search = SearchInfo(None, None, None, None)
+    search = SearchArgs(None, None, None, None)
 
     for word_index, word in enumerate(string):
         if word[0] == "-":
@@ -119,7 +119,7 @@ def convert_string_to_search(string):
 
 def update_argument_value(term, new_value, search):
     """
-    Updates a SearchInfo object based on a given term and new value for that term.
+    Updates a SearchArgs object based on a given term and new value for that term.
 
     Args:
         term : the term whose value is being updated
@@ -169,7 +169,7 @@ def fix_cause(string):
         cause.append(i)
     return " ".join(cause)
 
-def deaths_per_to_string(dataset, search):
+def get_deaths_per_arguments_to_string(dataset, search):
     """
     Displays a string containing a search's terms and the number of deaths per the search.
 
@@ -185,7 +185,7 @@ def deaths_per_to_string(dataset, search):
     string = add_search_term_to_string(string, "age", search)
     string = add_search_term_to_string(string, "gender", search)
     string = add_search_term_to_string(string, "cause", search)
-    string += " is: "+str(deaths_per(dataset, search))+"."
+    string += " is: "+str(get_deaths_per_arguments(dataset, search))+"."
     return string
 
 def leading_cause_to_string(dataset, search):

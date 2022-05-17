@@ -2,6 +2,7 @@
 Written by Jonas Bartels
 """
 import random
+from B.ProductionCode.death_predictor import initialize_data
 from command_line_interface import *
 import unittest
 

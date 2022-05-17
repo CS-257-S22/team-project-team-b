@@ -4,7 +4,7 @@ Written by Lazuli Kleinhans with modifications by Jonas Bartels
 
 from sys import argv
 from deaths_per import *
-from SearchInfo import *
+from search_args import *
 from csv_reading import *
 from leading_cause import *
 
@@ -76,13 +76,13 @@ def return_dictionary_of_arguments(input_arguments):
             argument_dictionary.update(argument_value)
     return argument_dictionary
 
-def create_search_info(input_arguments):
+def create_search_args(input_arguments):
     """
-    Creates and returns a SearchInfo object that has
+    Creates and returns a SearchArgs object that has
     all of the arguments the user passed loaded into it.
 
     Returns:
-        a SearchInfo object that has all of the arguments
+        a SearchArgs object that has all of the arguments
         the user passed loaded into it
     """
     argument_dictionary = return_dictionary_of_arguments(input_arguments)
@@ -90,7 +90,7 @@ def create_search_info(input_arguments):
     age = argument_dictionary["age"]
     gender = argument_dictionary["gender"]
     cause = argument_dictionary["cause"]
-    return SearchInfo(state, age, gender, cause)
+    return SearchArgs(state, age, gender, cause)
 
 # def initialize_data(data_file_name):
 #     """
@@ -104,29 +104,29 @@ def create_search_info(input_arguments):
 
 def find_deaths_per(input_arguments, data_file_name):
     """
-    Initializes data, creates a SearchInfo object, and the passes
+    Initializes data, creates a SearchArgs object, and the passes
     them into deaths_per() and returns that output.
 
     Returns:
         an integer of the number of deaths that are a part of the
-        group indicated in search_info
+        group indicated in search_args
     """
     data = get_CSV_data_as_list(data_file_name)
-    search_info = create_search_info(input_arguments)
-    return deaths_per(data, search_info)
+    search_args = create_search_args(input_arguments)
+    return get_deaths_per_arguments(data, search_args)
 
 def find_leading_cause(input_arguments, data_file_name):
     """
-    Initializes data, creates a SearchInfo object, and the passes
+    Initializes data, creates a SearchArgs object, and the passes
     them into return_leading_cause() and returns that output.
 
     Returns:
         a list with the first item being the top cause of death of people that matched the
-        search_info arguments and the second as the number of deaths attributed to that cause
+        search_args arguments and the second as the number of deaths attributed to that cause
     """
     data = get_CSV_data_as_list(data_file_name)
-    search_info = create_search_info(input_arguments)
-    return return_leading_cause(data, search_info)
+    search_args = create_search_args(input_arguments)
+    return return_leading_cause(data, search_args)
 
 def check_length_of_input_arguments(input_arguments):
     """
