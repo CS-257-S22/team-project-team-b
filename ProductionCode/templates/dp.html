@@ -70,7 +70,7 @@
             </div>
             <div>
                 {%if search_args != None: %}
-                <h3>Number of deaths for: {{search_args.state}}, {{search_args.age}}, {{search_args.gender}}, {{search_args.cause}}:</h3>
+                <h3>Number of deaths due to {{search_args.cause}} for {{search_args.gender}}, {{search_args.age}} in {{search_args.state}}, is:</h3>
                 <p>{{data}}</p>
                 {%endif%}
             </div>
