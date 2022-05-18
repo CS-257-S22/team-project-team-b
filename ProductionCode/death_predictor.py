@@ -1,6 +1,7 @@
 '''
 Written by Jonas Bartels
 '''
+
 from datetime import date, timedelta
 from email.mime import base
 from sys import argv
@@ -214,7 +215,6 @@ class DeathPredictor():
             for i in range(int(line.death_toll)):
                 line_num += 1
                 if line_num == pick_number:
-                    
                     return line
 
     def find_random_death_circumstance(self, relevant_data, total_relevant_deaths):
@@ -369,7 +369,6 @@ class DeathPredictor():
         '''
         sets the random seeding value to self.seed
         '''
-        
         random.seed(self.seed)
 
     def reformat_date(self, date):
@@ -491,7 +490,3 @@ if __name__ == "__main__":
     predictor_1 = DeathPredictor(input_list, seed_influencer)
     prediction_1 = predictor_1.get_prediction()
     print(prediction_1.combined_cause, prediction_1.date)
-
-
-
-
