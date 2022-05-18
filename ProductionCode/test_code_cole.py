@@ -1,6 +1,6 @@
 import unittest
 from deaths_per import *
-from search_args import *
+from SearchArgs import *
 from csv_reading import *
 
 class TestSearchResults(unittest.TestCase):

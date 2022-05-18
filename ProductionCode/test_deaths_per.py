@@ -5,7 +5,7 @@ Written By Kai R. Weiner
 import unittest
 from webbrowser import get
 from deaths_per import *
-from search_args import *
+from SearchArgs import *
 from csv_reading import *
 
 class TestSOMETHING(unittest.TestCase):

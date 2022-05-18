@@ -5,7 +5,7 @@ Written by Jonas Bartels
 from datetime import date, timedelta
 from email.mime import base
 from sys import argv
-from search_args import *
+from SearchArgs import *
 import random
 from csv_reading import *
 
