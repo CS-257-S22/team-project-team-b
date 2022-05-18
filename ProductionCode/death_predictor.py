@@ -92,7 +92,9 @@ class DeathPredictor():
         Returns:
             a Boolean.
         '''
-        if self.equal_or_none(line.state, self.search_args.state) & self.equal_or_none(line.gender, self.search_args.gender) & (int(line.age) >= int(self.search_args.age)):
+        if self.equal_or_none(line.state, self.search_args.state) & \
+            self.equal_or_none(line.gender, self.search_args.gender) & \
+            (int(line.age) >= int(self.search_args.age)):
             return True
         else:
             return False
@@ -156,7 +158,9 @@ class DeathPredictor():
         Returns:
             Boolean value in accordance with the conditional
         '''
-        if self.equal_or_none(line.gender, self.search_args.gender) & (line.code not in self.codes_list) & (self.is_within_bounds(line.age)):
+        if self.equal_or_none(line.gender, self.search_args.gender) & \
+            (line.code not in self.codes_list) & \
+            (self.is_within_bounds(line.age)):
             return True
         else:
             return False
