@@ -53,7 +53,7 @@
             <div>
                 {%if search_args != None: %}
                 <h3>Leading cause of death for: {{search_args.state}}, {{search_args.age}}, {{search_args.gender}}:</h3>
-                <p>{{data}}</p>
+                <p><b>{{data[0]}}</b> with <b>{{data[1]}}</b> deaths</p>
                 {%endif%}
                 
             </div>
