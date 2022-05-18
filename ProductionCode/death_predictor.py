@@ -2,7 +2,7 @@
 Written by Jonas Bartels
 '''
 
-from datetime import date, timedelta
+from datetime import datetime, date, timedelta
 from email.mime import base
 from sys import argv
 from search_args import *
@@ -15,7 +15,9 @@ class Prediction():
         self.age_at_death = age_at_death
         self.main_cause = main_cause
         self.misc_cause = misc_cause
+        self.today = date.today()
         self.set_combined_cause()
+        self.reformat_date()
 
     def set_combined_cause(self):
         if self.misc_cause != None:
@@ -23,6 +25,15 @@ class Prediction():
             self.combined_cause = base_string.format(self.misc_cause, self.main_cause)
         else:
             self.combined_cause = self.main_cause
+
+    def get_days_remaining(self):
+        print(self.date - self.today)
+
+    def reformat_date(self):
+        listed = str(self.date).split('-')
+        base = "{}/{}/{}"
+        self.reformatted_date = base.format(listed[1], listed[2], listed[0])
+                
             
 class DataLine():
     def __init__(self, line):
@@ -375,20 +386,6 @@ class DeathPredictor():
         '''
         random.seed(self.seed)
 
-    def reformat_date(self, date):
-        '''
-        takes a date object and turns it into a string in the form M/D/Y
-        
-        Args:
-            data: date object of the form Y, M, D
-        Returns:
-            string of the form M/D/Y
-        '''
-        listed = str(date).split('-')
-        base = "{}/{}/{}"
-        reformated = base.format(listed[1], listed[2], listed[0])
-        return reformated
-
     def set_base_prediction(self):
         '''
         creates a base prediction and stores it and its specific details
@@ -489,8 +486,9 @@ class DeathPredictor():
         return self.final_prediction
 
 if __name__ == "__main__":
-    seed_influencer = 1600.2
+    seed_influencer = 1600.5
     input_list = argv[1:]
     predictor_1 = DeathPredictor(input_list, seed_influencer)
     prediction_1 = predictor_1.get_prediction()
-    print(prediction_1.combined_cause, prediction_1.date)
+    print(prediction_1.combined_cause, prediction_1.reformatted_date)
+    prediction_1.get_days_remaining()
