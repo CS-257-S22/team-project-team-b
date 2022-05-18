@@ -98,16 +98,16 @@ def return_render_template(function_type):
     # causes_list = return_causes_list()
     search_args = create_search_args()
     returned_data = get_data(function_type, search_args)
-    return render_template(f'{function_type}.html', states=states, 
-        search_args=search_args, data=returned_data, causes=causes_list)
+    return render_template(f'{function_type}.html', states = states, 
+        search_args = search_args, data = returned_data, causes = causes_list)
 
 def get_fact():
     """
     Retrieve fact from facts at given random int
     
-    Returns: 
+    Returns:
         a string from facts 
-    """ 
+    """
     index = random.randint(0,4)
     random_fact = facts[index]
     return random_fact
@@ -120,7 +120,7 @@ def welcomepage():
     Returns:
         the welcome render template
     """
-    return render_template('welcome.html',fact = get_fact())
+    return render_template('welcome.html', fact = get_fact())
 
 @app.route('/home')
 def homepage():
@@ -130,7 +130,7 @@ def homepage():
     Returns:
         the homepage render template
     """
-    return render_template("home.html",fact = get_fact() )
+    return render_template("home.html", fact = get_fact() )
 
 @app.route('/dp/')
 def get_deaths_per_arguments_template():
@@ -140,7 +140,7 @@ def get_deaths_per_arguments_template():
     Returns:
         the render template for deaths per with no search_args
     """
-    return render_template('dp.html', states=states, search_args=None, causes=causes_list)
+    return render_template('dp.html', states = states, search_args = None, causes = causes_list)
 
 @app.route('/dp/choose_arguments')
 def get_deaths_per_arguments_template_arguments():
@@ -160,7 +160,7 @@ def leading_cause_template():
     Returns:
         the render template for leading cause, with no search_args
     """
-    return render_template('lc.html', states=states, search_args=None)
+    return render_template('lc.html', states = states, search_args = None)
 
 @app.route('/lc/choose_arguments')
 def leading_cause_template_arguments():
@@ -183,7 +183,7 @@ def page_not_found(e):
     Returns:
         the render template for a 404 error
     """
-    return render_template('404.html', error=e)
+    return render_template('404.html', error = e)
 
 @app.errorhandler(500)
 def python_bug(e):
