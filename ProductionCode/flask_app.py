@@ -2,7 +2,7 @@ from flask import Flask
 from leading_cause import *
 from csv_reading import *
 from deaths_per import *
-from search_args import *
+from SearchArgs import *
 
 app = Flask(__name__)
 

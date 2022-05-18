@@ -1,7 +1,7 @@
 """ Written by Lazuli Kleinhans """
 
 from flask import Flask, render_template, request
-from search_args import SearchArgs
+from SearchArgs import SearchArgs
 from deaths_per import *
 from leading_cause import *
 from csv_reading import *

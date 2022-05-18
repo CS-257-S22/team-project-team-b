@@ -4,7 +4,7 @@ Written by Lazuli Kleinhans with modifications by Jonas Bartels
 
 from sys import argv
 from deaths_per import *
-from search_args import *
+from SearchArgs import *
 from csv_reading import *
 from leading_cause import *
 

@@ -1,5 +1,5 @@
 import psycopg2
-from search_args import SearchArgs
+from SearchArgs import SearchArgs
 from deaths_per import *
 from leading_cause import *
 
