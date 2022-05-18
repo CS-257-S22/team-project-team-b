@@ -95,7 +95,6 @@ def return_render_template(function_type):
     Returns:
         the correct render template for the passed function
     """
-    # causes_list = return_causes_list()
     search_args = create_search_args()
     returned_data = get_data(function_type, search_args)
     return render_template(f'{function_type}.html', states = states, 
