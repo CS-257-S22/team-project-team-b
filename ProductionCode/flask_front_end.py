@@ -132,6 +132,16 @@ def homepage():
     """
     return render_template("home.html", fact = get_fact() )
 
+@app.route('/wwid/')
+def get_prediction_from_arguments_template():
+
+    return render_template('wwid.html', states = states, search_args = None)
+
+@app.route('/wwid/choose_arguments')
+def get_prediction_from_arguments_template_arguments():
+    
+    return return_render_template('wwid')
+
 @app.route('/dp/')
 def get_deaths_per_arguments_template():
     """
