@@ -1,7 +1,6 @@
-DROP TABLE earthquakes;
-DROP TABLE deathData;
-CREATE TABLE deathData (
-  statename text,
+DROP TABLE death_data;
+CREATE TABLE death_data (
+  state_name text,
   age int,
   gender char,
   cause text,

@@ -1,77 +1,79 @@
 import psycopg2
+import psqlConfig as config
 from SearchArgs import SearchArgs
 from deaths_per import *
 from leading_cause import *
 
-class databaseCursor:
-    database_connection = None
-    database_cursor = None
+class DataSource:
 
-    def __init__(self, database_name, database_user):
-        self.database_connection = psycopg2.connect("dbname="+database_name+" user="+database_user)
+    def __init__(self):
+        self.connection = self.connect()
     
-    def open_connection_and_cursor(self):
-        self.database_cursor = self.database_connection.cursor()
+    def connect(self):
+        try:
+            connection = psycopg2.connect(database=config.database, user=config.user, password=config.password, host="localhost")
+        except Exception as e:
+            print("Connection error: ", e)
+            exit()
+        return connection
+
+    def return_dictionary_of_arguments(self, search_arguments):
+        argument_dictionary = {
+            "state_choice": None,
+            "age_choice": None,
+            "gender_choice": None,
+            "cause_choice": None
+        }
+        
+        for key in search_arguments:
+            value = search_arguments[key]
+            if value != "None":
+                argument_dictionary.update({key: value})
+        return argument_dictionary
+
+    def create_search_args(self):
+        argument_dictionary = return_dictionary_of_arguments()
+        state = argument_dictionary["state_choice"]
+        age = argument_dictionary["age_choice"]
+        gender = argument_dictionary["gender_choice"]
+        cause = argument_dictionary["cause_choice"]
+        return SearchArgs(state, age, gender, cause)
+
+    def get_data(function_type, search_args):
+        if function_type == 'dp':
+            death_data = get_table()
+            return get_deaths_per_arguments(death_data, search_args)
+        elif function_type == 'lc':
+            return return_leading_cause(death_data, search_args)
+        else:
+            #TODO create a better error message. Determine if this is necessary
+            return "Error: function used does not exist"
     
-    def close_connection_and_cursor(self):
-        self.database_cursor.close()
-        self.database_connection.close()
+    def get_query_result(self, query, query_inputs):
+        try:
+            cursor = self.connection.cursor()
+            cursor.execute(query, query_inputs)
+            result = cursor.fetchall()
+        except Exception as e:
+            print("Internal error: ", e)
+            exit()
+        return result
     
-    def execute_command(self, command):
-        self.database_cursor.execute(command)
+    def get_table(self):
+        data_table = self.get_query_result("SELECT * FROM death_data;", ())
+        return data_table
 
-cursor = databaseCursor("teamb", "postgress")
-path_to_csv_data = 'data_smaller.csv'
+    def get_data_from_state(self, state):
+        state_data = self.get_query_result("SELECT * FROM death_data WHERE state_name = %s;", (state,))
+        return state_data
 
-def initialize_data_table():
-    cursor.open_connection_and_cursor()
+    def get_states(self):
+        states = self.get_query_result("SELECT DISTINCT state_name FROM death_data;", ())
+        return states
 
-    #TODO currently age discludes those over 100 and deaths disculdes those under 10, need to fix this
-    cursor.execute_command("CREATE TABLE deaths_data (d_state text, d_age int, d_gender text, d_cause text, d_deaths int);")
-    cursor.execute_command("\copy deaths_data FROM "+path_to_csv_data+" DELIMITER ',' CSV;")
+if __name__ == '__main__':
+    my_source = DataSource()
+    print(my_source.get_data_from_state('Wyoming'))
 
-    cursor.close_connection_and_cursor()
-
-# cursor.execute("SELECT * FROM deaths_data;")
-
-def return_dictionary_of_arguments(search_arguments):
-    argument_dictionary = {
-        "state_choice": None,
-        "age_choice": None,
-        "gender_choice": None,
-        "cause_choice": None
-    }
-    
-    for key in search_arguments:
-        value = search_arguments[key]
-        if value != "None":
-            argument_dictionary.update({key: value})
-    return argument_dictionary
-
-def create_search_args():
-    argument_dictionary = return_dictionary_of_arguments()
-    state = argument_dictionary["state_choice"]
-    age = argument_dictionary["age_choice"]
-    gender = argument_dictionary["gender_choice"]
-    cause = argument_dictionary["cause_choice"]
-    return SearchArgs(state, age, gender, cause)
-
-def get_data(function_type, search_args):
-    if function_type == 'dp':
-        death_data = get_table()
-        return get_deaths_per_arguments(death_data, search_args)
-    elif function_type == 'lc':
-        return return_leading_cause(death_data, search_args)
-    else:
-        #TODO create a better error message. Determine if this is necessary
-        return "Error: function used does not exist"
-
-def get_table():
-    return cursor.execute_command()
-
-def get_states():
-    return cursor.execute_command()
-
-
-
+#referenced off of psycopg2 lab
 #heavily referenced https://www.psycopg.org/docs/usage.html#passing-parameters-to-sql-queries

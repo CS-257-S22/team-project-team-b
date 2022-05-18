@@ -198,4 +198,5 @@ def python_bug(e):
 if __name__ == '__main__':
     """ Runs the app. """
     load_causes_list()
+    #TODO port = one of the ports
     app.run()
