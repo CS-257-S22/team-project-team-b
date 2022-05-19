@@ -23,7 +23,7 @@
                 <p>Which category of people would you like to see the number of deaths of? Choose "None" for everyone in that category.</p>
                 <form action="choose_arguments">
                     <label for="states">Choose a state:</label>
-                    <select name="state_choice">
+                    <select name="state_name">
                         
                         <option value="None">None</option>
                         {% for state in states: %}
@@ -32,7 +32,7 @@
                            
                     </select>
                     <label for="ages">Choose an age:</label>
-                    <select name="age_choice">
+                    <select name="age">
                         
                         <option value="None">None</option>
                         <option value="0">&lt;1</option>
@@ -43,7 +43,7 @@
                            
                     </select>
                     <label for="genders">Choose a gender:</label>
-                    <select name="gender_choice">
+                    <select name="gender">
                         
                         <option value="None">None</option>
                         <option value="F">F</option>
@@ -52,7 +52,7 @@
                     </select>
                     <!-- Autocomplete code source: https://www.geeksforgeeks.org/autocomplete-input-suggestion-using-python-and-flask/ -->
                     <label for="causes">Type a cause:</label>
-                    <textarea type="text" id="cause_choice" name="cause_choice" rows="1" cols="20">None</textarea>
+                    <textarea type="text" id="cause" name="cause" rows="1" cols="20">None</textarea>
                         <script>
                         $(function() {
                             var availableTags = [
@@ -60,7 +60,7 @@
                                     "{{cause}}",
                                 {% endfor %}
                             ];
-                            $( "#cause_choice" ).autocomplete({
+                            $( "#cause" ).autocomplete({
                             source: availableTags
                             });
                         });
@@ -70,7 +70,7 @@
             </div>
             <div>
                 {%if search_args != None: %}
-                <h3>Number of deaths due to {{search_args.cause}} for {{search_args.gender}}, {{search_args.age}} in {{search_args.state}}, is:</h3>
+                <h3>Number of deaths due to {{search_args.get_cause()}} for {{search_args.get_gender()}}, {{search_args.get_age()}} in {{search_args.get_state()}}, is:</h3>
                 <p>{{data}}</p>
                 {%endif%}
             </div>

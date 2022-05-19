@@ -4,8 +4,8 @@ Written by Tin Nguyen, Lazuli Kleinhans & Kai R. Weiner
 
 def fits_search(datapoint,search):
     """ Take in datapoint, return booleans about whether datapoint matches search param or specifc search is not needed"""
-    return is_equal_or_none(datapoint[0], search.state) & is_equal_or_none(datapoint[1], search.age)\
-        & is_equal_or_none(datapoint[2], search.gender)
+    return is_equal_or_none(datapoint[0], search.get_state()) & is_equal_or_none(datapoint[1], search.get_age())\
+        & is_equal_or_none(datapoint[2], search.get_gender())
 
 def is_equal_or_none(compared, value):
     """Take in two varibles, returns True if the value match compared or None"""
@@ -23,9 +23,9 @@ def return_data_entry(datapoint, data_dictionary):
         dictionary with updated cause of deaths keys or number of deaths per cause. 
     """
     if datapoint[3] in data_dictionary.keys():
-        new_entry = {datapoint[3]: int(data_dictionary[datapoint[3]]) + int(datapoint[5])}
+        new_entry = {datapoint[3]: int(data_dictionary[datapoint[3]]) + int(datapoint[4])}
     else:
-        new_entry = {datapoint[3]: int(datapoint[5])}
+        new_entry = {datapoint[3]: int(datapoint[4])}
     return new_entry
 
 def return_cause_of_death_dictionary(data_file, search_info):

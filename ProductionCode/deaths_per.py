@@ -2,6 +2,8 @@
 Written By Kai R. Weiner, Lazuli Kleinhans
 """
 
+from SearchArgs import SearchArgs
+
 def get_deaths_per_arguments(data, search):
     """" 
     Search through entire database to return the total number of deaths that matches all of the search parameters.
@@ -27,8 +29,8 @@ def get_relevant_deaths(datapoint, search):
         deaths: the number of deaths for the subset of people or 0 if the subset is not relevant to the search
     """
     deaths = 0
-    if is_match(datapoint, search) and datapoint[5] != "under 10":
-        deaths = int(datapoint[5])
+    if is_match(datapoint, search) and datapoint[4] != 5:
+        deaths = int(datapoint[4])
     return deaths
 
 def is_match(datapoint, search):
@@ -41,8 +43,8 @@ def is_match(datapoint, search):
     Return:
         True if the subset of people fits the user's search, false if not
     """
-    return is_equal_or_none(datapoint[0], search.state) & is_equal_or_none(datapoint[1], search.age)\
-        & is_equal_or_none(datapoint[2], search.gender) & is_equal_or_none(datapoint[3], search.cause)
+    return is_equal_or_none(datapoint[0], search.get_state()) & is_equal_or_none(datapoint[1], search.get_age())\
+        & is_equal_or_none(datapoint[2], search.get_gender()) & is_equal_or_none(datapoint[3], search.get_cause())
 
 def is_equal_or_none(compared, value):
     """
