@@ -59,7 +59,9 @@ def return_dictionary_of_arguments():
         "state_choice": None,
         "age_choice": None,
         "gender_choice": None,
-        "cause_choice": None
+        "cause_choice": None,
+        "name_input": None,
+        "birthday_input": None
     }
     
     for key in request.args:
@@ -78,11 +80,14 @@ def create_search_args():
         the user passed loaded into it
     """
     argument_dictionary = return_dictionary_of_arguments()
-    state = argument_dictionary["state_choice"]
-    age = argument_dictionary["age_choice"]
-    gender = argument_dictionary["gender_choice"]
-    cause = argument_dictionary["cause_choice"]
-    return SearchArgs(state, age, gender, cause)
+    # state = argument_dictionary["state_choice"]
+    # age = argument_dictionary["age_choice"]
+    # gender = argument_dictionary["gender_choice"]
+    # cause = argument_dictionary["cause_choice"]
+    # name = argument_dictionary["name_input"]
+    # birthday = argument_dictionary["birthday_input"]
+    return argument_dictionary
+    # return SearchArgs(state, age, gender, cause)
 
 def return_render_template(function_type):
     """
@@ -98,7 +103,7 @@ def return_render_template(function_type):
     search_args = create_search_args()
     returned_data = get_data(function_type, search_args)
     return render_template(f'{function_type}.html', states = states, 
-        search_args = search_args, data = returned_data, causes = causes_list)
+        search_args = search_args, data = returned_data, causes = causes_list, birthday = )
 
 def get_fact():
     """
@@ -132,8 +137,13 @@ def homepage():
     return render_template("home.html", fact = get_fact() )
 
 @app.route('/wwid/')
-def get_prediction_from_arguments_template():
-
+def get_prediction():
+    """
+    Returns the render template for deaths per with no search_args.
+    
+    Returns:
+        the render template for deaths per with no search_args
+    """
     return render_template('wwid.html', states = states, search_args = None)
 
 @app.route('/wwid/choose_arguments')
