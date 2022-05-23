@@ -84,7 +84,7 @@ class SearchArgs:
         return self.arguments.get("cause")
     
     def get_arguments(self):
-        return self.arguments()
+        return self.arguments
     
     def get_term_from_string(self, key):
         return self.arguments.get(key)

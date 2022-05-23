@@ -102,20 +102,13 @@ class SiteData:
         death_data = self.retrieve_table_from_database()
 
         if function_type == 'dp':
-            return get_deaths_per_arguments(death_data, search_args)
-        elif function_type == 'lc':
-            return return_leading_cause(death_data, search_args)
+            return self.get_deaths_per_arguments(search_args)
         else:
-            #TODO create a better error message. Determine if this is necessary
-            return "Error: function used does not exist"
+            return return_leading_cause(death_data, search_args)
     
     def retrieve_table_from_database(self):
         data_table = self.source.get_query_result("SELECT * FROM death_data;", ())
         return data_table
-
-    # def get_data_from_state(self, state):
-    #     state_data = self.source.get_query_result("SELECT * FROM death_data WHERE state_name = %s;", (state,))
-    #     return state_data
     
     def reformat_list(self, list):
         new_list = []
@@ -133,12 +126,15 @@ class SiteData:
         return query, query_inputs
     
     def return_query_with_search_arguments(self, query, search):
-        search_query, query_inputs = return_search_as_query(search)
+        search_query, query_inputs = self.return_search_as_query(search)
         query += search_query+";"
         return query, query_inputs
     
     def get_deaths_per_arguments(self, search):
-        return 5
+        query, query_inputs = self.return_query_with_search_arguments("SELECT SUM(deaths) FROM death_data WHERE TRUE", search)
+        total_deaths = self.source.get_query_result(query, query_inputs)
+        total_deaths = self.reformat_list(total_deaths)
+        return total_deaths[0]
     
 
 
