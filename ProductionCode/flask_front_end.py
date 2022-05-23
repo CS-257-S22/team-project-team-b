@@ -1,115 +1,27 @@
 """ Written by Lazuli Kleinhans """
 
 from flask import Flask, render_template, request
-from SearchArgs import SearchArgs
-from deaths_per import *
-from leading_cause import *
-from csv_reading import *
-import random
+from flask_back_end import *
 
 app = Flask(__name__)
-
-# list of states copied from here: https://python-forum.io/thread-3105.html
-states = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado",
-    "Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois",
-    "Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland",
-    "Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana",
-    "Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York",
-    "North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania",
-    "Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah",
-    "Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]
-
-#list of fun facts to use on welcome and home pages
-facts = ["The leading cause of death for infants younger than 1 is extreme immaturity with 13,660 deaths", 
-    "For people 100 and up, the leading cause of death is dementia with 16,661 deaths.", "The most common cause of death for males is atherosclerotic heart disease, with 463,155 deaths.", 
-    "The age group with the most deaths is 88 years old with 399,487 deaths.", "The most common cause of death for females is alzheimer's disease with 406,313 deaths"]
-
-causes_list = []
-
-def load_causes_list():
-    with open("causes_list.txt") as f:
-        for line in f:
-            causes_list.append(line[:-1])
-
-def get_data(function_type, search_args):
-    """
-    Returns the data for the passed state using the passed function.
-
-    Args:
-        function_type: either 'dp' or 'lc', determines which function is used
-        search_args: SearchArgs object with the search arguments
-    
-    Returns:
-        the data for the search_args arguments using the passed function
-    """
-    CSV_data = get_CSV_data_as_list("data.csv")
-    if function_type == 'dp':
-        return get_deaths_per_arguments(CSV_data, search_args)
-    else:
-        return return_leading_cause(CSV_data, search_args)
-
-def return_dictionary_of_arguments():
-    """
-    Returns a dictionary of the arguments in request.args.
-
-    Returns:
-        a dictionary of the arguments in request.args
-    """
-    argument_dictionary = {
-        "state_choice": None,
-        "age_choice": None,
-        "gender_choice": None,
-        "cause_choice": None
-    }
-    
-    for key in request.args:
-        value = request.args[key]
-        if value != "None":
-            argument_dictionary.update({key: value})
-    return argument_dictionary
-
-def create_search_args():
-    """
-    Creates and returns a SearchArgs object that has
-    all of the arguments the user passed loaded into it.
-
-    Returns:
-        a SearchArgs object that has all of the arguments
-        the user passed loaded into it
-    """
-    argument_dictionary = return_dictionary_of_arguments()
-    state = argument_dictionary["state_choice"]
-    age = argument_dictionary["age_choice"]
-    gender = argument_dictionary["gender_choice"]
-    cause = argument_dictionary["cause_choice"]
-    return SearchArgs(state, age, gender, cause)
+my_data = None
 
 def return_render_template(function_type):
     """
-    Creates a SearchArgs object, gets the correct data for the search arguments and
-    returns the correct render template for the passed function.
+    Retrieves the search arguments and requested data for the requested function,
+    returns the correct render template with the this data
 
     Args:
         function_type: either 'dp' or 'lc', determines which function is used
-    
+        
     Returns:
         the correct render template for the passed function
     """
-    search_args = create_search_args()
-    returned_data = get_data(function_type, search_args)
-    return render_template(f'{function_type}.html', states = states, 
-        search_args = search_args, data = returned_data, causes = causes_list)
 
-def get_fact():
-    """
-    Retrieve fact from facts at given random int
+    returned_data, search_args = my_data.get_search_result_from_function(function_type, request.args)
     
-    Returns:
-        a string from facts 
-    """
-    index = random.randint(0,4)
-    random_fact = facts[index]
-    return random_fact
+    return render_template(f'{function_type}.html', states = my_data.get_states(), 
+        search_args = search_args, data = returned_data, causes = my_data.get_causes())
 
 @app.route('/')
 def welcomepage():
@@ -119,7 +31,7 @@ def welcomepage():
     Returns:
         the welcome render template
     """
-    return render_template('welcome.html', fact = get_fact())
+    return render_template('welcome.html', fact = my_data.get_fact())
 
 @app.route('/home')
 def homepage():
@@ -129,7 +41,22 @@ def homepage():
     Returns:
         the homepage render template
     """
-    return render_template("home.html", fact = get_fact() )
+    return render_template("home.html", fact = my_data.get_fact() )
+
+@app.route('/wwid/')
+def get_prediction():
+    """
+    Returns the render template for deaths per with no search_args.
+    
+    Returns:
+        the render template for deaths per with no search_args
+    """
+    return render_template('wwid.html', states = states, search_args = None)
+
+@app.route('/wwid/choose_arguments')
+def get_prediction_from_arguments_template_arguments():
+    
+    return return_render_template('wwid')
 
 @app.route('/dp/')
 def get_deaths_per_arguments_template():
@@ -139,7 +66,7 @@ def get_deaths_per_arguments_template():
     Returns:
         the render template for deaths per with no search_args
     """
-    return render_template('dp.html', states = states, search_args = None, causes = causes_list)
+    return render_template('dp.html', states = my_data.get_states(), search_args = None, causes = my_data.get_causes())
 
 @app.route('/dp/choose_arguments')
 def get_deaths_per_arguments_template_arguments():
@@ -159,7 +86,7 @@ def leading_cause_template():
     Returns:
         the render template for leading cause, with no search_args
     """
-    return render_template('lc.html', states = states, search_args = None)
+    return render_template('lc.html', states = my_data.get_states(), search_args = None)
 
 @app.route('/lc/choose_arguments')
 def leading_cause_template_arguments():
@@ -196,5 +123,6 @@ def python_bug(e):
 
 if __name__ == '__main__':
     """ Runs the app. """
-    load_causes_list()
-    app.run()
+    my_data = SiteData()
+
+    app.run(port = "5130")

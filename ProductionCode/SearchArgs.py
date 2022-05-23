@@ -19,19 +19,21 @@ class SearchArgs:
         Return:
             An SearchArgs object.
         """
-        self.state = state
-        self.age = age
-        self.gender = gender
-        self.cause = cause
+        self.arguments = {
+            "state_name": state,
+            "age": age,
+            "gender": gender,
+            "cause": cause
+        }
     
-    def set_state(self, new_state):
+    def set_state_name(self, new_state):
         """
         Sets the state being searched for to a specified input.
 
         Args:
             new_state : the new state being searched for
         """
-        self.state = new_state
+        self.arguments.update({"state_name": new_state})
 
     def set_age(self, new_age):
         """
@@ -40,7 +42,7 @@ class SearchArgs:
         Args:
             new_age : the new age being searched for
         """
-        self.age = new_age
+        self.arguments.update({"age": new_age})
 
     def set_gender(self, new_gender):
         """
@@ -48,7 +50,7 @@ class SearchArgs:
         Args:
             new_gender : the new gender being searched for
         """
-        self.gender = new_gender
+        self.arguments.update({"gender": new_gender})
 
     def set_cause(self, new_cause):
         """
@@ -57,24 +59,32 @@ class SearchArgs:
         Args:
             new_cause : the new cause of death being searched for
         """
-        self.cause = new_cause
+        self.arguments.update({"cause": new_cause})
     
-    def get_term_from_string(self, term):
+    def set_term_from_string(self, key, new_value):
         """
-        Returns a search term specified by a string.
+        Sets a search term specified by a string.
 
         Args:
-            term : the term being requested
-        Return
-            the value of the term being requested or an error message if the term does not exist
+            key : the term being set
+            new_value : the new value of the term being set
         """
-        if(term == "state"):
-            return self.state
-        if(term == "age"):
-            return self.age
-        if(term == "gender"):
-            return self.gender
-        if(term == "cause"):
-            return self.cause
-        else:
-            return "Term not contained in search"
+        self.arguments.update({key: new_value})
+    
+    def get_state(self):
+        return self.arguments.get("state_name")
+    
+    def get_age(self):
+        return self.arguments.get("age")
+    
+    def get_gender(self):
+        return self.arguments.get("gender")
+    
+    def get_cause(self):
+        return self.arguments.get("cause")
+    
+    def get_arguments(self):
+        return self.arguments
+    
+    def get_term_from_string(self, key):
+        return self.arguments.get(key)
