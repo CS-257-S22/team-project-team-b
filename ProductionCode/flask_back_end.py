@@ -76,12 +76,10 @@ class SiteData:
         random_fact = self.facts[index]
         return random_fact
     
-    #TODO figure out how to push this one level of abstraction lower
     def return_arguments_as_search(self, search_arguments):
         search = SearchArgs(None, None, None, None)
 
         for key in search_arguments:
-            
             value = search_arguments[key]
             if value != "None":
                 search.set_term_from_string(key, value)
