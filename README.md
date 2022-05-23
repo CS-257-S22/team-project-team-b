@@ -3,6 +3,6 @@ team-project-team-b created by GitHub Classroom
 
 ## Team Members
 + Jonas Bartels
-+ Cole Kleinhans
++ Lazuli Kleinhans
 + Tin Nguyen
 + Kai Weiner
