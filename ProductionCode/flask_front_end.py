@@ -18,8 +18,9 @@ def return_render_template(function_type):
     Returns:
         the correct render template for the passed function
     """
+
+    returned_data = my_data.get_search_result_from_function(function_type, request.args)
     search_args = my_data.return_arguments_as_search(request.args)
-    returned_data = my_data.get_search_result_from_function(function_type, search_args)
     
     return render_template(f'{function_type}.html', states = my_data.get_states(), 
         search_args = search_args, data = returned_data, causes = my_data.get_causes())
@@ -43,6 +44,21 @@ def homepage():
         the homepage render template
     """
     return render_template("home.html", fact = my_data.get_fact() )
+
+@app.route('/wwid/')
+def get_prediction():
+    """
+    Returns the render template for deaths per with no search_args.
+    
+    Returns:
+        the render template for deaths per with no search_args
+    """
+    return render_template('wwid.html', states = states, search_args = None)
+
+@app.route('/wwid/choose_arguments')
+def get_prediction_from_arguments_template_arguments():
+    
+    return return_render_template('wwid')
 
 @app.route('/dp/')
 def get_deaths_per_arguments_template():
