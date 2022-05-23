@@ -6,11 +6,10 @@ from flask_back_end import *
 app = Flask(__name__)
 my_data = None
 
-#TODO implement polymorphism for deaths_per and leading_cause so that no calculation at all occurs in front_end
 def return_render_template(function_type):
     """
-    Creates a SearchArgs object, gets the correct data for the search arguments and
-    returns the correct render template for the passed function.
+    Retrieves the search arguments and requested data for the requested function,
+    returns the correct render template with the this data
 
     Args:
         function_type: either 'dp' or 'lc', determines which function is used
@@ -19,8 +18,7 @@ def return_render_template(function_type):
         the correct render template for the passed function
     """
 
-    returned_data = my_data.get_search_result_from_function(function_type, request.args)
-    search_args = my_data.return_arguments_as_search(request.args)
+    returned_data, search_args = my_data.get_search_result_from_function(function_type, request.args)
     
     return render_template(f'{function_type}.html', states = my_data.get_states(), 
         search_args = search_args, data = returned_data, causes = my_data.get_causes())

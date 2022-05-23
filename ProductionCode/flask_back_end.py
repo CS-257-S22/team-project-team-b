@@ -107,9 +107,9 @@ class SiteData:
         search_args = self.return_arguments_as_search(search_args)
 
         if function_type == 'dp':
-            return self.get_deaths_per_arguments(search_args)
+            return self.get_deaths_per_arguments(search_args), search_args
         else:
-            return self.get_leading_cause_per_arguments(search_args)
+            return self.get_leading_cause_per_arguments(search_args), search_args
     
     def return_search_as_query(self, search):
         query = ""
