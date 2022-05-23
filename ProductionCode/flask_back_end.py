@@ -43,7 +43,6 @@ class SiteData:
         states.sort()
         return states
     
-    #TODO find out if all this self.source.get_query_result is feature envy
     def retrieve_states_from_database(self):
         states = self.source.get_query_result("SELECT DISTINCT state_name FROM death_data;", ())
         reformatted_states = self.reformat_list(states)
@@ -57,13 +56,20 @@ class SiteData:
         causes.sort()
         return causes
     
-    def retrieve_causes_from_database(self):
-        causes = self.source.get_query_result("SELECT DISTINCT cause FROM death_data;", ())
-        reformatted_causes = self.reformat_list(causes)
-        return reformatted_causes
+    def retrieve_causes_from_database(self, search = SearchArgs(None, None, None, None)):
+        query, query_inputs = self.return_query_with_search_arguments("SELECT DISTINCT cause FROM death_data WHERE TRUE", search)
+        causes = self.source.get_query_result(query, query_inputs)
+        causes = self.reformat_list(causes)
+        return causes
     
     def get_causes(self):
         return self.causes
+    
+    def reformat_list(self, list):
+        new_list = []
+        for item in list:
+            new_list.append(item[0])
+        return new_list
     
     def get_fact(self):
         """
@@ -99,22 +105,11 @@ class SiteData:
         """
 
         search_args = self.return_arguments_as_search(search_args)
-        death_data = self.retrieve_table_from_database()
 
         if function_type == 'dp':
             return self.get_deaths_per_arguments(search_args)
         else:
-            return return_leading_cause(death_data, search_args)
-    
-    def retrieve_table_from_database(self):
-        data_table = self.source.get_query_result("SELECT * FROM death_data;", ())
-        return data_table
-    
-    def reformat_list(self, list):
-        new_list = []
-        for item in list:
-            new_list.append(item[0])
-        return new_list
+            return self.get_leading_cause_per_arguments(search_args)
     
     def return_search_as_query(self, search):
         query = ""
@@ -136,6 +131,29 @@ class SiteData:
         total_deaths = self.reformat_list(total_deaths)
         return total_deaths[0]
     
+    def get_leading_cause_per_arguments(self, search):
+        causes = self.retrieve_causes_from_database(search)
+        causes.remove("Miscellaneous")
+        leading_cause = ""
+        leading_cause_deaths = 0
+
+        for cause in causes:
+            cause_deaths = self.get_deaths_per_cause(search, cause)
+            leading_cause, leading_cause_deaths = self.return_greater_cause(cause, cause_deaths, leading_cause, leading_cause_deaths)
+        
+        return (leading_cause, leading_cause_deaths)
+    
+    def get_deaths_per_cause(self, search, cause):
+        cause_search = search
+        cause_search.set_cause(cause)
+        cause_deaths = self.get_deaths_per_arguments(cause_search)
+        return cause_deaths
+    
+    def return_greater_cause(self, cause, cause_deaths, leading_cause, leading_cause_deaths):
+        if (leading_cause_deaths < cause_deaths):
+            leading_cause = cause
+            leading_cause_deaths = cause_deaths
+        return leading_cause, leading_cause_deaths
 
 
 # if __name__ == '__main__':
