@@ -125,4 +125,4 @@ if __name__ == '__main__':
     """ Runs the app. """
     my_data = SiteData()
 
-    app.run(port = "5130")
+    app.run(port = 5130, host = "0.0.0.0")

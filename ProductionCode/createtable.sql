@@ -6,3 +6,12 @@ CREATE TABLE death_data (
   cause text,
   deaths int
 );
+
+DROP TABLE misc_data;
+CREATE TABLE misc_data (
+  state_name text,
+  age text,
+  gender char,
+  cause text,
+  deaths int
+)
