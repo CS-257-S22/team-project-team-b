@@ -66,7 +66,7 @@ class SearchArgs:
         Sets a search term specified by a string.
 
         Args:
-            key : the term being set
+            key : the term being set 
             new_value : the new value of the term being set
         """
         self.arguments.update({key: new_value})
