@@ -55,6 +55,7 @@ class InputArguments():
 
 class DeathPredictor():
     def __init__(self, list_of_inputs, seed_influencer):
+        print(list_of_inputs)
         self.seed_influencer = seed_influencer
         self.input_arguments = InputArguments(list_of_inputs)
         self.data, self.misc_data = self.initialize_data("data.csv"), self.initialize_data("all_states_misc.csv")
@@ -103,6 +104,7 @@ class DeathPredictor():
         Returns:
             a Boolean.
         '''
+
         if self.equal_or_none(line.state, self.search_args.get_state()) & \
             self.equal_or_none(line.gender, self.search_args.get_gender()) & \
             (int(line.age) >= int(self.search_args.get_age())):
@@ -118,6 +120,7 @@ class DeathPredictor():
         for line in self.data:
             if self.is_relevant_line(line):
                 self.relevant_lines.append(line)
+
 
     def set_death_toll(self):
         '''
@@ -323,10 +326,12 @@ class DeathPredictor():
         '''
         Interprets user_input for gender as 'M', 'F', or None
         '''
+        
         gender_user_input = self.input_arguments.gender
         if gender_user_input != 'M' and gender_user_input != 'F':
             gender_user_input = None
-        self.search_args.gender, self.misc_search_args.gender = gender_user_input, gender_user_input
+        self.search_args.set_gender(gender_user_input)
+        self.misc_search_args.set_gender(gender_user_input)
         
     def set_date_of_death(self):
         '''
@@ -438,7 +443,7 @@ class DeathPredictor():
         '''
         Prepares some lists and variables that are required for set_misc_prediction().
         '''
-        self.set_cause_emimination_list()
+        self.set_cause_elimination_list()
         self.misc_search_args.set_age(self.age_at_death)
         self.set_relevant_misc_lines()
         self.set_misc_death_toll()
@@ -486,7 +491,7 @@ class DeathPredictor():
         return self.final_prediction
 
 if __name__ == "__main__":
-    seed_influencer = 1600.6
+    seed_influencer = 1600.2
     input_list = argv[1:]
     predictor_1 = DeathPredictor(input_list, seed_influencer)
     prediction_1 = predictor_1.get_prediction()
