@@ -9,7 +9,6 @@ CREATE TABLE death_data (
 
 DROP TABLE misc_data;
 CREATE TABLE misc_data (
-  state_name text,
   age text,
   gender char,
   cause text,
