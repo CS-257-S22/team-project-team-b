@@ -51,7 +51,7 @@ def get_prediction():
     Returns:
         the render template for deaths per with no search_args
     """
-    return render_template('wwid.html', states = states, search_args = None)
+    return render_template('wwid.html', states = my_data.get_states(), search_args = None)
 
 @app.route('/wwid/choose_arguments')
 def get_prediction_from_arguments_template_arguments():
