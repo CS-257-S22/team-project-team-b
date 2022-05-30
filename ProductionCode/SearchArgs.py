@@ -81,7 +81,11 @@ class SearchArgs:
         return self.arguments.get("gender")
     
     def get_cause(self):
-        return self.arguments.get("cause")
+        cause = self.arguments.get("cause")
+        if cause == None:
+            return cause
+        else:
+            return cause.lower()
     
     def get_arguments(self):
         return self.arguments
