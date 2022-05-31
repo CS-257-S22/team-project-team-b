@@ -3,7 +3,6 @@ Written by Jonas Bartels
 '''
 
 from datetime import datetime, date, timedelta
-from email.mime import base
 from sys import argv
 from SearchArgs import *
 import random
