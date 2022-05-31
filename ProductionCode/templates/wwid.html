@@ -35,17 +35,8 @@
                         {% endfor %}
                            
                     </select>
-                    <label for="ages">Choose your age:</label>
-                    <select name="age_choice">
-                        
-                        <option value="None">None</option>
-                        <option value="0">&lt;1</option>
-                        {% for number in range(99): %}
-                        <option value="{{number+1}}">{{number+1}}</option>
-                        {% endfor %}
-                        <option value="100">100+</option>
-                           
-                    </select>
+                    <label for="birthday">Date of Birth:</label>
+                        <input type="date" id="birthday" name="birthday">
                     <label for="genders">Choose your gender:</label>
                     <select name="gender_choice">
                         
