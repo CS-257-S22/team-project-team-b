@@ -14,3 +14,5 @@ psql -U teamb -h localhost -d teamb
 
 \copy death_data FROM 'data_smaller.csv' DELIMITER ',' CSV;
 \copy misc_data FROM 'all_states_misc.csv' DELIMITER ',' CSV;
+
+In order to access our website, run the file flask_app_controller.py
