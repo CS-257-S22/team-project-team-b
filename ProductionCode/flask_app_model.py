@@ -133,7 +133,7 @@ def connect():
         exit()
     return connection
     
-def get_query_result(query, query_inputs):
+def get_query_result(query, query_inputs = ()):
     """
     Returns a the information from the database specified by a inputted query and inputs
 
@@ -160,7 +160,7 @@ def return_list_of_states():
     Return:
         A sorted list of all unique states in the database
     """
-    states = get_query_result("SELECT DISTINCT state_name FROM death_data;", ())
+    states = get_query_result("SELECT DISTINCT state_name FROM death_data;")
     reformatted_states = reformat_list(states)
     reformatted_states.sort()
     return reformatted_states
@@ -210,8 +210,8 @@ def get_search_result_from_function(function_type, search_args):
     Returns the information about a search result for the passed arguments and function.
 
     Args:
-        function_type: either 'dp' or 'lc', determines which function is used
-        search_args: dictionary with the search arguments
+        function_type : either 'dp' or 'lc', determines which function is used
+        search_args : dictionary with the search arguments
 
     Return:
         an object containing information about the result of the search
@@ -331,4 +331,5 @@ facts = ["The leading cause of death for infants younger than 1 is extreme immat
 
 #referenced off of psycopg2 lab
 #heavily referenced https://www.psycopg.org/docs/usage.html#passing-parameters-to-sql-queries
+
 
