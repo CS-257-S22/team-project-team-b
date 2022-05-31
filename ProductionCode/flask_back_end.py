@@ -1,46 +1,60 @@
 import psycopg2
 import psqlConfig as config
 from SearchArgs import SearchArgs
-from SearchResult import SearchResult
 import random
 
 class DeathsPerSearchResult:
 
     def __init__(self, search, deaths):
-        self.state = search.get_state()
-        self.age = search.get_age()
-        self.gender = self.return_gender_as_string(search.get_gender())
-        self.cause = search.get_cause()
-        self.deaths = deaths
+
+        arguments = {
+            "state": search.get_state(),
+            "age": search.get_age(),
+            "gender": search.get_gender(),
+            "cause": search.get_cause(),
+        }
+
+        #TODO get the dictionary to set the right value
+        for key in arguments:
+            if arguments.get(key) == None:
+                arguments[key] = "all "+key+"s"
+        
+        self.state = arguments.get("state")
+        self.age = arguments.get("age")
+        self.gender = self.return_gender_as_string(arguments.get("gender"))
+        self.cause = arguments.get("cause")
+        self.deaths = self.return_deaths_as_int(deaths)
     
     def return_gender_as_string(self, gender):
         if gender == "M":
             return "males"
-        else:
+        elif gender == "F":
             return "females"
+        else:
+            return gender
+    
+    def return_deaths_as_int(self, deaths):
+        if deaths == None:
+            return 0
+        return deaths
+    
+    def get_deaths(self):
+        return self.deaths
     
     def get_data_as_string(self):
-        return "Number of deaths due to "+self.cause+" for "+self.gender+", age "+self.age+" in "+self.state+", is: \n"+self.deaths
+        return "Number of deaths due to "+self.cause+" for: "+self.gender+", age "+str(self.age)+" in "+self.state+", is: \n"+str(self.deaths)
 
 class LeadingCauseSearchResult(DeathsPerSearchResult):
 
     def __init__(self, search, cause, deaths):
-        super.__init__(search, deaths)
-        self.cause = cause
+        search.set_cause(cause)
+        super().__init__(search, deaths)
     
     def get_data_as_string(self):
         if (self.deaths != 0):
-            return "Leading cause of death for "+self.gender+", age "+self.age+" in "+self.state+", is: \n"
-            +self.cause.lower()+", which was responsible for the deaths of "+self.deaths+" people in this category."
+            return "Leading cause of death for: "+self.gender+", age "+str(self.age)+" in "+self.state+", is: "+self.cause.lower()+", which was responsible for the deaths of "+str(self.deaths)+" people in this category."
         else:
-            return "There were no deaths found for "+self.gender+", age "+self.age+" in "+self.state+"."
-
-connection = connect()
-states = return_list_of_states()
-causes = return_list_of_causes()
-facts = ["The leading cause of death for infants younger than 1 is extreme immaturity with 13,660 deaths", 
-    "For people 100 and up, the leading cause of death is dementia with 16,661 deaths.", "The most common cause of death for males is atherosclerotic heart disease, with 463,155 deaths.", 
-    "The age group with the most deaths is 88 years old with 399,487 deaths.", "The most common cause of death for females is alzheimer's disease with 406,313 deaths"]
+            return "There were no deaths found for: "+self.gender+", age "+str(self.age)+" in "+self.state+"."
     
 def connect():
     try:
@@ -52,6 +66,7 @@ def connect():
     
 def get_query_result(query, query_inputs):
     try:
+        connection = connect()
         cursor = connection.cursor()
         cursor.execute(query, query_inputs)
         result = cursor.fetchall()
@@ -69,9 +84,6 @@ def retrieve_states_from_database():
     states = get_query_result("SELECT DISTINCT state_name FROM death_data;", ())
     reformatted_states = reformat_list(states)
     return reformatted_states
-    
-def get_states():
-    return states
 
 def return_list_of_causes():
     causes = retrieve_causes_from_database()
@@ -82,9 +94,6 @@ def retrieve_causes_from_database(search = SearchArgs(None, None, None, None)):
     query, query_inputs = return_query_with_search_arguments("SELECT DISTINCT cause FROM death_data WHERE TRUE", search)
     causes = get_query_result(query, query_inputs)
     causes = reformat_list(causes)
-    return causes
-    
-def get_causes():
     return causes
     
 def reformat_list(list):
@@ -115,6 +124,7 @@ def get_search_result_from_function(function_type, search_args):
     Returns:
         the data for the search_args arguments using the passed function
     """
+    search_args = return_arguments_as_search(search_args)
 
     if function_type == 'dp':
         return get_deaths_per_arguments(search_args)
@@ -159,12 +169,13 @@ def get_leading_cause_per_arguments(search):
     leading_cause_deaths = 0
 
     for cause in causes:
-        cause_deaths = get_deaths_per_cause(search, cause)
+        search_result = get_deaths_per_cause(search, cause)
+        cause_deaths = search_result.get_deaths()
         leading_cause, leading_cause_deaths = return_greater_cause(cause, cause_deaths, leading_cause, leading_cause_deaths)
     
     result = LeadingCauseSearchResult(search, leading_cause, leading_cause_deaths)
 
-    return (leading_cause, leading_cause_deaths)
+    return result
     
 def get_deaths_per_cause(search, cause):
     cause_search = search
@@ -177,6 +188,10 @@ def return_greater_cause(cause, cause_deaths, leading_cause, leading_cause_death
         leading_cause = cause
         leading_cause_deaths = cause_deaths
     return leading_cause, leading_cause_deaths
+
+facts = ["The leading cause of death for infants younger than 1 is extreme immaturity with 13,660 deaths", 
+    "For people 100 and up, the leading cause of death is dementia with 16,661 deaths.", "The most common cause of death for males is atherosclerotic heart disease, with 463,155 deaths.", 
+    "The age group with the most deaths is 88 years old with 399,487 deaths.", "The most common cause of death for females is alzheimer's disease with 406,313 deaths"]
 
 #referenced off of psycopg2 lab
 #heavily referenced https://www.psycopg.org/docs/usage.html#passing-parameters-to-sql-queries
