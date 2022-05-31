@@ -3,6 +3,13 @@ import psqlConfig as config
 from SearchArgs import SearchArgs
 import random
 
+"""
+Written by Kai R. Weiner
+"""
+
+"""
+Stores information about a search for the amount of deaths given a set of search terms.
+"""
 class DeathsPerSearchResult:
 
     def __init__(self, search, deaths):
