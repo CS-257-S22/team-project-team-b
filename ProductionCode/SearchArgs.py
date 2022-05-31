@@ -3,7 +3,7 @@ Written by Kai R. Weiner
 """
 
 """
-Stores information about a search for the amount of deaths given a set of search terms.
+Stores information about a search for death information given a set of search terms.
 """
 class SearchArgs:
 
@@ -72,15 +72,39 @@ class SearchArgs:
         self.arguments.update({key: new_value})
     
     def get_state(self):
+        """
+        Returns the object's state
+
+        Returns:
+            The search argument's state
+        """
         return self.arguments.get("state_name")
     
     def get_age(self):
+        """
+        Returns the object's age
+
+        Returns:
+            The search argument's age
+        """
         return self.arguments.get("age")
     
     def get_gender(self):
+        """
+        Returns the object's gender
+
+        Returns:
+            The search argument's gender
+        """
         return self.arguments.get("gender")
     
     def get_cause(self):
+        """
+        Returns the object's cause
+
+        Returns:
+            The search argument's cause
+        """
         cause = self.arguments.get("cause")
         if cause == None:
             return cause
@@ -88,7 +112,52 @@ class SearchArgs:
             return cause.lower()
     
     def get_arguments(self):
+        """
+        Returns the dictionary containing the object's values
+
+        Returns:
+            The dictionary containing the search argument's values
+        """
         return self.arguments
     
     def get_term_from_string(self, key):
+        """
+        Returns the value corresponding specified term
+
+        Args:
+            key : the term being accessed
+        Returns:
+            The value corresponding to the specified term
+        """
         return self.arguments.get(key)
+    
+    def return_corrected_search_args_none_values(self):
+        """
+        Returns a copy of the object that replaces terms with None value
+        with the string specifying all of that key
+
+        Returns:
+            A copy of the object altered to not have values equal to None
+        """
+        search = SearchArgs(None, None, None, None)
+        for key in self.get_arguments():
+            if self.get_term_from_string(key) == None:
+                search.set_term_from_string(key, "all "+key+"s")
+            else:
+                search.set_term_from_string(key, self.get_term_from_string(key))
+        return search
+
+    def return_search_as_query(self):
+        """
+        Returns the terms in the SearchArgs object as a query string
+
+        Return:
+            The terms in the SearchArgs object as a query string
+        """
+        query = ""
+        query_inputs = ()
+        for key in self.get_arguments():
+            if (self.get_term_from_string(key) != None):
+                query += " AND "+key+" = %s"
+                query_inputs += (self.get_term_from_string(key),)
+        return query, query_inputs

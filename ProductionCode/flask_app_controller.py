@@ -1,9 +1,11 @@
 """ Written by Lazuli Kleinhans """
 
 from flask import Flask, render_template, request
-from flask_back_end import *
+from flask_app_model import *
 
 app = Flask(__name__)
+states = return_list_of_states()
+causes = return_list_of_causes()
 
 def return_render_template(function_type):
     """
@@ -19,7 +21,7 @@ def return_render_template(function_type):
 
     returned_data = get_search_result_from_function(function_type, request.args)
     
-    return render_template(f'{function_type}.html', states = get_states(), causes = get_causes(), data = returned_data.get_data_as_string())
+    return render_template(f'{function_type}.html', states = states, causes = causes, data = returned_data.get_data_as_string())
 
 @app.route('/')
 def welcomepage():
@@ -49,7 +51,7 @@ def get_prediction():
     Returns:
         the render template for deaths per with no search_args
     """
-    return render_template('wwid.html', states = get_states(), search_args = None)
+    return render_template('wwid.html', states = states, search_args = None)
 
 @app.route('/wwid/choose_arguments')
 def get_prediction_from_arguments_template_arguments():
@@ -64,7 +66,7 @@ def get_deaths_per_arguments_template():
     Returns:
         the render template for deaths per with no search_args
     """
-    return render_template('dp.html', states = get_states(), search_args = None, causes = get_causes())
+    return render_template('dp.html', states = states, search_args = None, causes = causes)
 
 @app.route('/dp/choose_arguments')
 def get_deaths_per_arguments_template_arguments():
@@ -84,7 +86,7 @@ def leading_cause_template():
     Returns:
         the render template for leading cause, with no search_args
     """
-    return render_template('lc.html', states = get_states(), search_args = None)
+    return render_template('lc.html', states = states, search_args = None)
 
 @app.route('/lc/choose_arguments')
 def leading_cause_template_arguments():
