@@ -331,6 +331,7 @@ class DeathPredictor():
             gender_user_input = None
         self.search_args.set_gender(gender_user_input)
         self.misc_search_args.set_gender(gender_user_input)
+    "hello, this is me testing"
         
     def set_date_of_death(self):
         '''
