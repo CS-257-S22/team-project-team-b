@@ -3,7 +3,7 @@ Written by Kai R. Weiner
 """
 
 """
-Stores information about a search for the amount of deaths given a set of search terms.
+Stores information about a search for death information given a set of search terms.
 """
 class SearchArgs:
 
@@ -124,6 +124,8 @@ class SearchArgs:
         """
         Returns the value corresponding specified term
 
+        Args:
+            key : the term being accessed
         Returns:
             The value corresponding to the specified term
         """
