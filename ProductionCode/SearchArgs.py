@@ -72,15 +72,39 @@ class SearchArgs:
         self.arguments.update({key: new_value})
     
     def get_state(self):
+        """
+        Returns the object's state
+
+        Returns:
+            The search argument's state
+        """
         return self.arguments.get("state_name")
     
     def get_age(self):
+        """
+        Returns the object's age
+
+        Returns:
+            The search argument's age
+        """
         return self.arguments.get("age")
     
     def get_gender(self):
+        """
+        Returns the object's gender
+
+        Returns:
+            The search argument's gender
+        """
         return self.arguments.get("gender")
     
     def get_cause(self):
+        """
+        Returns the object's cause
+
+        Returns:
+            The search argument's cause
+        """
         cause = self.arguments.get("cause")
         if cause == None:
             return cause
@@ -88,12 +112,31 @@ class SearchArgs:
             return cause.lower()
     
     def get_arguments(self):
+        """
+        Returns the dictionary containing the object's values
+
+        Returns:
+            The dictionary containing the search argument's values
+        """
         return self.arguments
     
     def get_term_from_string(self, key):
+        """
+        Returns the value corresponding specified term
+
+        Returns:
+            The value corresponding to the specified term
+        """
         return self.arguments.get(key)
     
     def return_corrected_search_args_none_values(self):
+        """
+        Returns a version of the search arguments that replaces terms with None value
+        with the string specifying all of that key
+
+        Returns:
+            A modified version of the object with the None values altered
+        """
         search = self
         for key in self.arguments:
             if self.get_term_from_string(key) == None:
