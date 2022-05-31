@@ -1,7 +1,7 @@
 """ Written by Lazuli Kleinhans """
 
 from flask import Flask, render_template, request
-from flask_back_end import *
+from flask_app_model import *
 
 app = Flask(__name__)
 states = return_list_of_states()
