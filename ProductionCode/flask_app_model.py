@@ -279,8 +279,7 @@ def get_leading_cause_per_arguments(search):
     Return:
         A LeadingCauseSearchResult storing information about the leading cause of deaths for the specified search
     """
-    causes = return_list_of_causes(search)
-    causes.remove("Miscellaneous")
+    causes = return_causes_without_misc_if_other_causes(search)
     leading_cause = ""
     leading_cause_deaths = 0
 
@@ -288,13 +287,26 @@ def get_leading_cause_per_arguments(search):
         search_with_cause = search
         search_with_cause.set_cause(cause)
 
-        causedeaths = get_deaths_per_arguments(search_with_cause)
-        cause_deaths = causedeaths.get_deaths()
+        cause_deaths = get_deaths_per_arguments(search_with_cause).get_deaths()
         leading_cause, leading_cause_deaths = return_greater_cause(cause, cause_deaths, leading_cause, leading_cause_deaths)
-    
     result = LeadingCauseSearchResult(search, leading_cause, leading_cause_deaths)
-
     return result
+
+def return_causes_without_misc_if_other_causes(search):
+    """
+    Returns a list of causes without the miscellaneous cause if it is not the only cause
+
+    Args:
+        Search : the search terms for the leading cause of deaths
+    Return:
+        A modified list of causes
+    """
+    causes = return_list_of_causes(search)
+
+    if(len(causes) > 1):
+        causes.remove("Miscellaneous")
+        
+    return causes
     
 def return_greater_cause(cause, cause_deaths, leading_cause, leading_cause_deaths):
     """
