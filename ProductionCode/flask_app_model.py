@@ -210,8 +210,8 @@ def get_search_result_from_function(function_type, search_args):
     Returns the information about a search result for the passed arguments and function.
 
     Args:
-        function_type: either 'dp' or 'lc', determines which function is used
-        search_args: a string containing information about the search arguments
+        function_type : either 'dp' or 'lc', determines which function is used
+        search_args : a string containing information about the search arguments
 
     Return:
         an object containing information about the result of the search
