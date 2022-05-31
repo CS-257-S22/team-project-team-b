@@ -92,3 +92,10 @@ class SearchArgs:
     
     def get_term_from_string(self, key):
         return self.arguments.get(key)
+    
+    def return_corrected_search_args_none_values(self):
+        search = self
+        for key in self.arguments:
+            if self.get_term_from_string(key) == None:
+                self.set_term_from_string(key, "all "+key+"s")
+        return search

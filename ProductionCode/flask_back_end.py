@@ -6,24 +6,17 @@ import random
 class DeathsPerSearchResult:
 
     def __init__(self, search, deaths):
-
-        arguments = {
-            "state": search.get_state(),
-            "age": search.get_age(),
-            "gender": search.get_gender(),
-            "cause": search.get_cause(),
-        }
-
-        #TODO get the dictionary to set the right value
-        for key in arguments:
-            if arguments.get(key) == None:
-                arguments[key] = "all "+key+"s"
-        
-        self.state = arguments.get("state")
-        self.age = arguments.get("age")
-        self.gender = self.return_gender_as_string(arguments.get("gender"))
-        self.cause = arguments.get("cause")
+        search = search.return_corrected_search_args_none_values()
+        self.state = self.return_corrected_state_name(search.get_state())
+        self.age = search.get_age()
+        self.gender = self.return_gender_as_string(search.get_gender())
+        self.cause = search.get_cause()
         self.deaths = self.return_deaths_as_int(deaths)
+    
+    def return_corrected_state_name(self, state):
+        if (state == "all state_names"):
+            return "all states"
+        return state
     
     def return_gender_as_string(self, gender):
         if gender == "M":
