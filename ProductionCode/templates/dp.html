@@ -71,8 +71,7 @@
                 </form>
             </div>
             <div>
-                {%if search_args != None: %}
-                <h3>Number of deaths due to {{search_args.get_cause()}} for {{search_args.get_gender()}}, {{search_args.get_age()}} in {{search_args.get_state()}}, is:</h3>
+                {%if data != None: %}
                 <p>{{data}}</p>
                 {%endif%}
             </div>

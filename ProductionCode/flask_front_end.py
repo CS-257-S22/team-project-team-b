@@ -4,7 +4,6 @@ from flask import Flask, render_template, request
 from flask_back_end import *
 
 app = Flask(__name__)
-my_data = None
 
 def return_render_template(function_type):
     """
@@ -18,10 +17,9 @@ def return_render_template(function_type):
         the correct render template for the passed function
     """
 
-    returned_data, search_args = my_data.get_search_result_from_function(function_type, request.args)
+    returned_data = get_search_result_from_function(function_type, request.args)
     
-    return render_template(f'{function_type}.html', states = my_data.get_states(), 
-        search_args = search_args, data = returned_data, causes = my_data.get_causes())
+    return render_template(f'{function_type}.html', states = get_states(), causes = get_causes(), data = returned_data.get_data_as_string())
 
 @app.route('/')
 def welcomepage():
@@ -31,7 +29,7 @@ def welcomepage():
     Returns:
         the welcome render template
     """
-    return render_template('welcome.html', fact = my_data.get_fact())
+    return render_template('welcome.html', fact = get_fact())
 
 @app.route('/home')
 def homepage():
@@ -41,7 +39,7 @@ def homepage():
     Returns:
         the homepage render template
     """
-    return render_template("home.html", fact = my_data.get_fact() )
+    return render_template("home.html", fact = get_fact() )
 
 @app.route('/wwid/')
 def get_prediction():
@@ -51,7 +49,7 @@ def get_prediction():
     Returns:
         the render template for deaths per with no search_args
     """
-    return render_template('wwid.html', states = my_data.get_states(), search_args = None)
+    return render_template('wwid.html', states = get_states(), search_args = None)
 
 @app.route('/wwid/choose_arguments')
 def get_prediction_from_arguments_template_arguments():
@@ -66,7 +64,7 @@ def get_deaths_per_arguments_template():
     Returns:
         the render template for deaths per with no search_args
     """
-    return render_template('dp.html', states = my_data.get_states(), search_args = None, causes = my_data.get_causes())
+    return render_template('dp.html', states = get_states(), search_args = None, causes = get_causes())
 
 @app.route('/dp/choose_arguments')
 def get_deaths_per_arguments_template_arguments():
@@ -86,7 +84,7 @@ def leading_cause_template():
     Returns:
         the render template for leading cause, with no search_args
     """
-    return render_template('lc.html', states = my_data.get_states(), search_args = None)
+    return render_template('lc.html', states = get_states(), search_args = None)
 
 @app.route('/lc/choose_arguments')
 def leading_cause_template_arguments():
@@ -123,6 +121,5 @@ def python_bug(e):
 
 if __name__ == '__main__':
     """ Runs the app. """
-    my_data = SiteData()
 
     app.run(port = 5130, host = "0.0.0.0")
