@@ -152,7 +152,7 @@ def get_query_result(query, query_inputs = ()):
         print("Internal error: ", e)
         exit()
     return result
-    
+
 def return_list_of_states():
     """
     Returns a sorted list of all unique states in the database
@@ -179,7 +179,7 @@ def return_list_of_causes(search = SearchArgs(None, None, None, None)):
     causes = reformat_list(causes)
     causes.sort()
     return causes
-    
+
 def reformat_list(list):
     """
     Reformats a list of tuples as a list
@@ -193,7 +193,7 @@ def reformat_list(list):
     for item in list:
         new_list.append(item[0])
     return new_list
-    
+
 def get_fact():
     """
     Retrieve fact from facts at given random int
@@ -201,7 +201,7 @@ def get_fact():
     Return:
         a string from facts 
     """
-    index = random.randint(0,4)
+    index = random.randint(0, len(facts) - 1)
     random_fact = facts[index]
     return random_fact  
 
@@ -211,7 +211,7 @@ def get_search_result_from_function(function_type, search_args):
 
     Args:
         function_type : either 'dp' or 'lc', determines which function is used
-        search_args : a string containing information about the search arguments
+        search_args : dictionary with the search arguments
 
     Return:
         an object containing information about the result of the search
@@ -228,7 +228,7 @@ def return_arguments_as_search(search_arguments):
     Returns a string of search arguments as a SearchArgs object
 
     Args:
-        search_arguments : a string of arguments
+        search_arguments : a dictionary of arguments
     Return:
         search_arguments as a SearchArgs object
     """
@@ -253,7 +253,7 @@ def return_query_with_search_arguments(query, search):
     search_query, query_inputs = search.return_search_as_query()
     query += search_query+";"
     return query, query_inputs
-    
+
 def get_deaths_per_arguments(search):
     """
     Returns a DeathsPerSearchResult storing information about the amount of deaths for a specified search
@@ -307,7 +307,7 @@ def return_causes_without_misc_if_other_causes(search):
         causes.remove("Miscellaneous")
         
     return causes
-    
+
 def return_greater_cause(cause, cause_deaths, leading_cause, leading_cause_deaths):
     """
     Returns the greater cause and death amount between compared parameters
