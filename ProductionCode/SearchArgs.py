@@ -133,14 +133,31 @@ class SearchArgs:
     
     def return_corrected_search_args_none_values(self):
         """
-        Returns a version of the search arguments that replaces terms with None value
+        Returns a copy of the object that replaces terms with None value
         with the string specifying all of that key
 
         Returns:
-            A modified version of the object with the None values altered
+            A copy of the object altered to not have values equal to None
         """
-        search = self
-        for key in self.arguments:
+        search = SearchArgs(None, None, None, None)
+        for key in self.get_arguments():
             if self.get_term_from_string(key) == None:
-                self.set_term_from_string(key, "all "+key+"s")
+                search.set_term_from_string(key, "all "+key+"s")
+            else:
+                search.set_term_from_string(key, self.get_term_from_string(key))
         return search
+
+    def return_search_as_query(self):
+        """
+        Returns the terms in the SearchArgs object as a query string
+
+        Return:
+            The terms in the SearchArgs object as a query string
+        """
+        query = ""
+        query_inputs = ()
+        for key in self.get_arguments():
+            if (self.get_term_from_string(key) != None):
+                query += " AND "+key+" = %s"
+                query_inputs += (self.get_term_from_string(key),)
+        return query, query_inputs

@@ -35,7 +35,7 @@ class DeathsPerSearchResult:
 
         Args:
             state : the state being corrected
-        Returns:
+        Return:
             A corrected version of the state
         """
         if (state == "all state_names"):
@@ -48,7 +48,7 @@ class DeathsPerSearchResult:
 
         Args:
             gender : the gender being returned as a string
-        Returns:
+        Return:
             The gender as a full string corresponding to its identity
         """
         if gender == "M":
@@ -64,7 +64,7 @@ class DeathsPerSearchResult:
 
         Args:
             The deaths being returned as an integer
-        Returns:
+        Return:
             deaths as an integer
         """
         if deaths == None:
@@ -75,7 +75,7 @@ class DeathsPerSearchResult:
         """
         Returns the deaths returned from the search
 
-        Returns:
+        Return:
             The deaths returned from the search
         """
         return self.deaths
@@ -84,7 +84,7 @@ class DeathsPerSearchResult:
         """
         Returns a string specifying the result of the search the object was created from
 
-        Returns:
+        Return:
             The results of the object's search in a string
         """
         return "Number of deaths due to "+self.cause+" for: "+self.gender+", age "+str(self.age)+" in "+self.state+", is: \n"+str(self.deaths)
@@ -111,7 +111,7 @@ class LeadingCauseSearchResult(DeathsPerSearchResult):
         """
         Returns a string specifying the result of the search the object was created from
 
-        Returns:
+        Return:
             The results of the object's search in a string
         """
         if (self.deaths != 0):
@@ -157,13 +157,13 @@ def return_list_of_states():
     """
     Returns a sorted list of all unique states in the database
 
-    Returns:
+    Return:
         A sorted list of all unique states in the database
     """
     states = get_query_result("SELECT DISTINCT state_name FROM death_data;", ())
     reformatted_states = reformat_list(states)
-    states.sort()
-    return states
+    reformatted_states.sort()
+    return reformatted_states
 
 def return_list_of_causes(search = SearchArgs(None, None, None, None)):
     """
@@ -171,13 +171,12 @@ def return_list_of_causes(search = SearchArgs(None, None, None, None)):
 
     Args:
         search : the specified terms to find unique causes of death for. By default will search all data.
-    Returns:
+    Return:
         A sorted list of all unique causes in the database that match a given search
     """
     query, query_inputs = return_query_with_search_arguments("SELECT DISTINCT cause FROM death_data WHERE TRUE", search)
     causes = get_query_result(query, query_inputs)
     causes = reformat_list(causes)
-    causes = retrieve_causes_from_database()
     causes.sort()
     return causes
     
@@ -187,7 +186,7 @@ def reformat_list(list):
 
     Args:
         list : the list being reformatted
-    Returns:
+    Return:
         A reformatted version of the provided list
     """
     new_list = []
@@ -199,7 +198,7 @@ def get_fact():
     """
     Retrieve fact from facts at given random int
         
-    Returns:
+    Return:
         a string from facts 
     """
     index = random.randint(0,4)
@@ -214,7 +213,7 @@ def get_search_result_from_function(function_type, search_args):
         function_type: either 'dp' or 'lc', determines which function is used
         search_args: SearchArgs object with the search arguments
 
-    Returns:
+    Return:
         an object containing information about the result of the search
     """
     search_args = return_arguments_as_search(search_args)
@@ -230,7 +229,7 @@ def return_arguments_as_search(search_arguments):
 
     Args:
         search_arguments : a string of arguments
-    Returns:
+    Return:
         search_arguments as a SearchArgs object
     """
     search = SearchArgs(None, None, None, None)
@@ -241,22 +240,29 @@ def return_arguments_as_search(search_arguments):
             search.set_term_from_string(key, value)
     return search
 
-#TODO reorganize these next two functions
 def return_query_with_search_arguments(query, search):
-    search_query, query_inputs = return_search_as_query(search)
-    query += search_query+";"
-    return query, query_inputs
+    """
+    Returns a query combined with a SearchArgs object's information
 
-def return_search_as_query(search):
-    query = ""
-    query_inputs = ()
-    for key in search.get_arguments():
-        if (search.get_term_from_string(key) != None):
-            query += " AND "+key+" = %s"
-            query_inputs += (search.get_term_from_string(key),)
+    Args:
+        query : the query being requested
+        search : the search the query applies to
+    Return:
+        A query combining the inputted query and the search's information
+    """
+    search_query, query_inputs = search.return_search_as_query()
+    query += search_query+";"
     return query, query_inputs
     
 def get_deaths_per_arguments(search):
+    """
+    Returns a DeathsPerSearchResult storing information about the amount of deaths for a specified search
+
+    Args:
+        search : a SearchArgs object containing the terms the amount of deaths is being searched for
+    Return:
+        A DeathsPerSearchResult storing information about the amount of deaths for the specified search
+    """
     query, query_inputs = return_query_with_search_arguments("SELECT SUM(deaths) FROM death_data WHERE TRUE", search)
     total_deaths = get_query_result(query, query_inputs)
     total_deaths = reformat_list(total_deaths)
@@ -264,29 +270,44 @@ def get_deaths_per_arguments(search):
     result = DeathsPerSearchResult(search, total_deaths[0])
     return result
 
-#TODO figure out if these functions should be placed into the search result classes
 def get_leading_cause_per_arguments(search):
+    """
+    Returns a LeadingCauseSearchResult storing information about the leading cause of deaths for a specified search
+
+    Args:
+        search : a SearchArgs object containing the terms the leading cause of deaths is being searched for
+    Return:
+        A LeadingCauseSearchResult storing information about the leading cause of deaths for the specified search
+    """
     causes = return_list_of_causes(search)
     causes.remove("Miscellaneous")
     leading_cause = ""
     leading_cause_deaths = 0
 
     for cause in causes:
-        search_result = get_deaths_per_cause(search, cause)
-        cause_deaths = search_result.get_deaths()
+        search_with_cause = search
+        search_with_cause.set_cause(cause)
+
+        causedeaths = get_deaths_per_arguments(search_with_cause)
+        cause_deaths = causedeaths.get_deaths()
         leading_cause, leading_cause_deaths = return_greater_cause(cause, cause_deaths, leading_cause, leading_cause_deaths)
     
     result = LeadingCauseSearchResult(search, leading_cause, leading_cause_deaths)
 
     return result
     
-def get_deaths_per_cause(search, cause):
-    cause_search = search
-    cause_search.set_cause(cause)
-    cause_deaths = get_deaths_per_arguments(cause_search)
-    return cause_deaths
-    
 def return_greater_cause(cause, cause_deaths, leading_cause, leading_cause_deaths):
+    """
+    Returns the greater cause and death amount between compared parameters
+
+    Args:
+        cause : cause of death amount being compared
+        cause_deaths : amount of deaths for new cause
+        leading_cause : current leading cause of death
+        leading_cause_deaths : amount of deaths for current leading cause
+    Return:
+        The cause and amount of deaths for the cause with more deaths
+    """
     if (leading_cause_deaths < cause_deaths):
         leading_cause = cause
         leading_cause_deaths = cause_deaths
