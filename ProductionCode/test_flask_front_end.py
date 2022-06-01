@@ -1,4 +1,5 @@
-from flask_front_end import *
+from flask_app_controller import *
+from flask_app_model import *
 import unittest
 
 class TestFrontEnd(unittest.TestCase):

@@ -3,7 +3,6 @@ Written by Jonas Bartels
 '''
 
 from datetime import datetime, date, timedelta
-from email.mime import base
 from sys import argv
 from SearchArgs import *
 import random
@@ -41,7 +40,7 @@ class DataLine():
         self.age = line[1]
         self.gender = line[2]
         self.cause = line[3]
-        self.code = line[4]
+        self.code = None #line[4]
         self.death_toll = line[5]
         self.parts_per = line[6]
         self.list = line
@@ -55,6 +54,7 @@ class InputArguments():
 
 class DeathPredictor():
     def __init__(self, list_of_inputs, seed_influencer):
+        print(list_of_inputs)
         self.seed_influencer = seed_influencer
         self.input_arguments = InputArguments(list_of_inputs)
         self.data, self.misc_data = self.initialize_data("data.csv"), self.initialize_data("all_states_misc.csv")
@@ -103,9 +103,10 @@ class DeathPredictor():
         Returns:
             a Boolean.
         '''
-        if self.equal_or_none(line.state, self.search_args.state) & \
-            self.equal_or_none(line.gender, self.search_args.gender) & \
-            (int(line.age) >= int(self.search_args.age)):
+
+        if self.equal_or_none(line.state, self.search_args.get_state()) & \
+            self.equal_or_none(line.gender, self.search_args.get_gender()) & \
+            (int(line.age) >= int(self.search_args.get_age())):
             return True
         else:
             return False
@@ -118,6 +119,7 @@ class DeathPredictor():
         for line in self.data:
             if self.is_relevant_line(line):
                 self.relevant_lines.append(line)
+
 
     def set_death_toll(self):
         '''
@@ -151,14 +153,14 @@ class DeathPredictor():
         else:
             return False
 
-    def set_codes_list(self):
+    def set_cause_elimination_list(self):
         '''
-        Creates a list of the ICD-10 codes in relevant_data at the age_at_death and stores it in self.codes_list.
+        Creates a list of the ICD-10 codes in relevant_data at the age_at_death and stores it in self.cause_emimination_list.
         '''
-        self.codes_list = []
+        self.cause_emimination_list = []
         for line in self.relevant_lines:
             if line.age == str(self.age_at_death):
-                self.codes_list.append(line.code)
+                self.cause_emimination_list.append(line.cause)
 
     def is_relevant_misc_line(self, line):
         '''
@@ -169,8 +171,8 @@ class DeathPredictor():
         Returns:
             Boolean value in accordance with the conditional
         '''
-        if self.equal_or_none(line.gender, self.search_args.gender) & \
-            (line.code not in self.codes_list) & \
+        if self.equal_or_none(line.gender, self.search_args.get_gender()) & \
+            (line.cause not in self.cause_emimination_list) & \
             (self.is_within_bounds(line.age)):
             return True
         else:
@@ -310,7 +312,7 @@ class DeathPredictor():
         '''
         self.age_in_days = int(str(self.today - self.date_of_birth).split(' ')[0])
         self.age = int(self.age_in_days//365.25)
-        self.search_args.age = self.age
+        self.search_args.set_age(self.age)
 
     def set_age_and_DoB(self):
         '''
@@ -323,10 +325,13 @@ class DeathPredictor():
         '''
         Interprets user_input for gender as 'M', 'F', or None
         '''
+        
         gender_user_input = self.input_arguments.gender
         if gender_user_input != 'M' and gender_user_input != 'F':
             gender_user_input = None
-        self.search_args.gender, self.misc_search_args.gender = gender_user_input, gender_user_input
+        self.search_args.set_gender(gender_user_input)
+        self.misc_search_args.set_gender(gender_user_input)
+    "hello, this is me testing"
         
     def set_date_of_death(self):
         '''
@@ -438,8 +443,8 @@ class DeathPredictor():
         '''
         Prepares some lists and variables that are required for set_misc_prediction().
         '''
-        self.set_codes_list()
-        self.misc_search_args.age = self.age_at_death
+        self.set_cause_elimination_list()
+        self.misc_search_args.set_age(self.age_at_death)
         self.set_relevant_misc_lines()
         self.set_misc_death_toll()
 

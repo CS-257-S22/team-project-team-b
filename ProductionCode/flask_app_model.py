@@ -133,7 +133,7 @@ def connect():
         exit()
     return connection
     
-def get_query_result(query, query_inputs):
+def get_query_result(query, query_inputs = ()):
     """
     Returns a the information from the database specified by a inputted query and inputs
 
@@ -152,7 +152,7 @@ def get_query_result(query, query_inputs):
         print("Internal error: ", e)
         exit()
     return result
-    
+
 def return_list_of_states():
     """
     Returns a sorted list of all unique states in the database
@@ -160,7 +160,7 @@ def return_list_of_states():
     Return:
         A sorted list of all unique states in the database
     """
-    states = get_query_result("SELECT DISTINCT state_name FROM death_data;", ())
+    states = get_query_result("SELECT DISTINCT state_name FROM death_data;")
     reformatted_states = reformat_list(states)
     reformatted_states.sort()
     return reformatted_states
@@ -179,7 +179,7 @@ def return_list_of_causes(search = SearchArgs(None, None, None, None)):
     causes = reformat_list(causes)
     causes.sort()
     return causes
-    
+
 def reformat_list(list):
     """
     Reformats a list of tuples as a list
@@ -193,7 +193,7 @@ def reformat_list(list):
     for item in list:
         new_list.append(item[0])
     return new_list
-    
+
 def get_fact():
     """
     Retrieve fact from facts at given random int
@@ -201,7 +201,7 @@ def get_fact():
     Return:
         a string from facts 
     """
-    index = random.randint(0,4)
+    index = random.randint(0, len(facts) - 1)
     random_fact = facts[index]
     return random_fact  
 
@@ -210,8 +210,8 @@ def get_search_result_from_function(function_type, search_args):
     Returns the information about a search result for the passed arguments and function.
 
     Args:
-        function_type: either 'dp' or 'lc', determines which function is used
-        search_args: SearchArgs object with the search arguments
+        function_type : either 'dp' or 'lc', determines which function is used
+        search_args : dictionary with the search arguments
 
     Return:
         an object containing information about the result of the search
@@ -228,7 +228,7 @@ def return_arguments_as_search(search_arguments):
     Returns a string of search arguments as a SearchArgs object
 
     Args:
-        search_arguments : a string of arguments
+        search_arguments : a dictionary of arguments
     Return:
         search_arguments as a SearchArgs object
     """
@@ -253,7 +253,7 @@ def return_query_with_search_arguments(query, search):
     search_query, query_inputs = search.return_search_as_query()
     query += search_query+";"
     return query, query_inputs
-    
+
 def get_deaths_per_arguments(search):
     """
     Returns a DeathsPerSearchResult storing information about the amount of deaths for a specified search
@@ -279,8 +279,7 @@ def get_leading_cause_per_arguments(search):
     Return:
         A LeadingCauseSearchResult storing information about the leading cause of deaths for the specified search
     """
-    causes = return_list_of_causes(search)
-    causes.remove("Miscellaneous")
+    causes = return_causes_without_misc_if_other_causes(search)
     leading_cause = ""
     leading_cause_deaths = 0
 
@@ -288,14 +287,27 @@ def get_leading_cause_per_arguments(search):
         search_with_cause = search
         search_with_cause.set_cause(cause)
 
-        causedeaths = get_deaths_per_arguments(search_with_cause)
-        cause_deaths = causedeaths.get_deaths()
+        cause_deaths = get_deaths_per_arguments(search_with_cause).get_deaths()
         leading_cause, leading_cause_deaths = return_greater_cause(cause, cause_deaths, leading_cause, leading_cause_deaths)
-    
     result = LeadingCauseSearchResult(search, leading_cause, leading_cause_deaths)
-
     return result
-    
+
+def return_causes_without_misc_if_other_causes(search):
+    """
+    Returns a list of causes without the miscellaneous cause if it is not the only cause
+
+    Args:
+        Search : the search terms for the leading cause of deaths
+    Return:
+        A modified list of causes
+    """
+    causes = return_list_of_causes(search)
+
+    if(len(causes) > 1):
+        causes.remove("Miscellaneous")
+        
+    return causes
+
 def return_greater_cause(cause, cause_deaths, leading_cause, leading_cause_deaths):
     """
     Returns the greater cause and death amount between compared parameters
@@ -319,4 +331,5 @@ facts = ["The leading cause of death for infants younger than 1 is extreme immat
 
 #referenced off of psycopg2 lab
 #heavily referenced https://www.psycopg.org/docs/usage.html#passing-parameters-to-sql-queries
+
 
