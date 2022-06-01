@@ -319,7 +319,7 @@ class DeathPredictor():
         self.set_DoB(self.date_to_list(self.input_arguments.birthday))
         self.set_age()
 
-    def set_gender(self):
+    def g(self):
         '''
         Interprets user_input for gender as 'M', 'F', or None
         '''
@@ -485,10 +485,16 @@ class DeathPredictor():
         self.make_final_prediction()
         return self.final_prediction
 
-if __name__ == "__main__":
+def deaths_predictor(inputs_list):
     seed_influencer = 1600.5
+    predictor = DeathPredictor(inputs_list, seed_influencer)
+    prediction = predictor.get_prediction()
+    return prediction
+
+if __name__ == "__main__":
+    seed_influencer = 7443.5
     input_list = argv[1:]
     predictor_1 = DeathPredictor(input_list, seed_influencer)
     prediction_1 = predictor_1.get_prediction()
-    print(prediction_1.combined_cause, prediction_1.reformatted_date)
+    print(prediction_1.combined_cause, prediction_1.reformatted_date, "at age", prediction_1.age_at_death)
     prediction_1.get_days_remaining()
