@@ -20,11 +20,10 @@
             <div>
                 <p>Please enter your information.</p>
                 <form action="choose_arguments">
-                    <label for="name">Input your name:<textarea type="text" id="name_input" name="name_input" rows="1" cols="20">None</textarea></label>
+                    <label for="name">Input your name:<textarea type="text" id="name_input" name="name_input" rows="1" cols="20"></textarea></label><br>
                     <label for="states">Choose your state:</label>
                     <select name="state_choice">
                         
-                        <option value="None">Any</option>
                         {% for state in states: %}
                         <option value="{{state}}">{{state}}</option>
                         {% endfor %}
@@ -47,8 +46,7 @@
             </div>
             <div>
                 {%if search_args != None: %}
-                <h3>Leading cause of death for: {{search_args.state}}, {{search_args.age}}, {{search_args.gender}}:</h3>
-                <p><b>{{data[0]}}</b> with <b>{{data[1]}}</b> deaths</p>
+                <p>{{data}}</p>
                 {%endif%}
             </div>
         </div>
