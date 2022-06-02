@@ -2,6 +2,7 @@ import psycopg2
 import psqlConfig as config
 from SearchArgs import SearchArgs
 import random
+from death_predictor import deaths_predictor
 
 """
 Written by Kai R. Weiner
@@ -233,12 +234,15 @@ def get_search_result_from_function(function_type, search_args):
     Return:
         an object containing information about the result of the search
     """
-    search_args = return_arguments_as_search(search_args)
-
     if function_type == 'dp':
+        search_args = return_arguments_as_search(search_args)
         return get_deaths_per_arguments(search_args)
-    else:
+    elif function_type == 'lc':
+        search_args = return_arguments_as_search(search_args)
         return get_leading_cause_per_arguments(search_args)
+    else:
+        result = deaths_predictor(search_args)
+        return result
 
 def return_arguments_as_search(search_arguments):
     """

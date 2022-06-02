@@ -19,6 +19,10 @@ class Prediction():
         self.name = name
         self.reformat_date()
         self.get_days_remaining()
+        months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        self.month = months[int(self.date_list[1])-1]
+        self.day =  self.number_to_string(self.date_list[2])
+        self.year = self.date_list[0]
 
     def set_combined_cause(self):
         if self.misc_cause != None:
@@ -50,15 +54,7 @@ class Prediction():
         return output
 
 
-    def get_data_as_string(self):
-        message = "{} will die on the {} of {}, {}, at {} years of age. The cause of death will have been {}. Remaining: {} days."
-        months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        print(self.date_list)
-        month = months[int(self.date_list[1])-1]
-        day = self.number_to_string(self.date_list[2])
-        year = self.date_list[0]
 
-        return message.format(self.name, day, month, year, self.age_at_death, self.combined_cause, self.days_remaining)
             
 class DataLine():
     def __init__(self, line):
