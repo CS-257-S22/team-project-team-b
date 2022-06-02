@@ -106,10 +106,11 @@ class SearchArgs:
             The search argument's cause
         """
         cause = self.arguments.get("cause")
-        if cause == None:
-            return cause
-        else:
-            return cause.lower()
+        return cause
+        # if cause == None:
+        #     return cause
+        # else:
+        #     return cause.lower()
     
     def get_arguments(self):
         """
@@ -141,8 +142,11 @@ class SearchArgs:
         """
         search = SearchArgs(None, None, None, None)
         for key in self.get_arguments():
-            if self.get_term_from_string(key) == None:
-                search.set_term_from_string(key, "all "+key+"s")
+            if self.get_term_from_string(key) == None or self.get_term_from_string(key) == "Any":
+                if key == "age":
+                    search.set_term_from_string(key, "undefined")
+                else:
+                    search.set_term_from_string(key, "all "+key+"s")
             else:
                 search.set_term_from_string(key, self.get_term_from_string(key))
         return search
@@ -154,10 +158,11 @@ class SearchArgs:
         Return:
             The terms in the SearchArgs object as a query string
         """
+        
         query = ""
         query_inputs = ()
         for key in self.get_arguments():
-            if (self.get_term_from_string(key) != None):
+            if (self.get_term_from_string(key) != None and self.get_term_from_string(key) != "Any"):
                 query += " AND "+key+" = %s"
                 query_inputs += (self.get_term_from_string(key),)
         return query, query_inputs

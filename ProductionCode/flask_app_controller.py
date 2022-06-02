@@ -20,8 +20,8 @@ def return_render_template(function_type):
     """
 
     returned_data = get_search_result_from_function(function_type, request.args)
-    
-    return render_template(f'{function_type}.html', states = states, causes = causes, data = returned_data.get_data_as_string())
+
+    return render_template(f'{function_type}.html', states = states, causes = causes, data_boolean = True, data_points = returned_data)
 
 @app.route('/')
 def welcomepage():
@@ -51,7 +51,7 @@ def get_prediction():
     Returns:
         the render template for deaths per with no search_args
     """
-    return render_template('wwid.html', states = states, search_args = None)
+    return render_template('wwid.html', states = states, data_boolean = False)
 
 @app.route('/wwid/choose_arguments')
 def get_prediction_from_arguments_template_arguments():
@@ -66,7 +66,7 @@ def get_deaths_per_arguments_template():
     Returns:
         the render template for deaths per with no search_args
     """
-    return render_template('dp.html', states = states, search_args = None, causes = causes)
+    return render_template('dp.html', states = states, data_boolean = False, causes = causes, data_points = DeathsPerSearchResult(SearchArgs(None, None, None, None), 0))
 
 @app.route('/dp/choose_arguments')
 def get_deaths_per_arguments_template_arguments():
@@ -86,7 +86,7 @@ def leading_cause_template():
     Returns:
         the render template for leading cause, with no search_args
     """
-    return render_template('lc.html', states = states, search_args = None)
+    return render_template('lc.html', states = states, data_boolean = False, data_points = DeathsPerSearchResult(SearchArgs(None, None, None, None), 0))
 
 @app.route('/lc/choose_arguments')
 def leading_cause_template_arguments():
@@ -124,4 +124,5 @@ def python_bug(e):
 if __name__ == '__main__':
     """ Runs the app. """
 
-    app.run(port = 5130, host = "0.0.0.0")
+    # app.run(port = 5130, host = "0.0.0.0")
+    app.run(port = 5120, host = "0.0.0.0")
