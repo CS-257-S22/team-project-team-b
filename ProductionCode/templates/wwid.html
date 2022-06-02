@@ -46,7 +46,7 @@
             </div>
             <div>
                 {%if search_args != None: %}
-                <p>{{data}}</p>
+                <p>"{{data_points.name}} will die on the {{data_points.day}} of {{data_points.month}}, {{data_points.year}}, at {{data_points.age_at_deaths}} years of age. The cause of death will have been {{data_points.combined_cause.lower}}. Remaining: {{data_points.self.days_remaining}} days."</p>
                 {%endif%}
             </div>
         </div>
