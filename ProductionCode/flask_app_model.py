@@ -25,7 +25,7 @@ class DeathsPerSearchResult:
         """
         search = search.return_corrected_search_args_none_values()
         self.state = self.return_corrected_state_name(search.get_state())
-        self.age = search.get_age()
+        self.age = self.return_corrected_age(search.get_age())
         self.gender = self.return_gender_as_string(search.get_gender())
         self.cause = search.get_cause()
         self.deaths = self.return_deaths_as_int(deaths)
@@ -42,6 +42,23 @@ class DeathsPerSearchResult:
         if (state == "all state_names"):
             return "all states"
         return state
+
+    def return_corrected_age(self, age):
+        """
+        Returns <1 if age is 0, 100+ if age is 100.
+        Otherwise just returns age.
+        
+        Args:
+            age : int age being corrected
+        Return:
+            String of the corrected age
+        """
+        if (age == "0"):
+            return "<1"
+        elif (age == "100"):
+            return "+100"
+        else:
+            return str(age)
     
     def return_gender_as_string(self, gender):
         """
