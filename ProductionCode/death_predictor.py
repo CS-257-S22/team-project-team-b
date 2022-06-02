@@ -9,14 +9,16 @@ import random
 from csv_reading import *
 
 class Prediction():
-    def __init__(self, date_of_death, age_at_death, main_cause, misc_cause):
+    def __init__(self, date_of_death, age_at_death, main_cause, misc_cause, name):
         self.date = date_of_death
         self.age_at_death = age_at_death
         self.main_cause = main_cause
         self.misc_cause = misc_cause
         self.today = date.today()
         self.set_combined_cause()
+        self.name = name
         self.reformat_date()
+        self.get_days_remaining()
 
     def set_combined_cause(self):
         if self.misc_cause != None:
@@ -26,13 +28,37 @@ class Prediction():
             self.combined_cause = self.main_cause
 
     def get_days_remaining(self):
-        print(self.date - self.today)
+        full_object = str(self.date - self.today)
+        self.days_remaining = full_object.split(' ')[0]
 
     def reformat_date(self):
         listed = str(self.date).split('-')
-        base = "{}/{}/{}"
-        self.reformatted_date = base.format(listed[1], listed[2], listed[0])
-                
+        self.date_list = listed
+
+    def number_to_string(self, number):
+        number = str(number)
+        suffix = ""
+        if number[-1] == "1":
+            suffix = "st"
+        elif number[-1] == "2":
+            suffix = "nd"
+        elif number[-1] == "3":
+            suffix = "rd"
+        else:
+            suffix = "th"
+        output = number+suffix
+        return output
+
+
+    def get_data_as_string(self):
+        message = "{} will die on the {} of {}, {}, at {} years of age. The cause of death will have been {}. Remaining: {} days."
+        months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        print(self.date_list)
+        month = months[int(self.date_list[1])-1]
+        day = self.number_to_string(self.date_list[2])
+        year = self.date_list[0]
+
+        return message.format(self.name, day, month, year, self.age_at_death, self.combined_cause, self.days_remaining)
             
 class DataLine():
     def __init__(self, line):
@@ -40,27 +66,25 @@ class DataLine():
         self.age = line[1]
         self.gender = line[2]
         self.cause = line[3]
-        self.code = None #line[4]
-        self.death_toll = line[5]
-        self.parts_per = line[6]
+        self.death_toll = line[4]
+
         self.list = line
 
 class InputArguments():
     def __init__(self, list_of_inputs):
-        self.name = list_of_inputs[0]
-        self.state = list_of_inputs[1]
-        self.birthday = list_of_inputs[2]
-        self.gender = list_of_inputs[3]
+        self.name = list_of_inputs['name_input']
+        self.state = list_of_inputs['state_choice']
+        self.birthday = list_of_inputs["birthday"]
+        self.gender = list_of_inputs['gender_choice']
 
 class DeathPredictor():
     def __init__(self, list_of_inputs, seed_influencer):
-        print(list_of_inputs)
         self.seed_influencer = seed_influencer
         self.input_arguments = InputArguments(list_of_inputs)
-        self.data, self.misc_data = self.initialize_data("data.csv"), self.initialize_data("all_states_misc.csv")
+        self.data, self.misc_data = self.initialize_data("data_smaller.csv"), self.initialize_data("all_states_misc.csv")
         self.search_args = SearchArgs(self.input_arguments.state, None, None, None)
         self.misc_search_args = SearchArgs(None, None, None, None)
-        self.set_gender()
+        self.set_g()
         self.set_today()
         self.set_age_and_DoB()
         self.generate_seed()
@@ -92,6 +116,10 @@ class DeathPredictor():
         '''
         initialized_file = get_CSV_data_as_list(data_file_name)
         list_of_lists = load_CSV_list(initialized_file)
+        for i in range(len(list_of_lists)):
+            lst = list_of_lists[i]  
+            if len(lst) == 4:
+                list_of_lists[i] = ['fillerstate'] + lst
         return self.list_to_line_object(list_of_lists)
         
     def is_relevant_line(self, line):
@@ -262,19 +290,6 @@ class DeathPredictor():
         '''
         return (value == compared) or (value == None)
 
-    def remove_zeros(self, number_string):
-        '''
-        Removes redundant zeros from inputs
-        
-        Args:
-            number_string: a integer as a string
-        Returns:
-            the same string with any zeros removed from the front 
-        '''
-        while number_string[0] == '0':
-            number_string = number_string[1:]
-        return(number_string)
-
     def set_DoB(self, date_of_birth_list):
         '''
         Takes in date_of_birth_list and creates date object from datetime library. Stores it in self.date_of_birth
@@ -282,22 +297,10 @@ class DeathPredictor():
         Args:
             date_of_birth_list: the user's birthday split into month, day, and year
         '''
-        birth_day = int(self.remove_zeros(date_of_birth_list[1]))
-        birth_month = int(self.remove_zeros(date_of_birth_list[0]))
-        birth_year = int(date_of_birth_list[2])
+        birth_day = int(date_of_birth_list[2])
+        birth_month = int(date_of_birth_list[1])
+        birth_year = int(date_of_birth_list[0])
         self.date_of_birth = date(birth_year, birth_month, birth_day)
-
-    def date_to_list(self, date):
-        '''
-        Takes in the data as the user wrote it and splices it into a list for further processing.
-        
-        Args:
-            date: user input form of date
-        Returns:
-            date as a list [M, D, Y]
-        '''
-        list = str(date).split('/')
-        return list
 
     def set_today(self):
         '''
@@ -318,10 +321,10 @@ class DeathPredictor():
         '''
         Uses date_of_birth to determine age of user and stores that in age.
         '''
-        self.set_DoB(self.date_to_list(self.input_arguments.birthday))
+        self.set_DoB(self.input_arguments.birthday.split('-'))
         self.set_age()
 
-    def g(self):
+    def set_g(self):
         '''
         Interprets user_input for gender as 'M', 'F', or None
         '''
@@ -474,7 +477,7 @@ class DeathPredictor():
             misc_cause = self.misc_death_line.cause
         else:
             misc_cause = None
-        self.final_prediction = Prediction(self.date_of_death, self.age_at_death, self.base_death_line.cause, misc_cause)
+        self.final_prediction = Prediction(self.date_of_death, self.age_at_death, self.base_death_line.cause, misc_cause, self.input_arguments.name)
 
     def get_prediction(self):
         '''
