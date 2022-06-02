@@ -15,45 +15,79 @@
                     <li><a href="/dp">Deaths Per</a></li>
                     <li><a href="/lc">Leading Cause</a></li>
                     <li><a href="/wwid">When Will I Die?</a></li>
-                  </ul> 
+                </ul> 
             </nav>
         </div>
         <div>
             <h2>Deaths Per</h2>
             <div>
-                <p>Which category of people would you like to see the number of deaths of? Choose "None" for everyone in that category.</p>
+                <p>Which category of people would you like to see the number of deaths of? Choose "Any" for everyone in that category.</p>
                 <form action="choose_arguments">
+
                     <label for="states">Choose a state:</label>
                     <select name="state_name">
-                        
+                        <!-- If statements maintain user input in field after submitting search -->
                         <option value="None">Any</option>
                         {% for state in states: %}
-                        <option value="{{state}}">{{state}}</option>
+                            {% if state == data_points.state: %}
+                                <option value="{{state}}" selected>{{state}}</option>
+                            {% else: %}
+                                <option value="{{state}}">{{state}}</option>
+                            {% endif %}
                         {% endfor %}
-                           
                     </select>
+
                     <label for="ages">Choose an age:</label>
                     <select name="age">
-                        
+                        <!-- If statements maintain user input in field after submitting search -->                        
                         <option value="None">Any</option>
-                        <option value="0">&lt;1</option>
+
+                        {% if "&lt;1" == data_points.age: %}
+                            <option value="0" selected>&lt;1</option>
+                        {% else: %}
+                            <option value="0">&lt;1</option>
+                        {% endif %}
+
                         {% for number in range(99): %}
-                        <option value="{{number+1}}">{{number+1}}</option>
+                            {% if (number+1)|string == data_points.age: %}
+                                <option value="{{number+1}}" selected>{{number+1}}</option>
+                            {% else: %}
+                                <option value="{{number+1}}">{{number+1}}</option>
+                            {% endif %}
                         {% endfor %}
-                        <option value="100">100+</option>
-                           
+
+                        {% if "100+" == data_points.age: %} 
+                            <option value="100" selected>100+</option>
+                        {% else: %}
+                            <option value="100">100+</option>
+                        {% endif %}
                     </select>
+
                     <label for="genders">Choose a gender:</label>
                     <select name="gender">
-                        
-                        <option value="None">Any</option>
-                        <option value="F">F</option>
-                        <option value="M">M</option>
-                           
+                        <!-- If statements maintain user input in field after submitting search -->
+                        {% if "females" == data_points.gender: %}
+                            <option value="None">Any</option>
+                            <option value="F" selected>Female</option>
+                            <option value="M">Male</option>
+                        {% elif "males" == data_points.gender: %}
+                            <option value="None">Any</option>
+                            <option value="F">Female</option>
+                            <option value="M" selected>Male</option>
+                        {% else: %}
+                            <option value="None">Any</option>
+                            <option value="F">Female</option>
+                            <option value="M">Male</option>
+                        {% endif %}
                     </select>
+
                     <!-- Autocomplete code source: https://www.geeksforgeeks.org/autocomplete-input-suggestion-using-python-and-flask/ -->
                     <label for="causes">Type a cause:</label>
-                    <textarea type="text" id="cause" name="cause" rows="1" cols="20">None</textarea>
+                    {% if "all causes" == data_points.cause: %}
+                        <textarea type="text" id="cause" name="cause" rows="1" cols="20">Any</textarea>
+                    {% else: %}
+                        <textarea type="text" id="cause" name="cause" rows="1" cols="20">{{data_points.cause}}</textarea>
+                    {% endif %}
                         <script>
                         $(function() {
                             var availableTags = [
@@ -70,8 +104,9 @@
                 </form>
             </div>
             <div>
-                {%if data != None: %}
-                <p>{{data}}</p>
+                {%if data_boolean: %}
+                    <p>Number of deaths due to <b>{{data_points.cause.lower()}}</b> for <b>{{data_points.gender}}</b>, age <b>{{data_points.age}}</b> in <b>{{data_points.state}}</b>, is:</p>
+                    <p><b>{{data_points.deaths}}</b></p>
                 {%endif%}
             </div>
         </div>
