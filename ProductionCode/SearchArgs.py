@@ -142,7 +142,7 @@ class SearchArgs:
         """
         search = SearchArgs(None, None, None, None)
         for key in self.get_arguments():
-            if self.get_term_from_string(key) == None or self.get_term_from_string(key) == "All":
+            if self.get_term_from_string(key) == None or self.get_term_from_string(key) == "Any":
                 if key == "age":
                     search.set_term_from_string(key, "undefined")
                 else:
