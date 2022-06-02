@@ -2,6 +2,7 @@
 
 from flask import Flask, render_template, request
 from flask_app_model import *
+from death_predictor import Prediction
 
 app = Flask(__name__)
 states = return_list_of_states()
@@ -51,7 +52,7 @@ def get_prediction():
     Returns:
         the render template for deaths per with no search_args
     """
-    return render_template('wwid.html', states = states, data_boolean = False)
+    return render_template('wwid.html', states = states, data_boolean = False, data_points = Prediction(None,15,'','',''))
 
 @app.route('/wwid/choose_arguments')
 def get_prediction_from_arguments_template_arguments():
@@ -86,7 +87,7 @@ def leading_cause_template():
     Returns:
         the render template for leading cause, with no search_args
     """
-    return render_template('lc.html', states = states, data_boolean = False, data_points = DeathsPerSearchResult(SearchArgs(None, None, None, None), 0))
+    return render_template('lc.html', states = states, data_boolean = False, data_points = LeadingCauseSearchResult(SearchArgs(None, None, None, None), "None", 0))
 
 @app.route('/lc/choose_arguments')
 def leading_cause_template_arguments():

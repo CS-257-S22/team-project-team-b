@@ -10,6 +10,8 @@ from csv_reading import *
 
 class Prediction():
     def __init__(self, date_of_death, age_at_death, main_cause, misc_cause, name):
+        if date_of_death == None:
+            date_of_death = date(1,1,1)
         self.date = date_of_death
         self.age_at_death = age_at_death
         self.main_cause = main_cause
@@ -50,7 +52,7 @@ class Prediction():
             suffix = "rd"
         else:
             suffix = "th"
-        output = number+suffix
+        output = number + suffix
         return output
 
 
