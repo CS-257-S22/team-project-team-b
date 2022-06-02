@@ -25,7 +25,7 @@
                     <label for="states">Choose your state:</label>
                     <select name="state_choice">
                         
-                        <option value="None">None</option>
+                        <option value="None">Any</option>
                         {% for state in states: %}
                         <option value="{{state}}">{{state}}</option>
                         {% endfor %}
@@ -34,7 +34,7 @@
                     <label for="ages">Choose your age:</label>
                     <select name="age_choice">
                         
-                        <option value="None">None</option>
+                        <option value="None">Any</option>
                         <option value="0">&lt;1</option>
                         {% for number in range(99): %}
                         <option value="{{number+1}}">{{number+1}}</option>
@@ -45,7 +45,7 @@
                     <label for="genders">Choose your gender:</label>
                     <select name="gender_choice">
                         
-                        <option value="None">Other</option>
+                        <option value="None">Any</option>
                         <option value="F">Female</option>
                         <option value="M">Male</option>
                            
