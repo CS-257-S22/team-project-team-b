@@ -107,10 +107,6 @@ class SearchArgs:
         """
         cause = self.arguments.get("cause")
         return cause
-        # if cause == None:
-        #     return cause
-        # else:
-        #     return cause.lower()
     
     def get_arguments(self):
         """

@@ -1,8 +1,7 @@
-import psycopg2
-import psqlConfig as config
 from SearchArgs import SearchArgs
 import random
 from death_predictor import deaths_predictor
+from psql_access import *
 
 """
 Written by Kai R. Weiner
@@ -137,40 +136,6 @@ class LeadingCauseSearchResult(DeathsPerSearchResult):
         else:
             return "There were no deaths found for: "+self.gender+", age "+str(self.age)+" in "+self.state+"."
     
-def connect():
-    """
-    Forms a connection to the database.
-
-    Return:
-        A connection to the database, throw an exception if the connection fails
-    """
-    try:
-        connection = psycopg2.connect(database=config.database, user=config.user, password=config.password, host="localhost")
-    except Exception as e:
-        print("Connection error: ", e)
-        exit()
-    return connection
-    
-def get_query_result(query, query_inputs = ()):
-    """
-    Returns a the information from the database specified by a inputted query and inputs
-
-    Args:
-        query : the query being requested to the database
-        query_inputs : the parameters of the query
-    Return:
-        The result of the specified query, gives an exception if the query fails to execute
-    """
-    try:
-        connection = connect()
-        cursor = connection.cursor()
-        cursor.execute(query, query_inputs)
-        result = cursor.fetchall()
-    except Exception as e:
-        print("Internal error: ", e)
-        exit()
-    return result
-
 def return_list_of_states():
     """
     Returns a sorted list of all unique states in the database
@@ -182,6 +147,20 @@ def return_list_of_states():
     reformatted_states = reformat_list(states)
     reformatted_states.sort()
     return reformatted_states
+
+def reformat_list(list):
+    """
+    Reformats a list of tuples as a list
+
+    Args:
+        list : the list being reformatted
+    Return:
+        A reformatted version of the provided list
+    """
+    new_list = []
+    for item in list:
+        new_list.append(item[0])
+    return new_list
 
 def return_list_of_causes(search = SearchArgs(None, None, None, None)):
     """
@@ -197,20 +176,6 @@ def return_list_of_causes(search = SearchArgs(None, None, None, None)):
     causes = reformat_list(causes)
     causes.sort()
     return causes
-
-def reformat_list(list):
-    """
-    Reformats a list of tuples as a list
-
-    Args:
-        list : the list being reformatted
-    Return:
-        A reformatted version of the provided list
-    """
-    new_list = []
-    for item in list:
-        new_list.append(item[0])
-    return new_list
 
 def get_fact():
     """
@@ -272,6 +237,7 @@ def return_query_with_search_arguments(query, search):
         A query combining the inputted query and the search's information
     """
     search_query, query_inputs = search.return_search_as_query()
+
     query += search_query+";"
     return query, query_inputs
 
