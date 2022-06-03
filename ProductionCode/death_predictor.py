@@ -78,13 +78,26 @@ class DeathPredictor():
     def __init__(self, list_of_inputs, seed_influencer):
         self.seed_influencer = seed_influencer
         self.input_arguments = InputArguments(list_of_inputs)
-        self.data, self.misc_data = self.initialize_death_data("death_data"), self.initialize_misc_data("misc_data")
-        self.search_args = SearchArgs(self.input_arguments.state, None, self.input_arguments.gender, None)
-        self.misc_search_args = SearchArgs(None, None, self.input_arguments.gender, None)
+        self.search_args = SearchArgs(self.input_arguments.state, None, None, None)
+        self.misc_search_args = SearchArgs(None, None, None, None)
         self.set_today()
         self.set_age_and_DoB()
+        self.set_gender()
         self.generate_seed()
         self.set_seed()
+
+        self.data, self.misc_data = self.initialize_death_data(), self.initialize_misc_data()
+    
+    def set_gender(self):
+        '''
+        Interprets user_input for gender as 'M', 'F', or None
+        '''
+        
+        gender_user_input = self.input_arguments.gender
+        if gender_user_input == "None":
+            gender_user_input = None
+        self.search_args.set_gender(gender_user_input)
+        self.misc_search_args.set_gender(gender_user_input)
 
     def list_to_line_object(self, list):
         '''
@@ -101,7 +114,7 @@ class DeathPredictor():
             output_list.append(DataLine(line))
         return output_list
 
-    def initialize_death_data(self, table_name):
+    def initialize_death_data(self):
         '''
         Turns data from a CSV into a list of DataLine objects
 
@@ -110,19 +123,16 @@ class DeathPredictor():
         Returns:
             a 1D list of DataLine objects
         '''
-        dataline_list = get_query_result("SELECT * FROM %s;", (table_name,))
-        formatted_dataline_list = reformat_list(dataline_list)
-        print(formatted_dataline_list)
+        query_string = "SELECT * FROM death_data;"
+        dataline_list = get_query_result(query_string)
 
-        initialized_file = get_CSV_data_as_list(data_file_name)
-        list_of_lists = load_CSV_list(initialized_file)
-        for i in range(len(list_of_lists)):
-            lst = list_of_lists[i]  
+        for i in range(len(dataline_list)):
+            lst = dataline_list[i]  
             if len(lst) == 4:
-                list_of_lists[i] = ['fillerstate'] + lst
-        return self.list_to_line_object(list_of_lists)
+                dataline_list[i] = ('fillerstate',) + lst
+        return self.list_to_line_object(dataline_list)
 
-    def initialize_misc_data(self, table_name):
+    def initialize_misc_data(self):
         '''
         Turns data from a CSV into a list of DataLine objects
 
@@ -131,8 +141,8 @@ class DeathPredictor():
         Returns:
             a 1D list of DataLine objects
         '''
-        query_string = "SELECT * FROM "+table_name+";"
-        #dataline_list = get_query_result("SELECT * FROM %s;", (table_name,))
+
+        query_string = "SELECT * FROM misc_data;"
         dataline_list = get_query_result(query_string)
 
         for i in range(len(dataline_list)):
@@ -151,10 +161,21 @@ class DeathPredictor():
             a Boolean.
         '''
 
-        if self.equal_or_none(line.state, self.search_args.get_state()) & \
-            self.equal_or_none(line.gender, self.search_args.get_gender()) & \
-            (int(line.age) >= int(self.search_args.get_age())):
-            return True
+        # if self.equal_or_none(line.state, self.search_args.get_state()) & \
+        #     self.equal_or_none(line.gender, self.search_args.get_gender()) & \
+        #     (int(line.age) >= int(self.search_args.get_age())):
+        #     return True
+        # else:
+        #     return False
+
+        if (self.equal_or_none(line.state, self.search_args.get_state())):
+            if (self.equal_or_none(line.gender, self.search_args.get_gender())):
+                if (int(line.age) >= int(self.search_args.get_age())):
+                    return True
+                else:
+                    return False
+            else:
+                return False
         else:
             return False
 
@@ -307,7 +328,7 @@ class DeathPredictor():
         Returns:
             Boolean
         '''
-        return (value == compared) or (value == None)
+        return (value == compared) | (value == None)
 
     def set_DoB(self, date_of_birth_list):
         '''
