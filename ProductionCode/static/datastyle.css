@@ -1,3 +1,11 @@
+:root{
+    --banner_background: #004e6d;
+    --banner_text: #f5edaa;
+    --content_text: black;
+    
+}
+
+
 h1, h2, h3 {
     font-family: Verdana, Geneva, sans-serif; 
 }
@@ -5,13 +13,13 @@ h1, h2, h3 {
 h1 {
     padding-top: 1em;
     padding-bottom: 1em;
-    background-color: #004e6d;
-    color: #f5edaa;
+    background-color: var(--banner_background);
+    color: var(--banner_text);
     text-align: center;
 }
 
 h2 { 
-    border-bottom: 4px double rgba(0, 0, 0, 0.483);
+    border-bottom: 4px double var(--content_text);
 }
 
 h3 {
@@ -40,7 +48,7 @@ body {
      tag.
 */
 nav ul {
-    border: 2px solid #f5edaa;
+    border: 2px solid var(--banner_text);
     list-style-type: none;
     overflow: hidden;
 }
@@ -57,7 +65,7 @@ nav li {
 */
 nav li a {
     display: block;
-    color: #004e6d;
+    color: var(--banner_background);
     text-decoration: none;
     text-align: center;
     padding: 14px 16px;
@@ -65,8 +73,8 @@ nav li a {
 
 /* When you mouse over something in the nav bar, turn it blue. */
 nav li a:hover {
-    color: #f5edaa;
-    background-color: #004e6d;
+    color: var(--banner_text);
+    background-color: var(--banner_background);
 }
 
 /* Making the form items be on new lines
@@ -86,54 +94,48 @@ select{
     display:block;
     margin:10px 0 10px 0;
 }
-
+/* 
 input { 
     display: block;
     padding: 16px;
     border: none; 
     margin: auto;
-    color: #f5edaa;
+    color: var(--banner_text);
     background-color: #004e6d; 
-}
+} */
 
 .button { 
-    padding: 1em 1.2em;
-    border: none; 
-    margin: auto;
-    color: #f5edaa;
-    background-color: #004e6d; 
-    border: none;
-    text-align: center;
-    cursor: pointer;
+    border: none
+    
 
 }
 input:hover {
-    color: #004e6d;
-    background-color: #f5edaa; 
+    color: var(--banner_background);
+    background-color: var(--banner_text); 
 }
 
 #new_fact{ 
     display: block;
     padding: 16px;
-    color: #f5edaa;
-    background-color: #004e6d;
+    color: var(--banner_text);
+    background-color:var(--banner_background);
     border: none;
     margin: auto;
 }
 
 #new_fact:hover{ 
-    background-color: #f5edaa
+    background-color: var(--banner_text)
 }
 
 #new_fact a{ 
     padding: 18px;
     text-decoration: none;
-    color: #f5edaa;
+    color: var(--banner_text);
     font: Verdana, Geneva, sans-serif;
 }
 
 #new_fact a:hover{ 
-    color: #004e6d;
+    color: var(--banner_background);
 }
 
 @keyframes fade_in {
@@ -145,7 +147,7 @@ input:hover {
     animation-fill-mode: backwards;
     animation-name: fade_in; 
     animation-duration: 2s;
-    color: black;
+    color: var(--content_text);
 } 
 
 .animate-fadeIn h2{
@@ -176,7 +178,7 @@ input:hover {
 #ux { 
     padding: 8px;
     margin: 25px;
-    border-bottom: 4px double rgba(0, 0, 0, 0.483);
+    border-bottom: 4px double var(--content_text);
 }
 
 
