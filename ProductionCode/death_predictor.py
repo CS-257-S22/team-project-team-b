@@ -79,10 +79,9 @@ class DeathPredictor():
     def __init__(self, list_of_inputs, seed_influencer):
         self.seed_influencer = seed_influencer
         self.input_arguments = InputArguments(list_of_inputs)
-        self.data, self.misc_data = self.initialize_data("death_data"), self.initialize_data("misc_data")
-        self.search_args = SearchArgs(self.input_arguments.state, None, None, None)
-        self.misc_search_args = SearchArgs(None, None, None, None)
-        self.set_g()
+        self.data, self.misc_data = self.initialize_death_data("death_data"), self.initialize_misc_data("misc_data")
+        self.search_args = SearchArgs(self.input_arguments.state, None, self.input_arguments.gender, None)
+        self.misc_search_args = SearchArgs(None, None, self.input_arguments.gender, None)
         self.set_today()
         self.set_age_and_DoB()
         self.generate_seed()
@@ -103,7 +102,28 @@ class DeathPredictor():
             output_list.append(DataLine(line))
         return output_list
 
-    def initialize_data(self, table_name):
+    def initialize_death_data(self, table_name):
+        '''
+        Turns data from a CSV into a list of DataLine objects
+
+        Args:
+            data_file_name: The name of the CSV to be converted
+        Returns:
+            a 1D list of DataLine objects
+        '''
+        dataline_list = get_query_result("SELECT * FROM %s;", (table_name,))
+        formatted_dataline_list = reformat_list(dataline_list)
+        print(formatted_dataline_list)
+
+        initialized_file = get_CSV_data_as_list(data_file_name)
+        list_of_lists = load_CSV_list(initialized_file)
+        for i in range(len(list_of_lists)):
+            lst = list_of_lists[i]  
+            if len(lst) == 4:
+                list_of_lists[i] = ['fillerstate'] + lst
+        return self.list_to_line_object(list_of_lists)
+
+    def initialize_misc_data(self, table_name):
         '''
         Turns data from a CSV into a list of DataLine objects
 
@@ -325,18 +345,6 @@ class DeathPredictor():
         '''
         self.set_DoB(self.input_arguments.birthday.split('-'))
         self.set_age()
-
-    def set_g(self):
-        '''
-        Interprets user_input for gender as 'M', 'F', or None
-        '''
-        
-        gender_user_input = self.input_arguments.gender
-        if gender_user_input != 'M' and gender_user_input != 'F':
-            gender_user_input = None
-        self.search_args.set_gender(gender_user_input)
-        self.misc_search_args.set_gender(gender_user_input)
-    "hello, this is me testing"
         
     def set_date_of_death(self):
         '''
@@ -500,11 +508,3 @@ def deaths_predictor(inputs_list):
     predictor = DeathPredictor(inputs_list, seed_influencer)
     prediction = predictor.get_prediction()
     return prediction
-
-if __name__ == "__main__":
-    seed_influencer = 7443.5
-    input_list = argv[1:]
-    predictor_1 = DeathPredictor(input_list, seed_influencer)
-    prediction_1 = predictor_1.get_prediction()
-    print(prediction_1.combined_cause, prediction_1.reformatted_date, "at age", prediction_1.age_at_death)
-    prediction_1.get_days_remaining()
