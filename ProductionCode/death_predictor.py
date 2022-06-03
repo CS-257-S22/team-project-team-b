@@ -7,6 +7,7 @@ from sys import argv
 from SearchArgs import *
 import random
 from csv_reading import *
+from flask_app_model import get_query_result, reformat_list
 
 class Prediction():
     def __init__(self, date_of_death, age_at_death, main_cause, misc_cause, name):
@@ -56,10 +57,7 @@ class Prediction():
             suffix = "th"
         output = number + suffix
         return output
-
-
-
-            
+      
 class DataLine():
     def __init__(self, line):
         self.state = line[0]
@@ -81,7 +79,7 @@ class DeathPredictor():
     def __init__(self, list_of_inputs, seed_influencer):
         self.seed_influencer = seed_influencer
         self.input_arguments = InputArguments(list_of_inputs)
-        self.data, self.misc_data = self.initialize_data("data_smaller.csv"), self.initialize_data("all_states_misc.csv")
+        self.data, self.misc_data = self.initialize_data("death_data"), self.initialize_data("misc_data")
         self.search_args = SearchArgs(self.input_arguments.state, None, None, None)
         self.misc_search_args = SearchArgs(None, None, None, None)
         self.set_g()
@@ -105,7 +103,7 @@ class DeathPredictor():
             output_list.append(DataLine(line))
         return output_list
 
-    def initialize_data(self, data_file_name):
+    def initialize_data(self, table_name):
         '''
         Turns data from a CSV into a list of DataLine objects
 
@@ -114,6 +112,10 @@ class DeathPredictor():
         Returns:
             a 1D list of DataLine objects
         '''
+        dataline_list = get_query_result("SELECT * FROM %s;", (table_name,))
+        formatted_dataline_list = reformat_list(dataline_list)
+        print(formatted_dataline_list)
+
         initialized_file = get_CSV_data_as_list(data_file_name)
         list_of_lists = load_CSV_list(initialized_file)
         for i in range(len(list_of_lists)):
