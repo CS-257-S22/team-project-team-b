@@ -96,6 +96,17 @@ input {
     background-color: #004e6d; 
 }
 
+.button { 
+    padding: 1em 1.2em;
+    border: none; 
+    margin: auto;
+    color: #f5edaa;
+    background-color: #004e6d; 
+    border: none;
+    text-align: center;
+    cursor: pointer;
+
+}
 input:hover {
     color: #004e6d;
     background-color: #f5edaa; 
