@@ -161,7 +161,6 @@ input:hover {
     animation-duration: 4s; 
     animation-delay: 2s;
 }
-
 .animation-fadeIn { 
     animation-fill-mode: backwards;
     animation-name: fade_in; 

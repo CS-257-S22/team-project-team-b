@@ -44,6 +44,8 @@ class Prediction():
     def number_to_string(self, number):
         number = str(number)
         suffix = ""
+        if number[0] == "0":
+            number = number[1:]
         if number[-1] == "1":
             suffix = "st"
         elif number[-1] == "2":
@@ -492,7 +494,7 @@ class DeathPredictor():
         return self.final_prediction
 
 def deaths_predictor(inputs_list):
-    seed_influencer = 1600.5
+    seed_influencer = 3231.4
     predictor = DeathPredictor(inputs_list, seed_influencer)
     prediction = predictor.get_prediction()
     return prediction
