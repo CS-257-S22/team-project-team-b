@@ -1,13 +1,12 @@
 '''
 Written by Jonas Bartels
 '''
-
 from datetime import datetime, date, timedelta
 from sys import argv
 from SearchArgs import *
 import random
 from csv_reading import *
-from flask_app_model import get_query_result, reformat_list
+from psql_access import *
 
 class Prediction():
     def __init__(self, date_of_death, age_at_death, main_cause, misc_cause, name):
@@ -112,17 +111,15 @@ class DeathPredictor():
         Returns:
             a 1D list of DataLine objects
         '''
-        dataline_list = get_query_result("SELECT * FROM %s;", (table_name,))
-        formatted_dataline_list = reformat_list(dataline_list)
-        print(formatted_dataline_list)
+        query_string = "SELECT * FROM "+table_name+";"
+        #dataline_list = get_query_result("SELECT * FROM %s;", (table_name,))
+        dataline_list = get_query_result(query_string)
 
-        initialized_file = get_CSV_data_as_list(data_file_name)
-        list_of_lists = load_CSV_list(initialized_file)
-        for i in range(len(list_of_lists)):
-            lst = list_of_lists[i]  
+        for i in range(len(dataline_list)):
+            lst = dataline_list[i]  
             if len(lst) == 4:
-                list_of_lists[i] = ['fillerstate'] + lst
-        return self.list_to_line_object(list_of_lists)
+                dataline_list[i] = ('fillerstate',) + lst
+        return self.list_to_line_object(dataline_list)
         
     def is_relevant_line(self, line):
         '''
