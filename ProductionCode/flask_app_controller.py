@@ -56,7 +56,7 @@ def get_prediction():
 
 @app.route('/wwid/choose_arguments')
 def get_prediction_from_arguments_template_arguments():
-    
+    print("test")
     return return_render_template('wwid')
 
 @app.route('/dp/')
