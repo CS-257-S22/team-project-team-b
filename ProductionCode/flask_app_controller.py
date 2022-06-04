@@ -125,5 +125,5 @@ def python_bug(e):
 if __name__ == '__main__':
     """ Runs the app. """
 
-    app.run(port = 5131, host = "0.0.0.0")
+    app.run(port = 5132, host = "0.0.0.0")
     # app.run(port = 5120, host = "0.0.0.0")
