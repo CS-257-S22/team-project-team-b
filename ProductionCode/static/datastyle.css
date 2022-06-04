@@ -1,25 +1,60 @@
 :root{
-    --banner_background: #004e6d;
-    --banner_text: #f5edaa;
-    --content_text: black;
+    /* Main Color Palette */
+    --main_color: #005577;
+    --main_color_dark:#003b52;
+    --main_color_light:#198cba;
+    --main_light_color:aliceblue;
+    --light_text_color:#f5edaa;
     
+    --banner_background_color: var(--main_color);
+    --banner_text_color: var(--light_text_color);
+
+    --page_background_color: var(--main_light_color);
+    --content_text_color: black;
+
+    --button_background_color: var(--main_color);
+    --button_hover_background_color: var(--main_color_light);
+    --button_active_background_color: var(--main_color_dark);
 }
 
+body {
+    margin-left: 5%;
+    margin-right: 5%;
+    background-color: var(--page_background_color); 
+}
 
 h1, h2, h3 {
     font-family: Verdana, Geneva, sans-serif; 
 }
 
-h1 {
-    padding-top: 1em;
-    padding-bottom: 1em;
-    background-color: var(--banner_background);
-    color: var(--banner_text);
+#header{
+    background-color: var(--banner_background_color);
+    border-radius: 8px;
     text-align: center;
+    margin-top: 23px;
 }
 
+h1 {
+    border-radius: 8px;
+    padding-top: 1em;
+    padding-bottom: .2em;
+    background-color: var(--banner_background_color);
+    color: var(--banner_text_color);
+
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    font-family: Verdana, Geneva, sans-serif;
+    line-height: 1.4;
+}
+/* Navigation bar list items should render starting at the left margin. */
+
 h2 { 
-    border-bottom: 4px double var(--content_text);
+    border-bottom: 4px double var(--content_text_color);
 }
 
 h3 {
@@ -32,50 +67,7 @@ p, label {
     line-height: 1.4;
 }
 
-li {
-    font-family: Verdana, Geneva, sans-serif;
-    line-height: 1.4;
-}
 
-body {
-    margin-left: 5%;
-    margin-right: 5%;
-    background-color: aliceblue; 
-}
-
-/* The nav bar is an unordered list whose items are not bulleted. 
-     We only want to apply this styling to unordered lists inside of the nav
-     tag.
-*/
-nav ul {
-    border: 2px solid var(--banner_text);
-    list-style-type: none;
-    overflow: hidden;
-}
-
-/* Navigation bar list items should render starting at the left margin. */
-nav li {
-    float: left;
-    font-size: 1.1em;
-    font-weight: bold;
-}
-
-/* Navigation bar items should link to elements on the page, or to other pages.
-     This is the "a" tag. So this says "apply this style to links within the nav bar".
-*/
-nav li a {
-    display: block;
-    color: var(--banner_background);
-    text-decoration: none;
-    text-align: center;
-    padding: 14px 16px;
-}
-
-/* When you mouse over something in the nav bar, turn it blue. */
-nav li a:hover {
-    color: var(--banner_text);
-    background-color: var(--banner_background);
-}
 
 /* Making the form items be on new lines
     https://stackoverflow.com/questions/10349276/how-to-put-web-form-elements-on-a-new-line#10349338
@@ -90,52 +82,74 @@ label{
 /* Making the form items be on new lines
     https://stackoverflow.com/questions/10349276/how-to-put-web-form-elements-on-a-new-line#10349338
 */
-select{
-    display:block;
-    margin:10px 0 10px 0;
-}
-/* 
-input { 
-    display: block;
-    padding: 16px;
-    border: none; 
-    margin: auto;
-    color: var(--banner_text);
-    background-color: #004e6d; 
-} */
 
-.button { 
-    border: none
+.button_holder{
+    text-align: center;
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active{
+    text-decoration: none;
     
-
 }
-input:hover {
-    color: var(--banner_background);
-    background-color: var(--banner_text); 
+.button { 
+    border: 2px solid var(--button_background_color);
+    font-size:100%;
+    padding: 1em 1.2em;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition-duration: 0.5s;
+    color: var(--banner_text_color);
+    background-color: var(--button_background_color);
+}
+
+.button:hover{
+    background-color: var(--button_hover_background_color);
+}
+
+.button:active{
+    background-color: var(--button_active_background_color);
+    transition-duration: 0s;
+}
+
+#on .menu_button{
+    background-color: var(--main_color_dark);
+   
+}
+
+input,select { 
+    border: 1px solid var(--button_background_color);
+    border-radius: 3px;
+    margin: auto;
+    color: var(--content_text_color);
+    background-color: var(--page_backgroundd_color)
 }
 
 #new_fact{ 
     display: block;
     padding: 16px;
-    color: var(--banner_text);
-    background-color:var(--banner_background);
+    color: var(--banner_text_color);
+    background-color:var(--banner_background_color);
     border: none;
     margin: auto;
 }
 
 #new_fact:hover{ 
-    background-color: var(--banner_text)
+    background-color: var(--banner_text_color)
 }
 
 #new_fact a{ 
     padding: 18px;
     text-decoration: none;
-    color: var(--banner_text);
+    color: var(--banner_text_color);
     font: Verdana, Geneva, sans-serif;
 }
 
 #new_fact a:hover{ 
-    color: var(--banner_background);
+    color: var(--banner_background_color);
 }
 
 @keyframes fade_in {
@@ -176,9 +190,19 @@ input:hover {
 }
 
 #ux { 
-    padding: 8px;
+    padding: 50px 0px;
+    
     margin: 25px;
-    border-bottom: 4px double var(--content_text);
+    border-bottom: 4px double var(--content_text_color);
 }
+
+li{
+
+    font-family: Verdana, Geneva, sans-serif;
+    line-height: 1.4;
+
+}
+
+
 
 

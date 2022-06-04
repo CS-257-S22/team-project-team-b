@@ -8,10 +8,18 @@
             <h1>Predictor of Passing</h1>
             <nav>
                 <ul>
-                    <li><a href="/home">Home</a></li>
-                    <li><a href="/dp">Deaths Per</a></li>
-                    <li><a href="/lc">Leading Cause</a></li>
-                    <li><a href="/wwid">When Will I Die?</a></li>
+                    <a href="/wwid">
+                        <button class = "button menu_button">When Will I Die? </button>
+                    </a>
+                    <a href="/home">
+                        <button class = "button menu_button">Home </button>
+                    </a>
+                    <a id = "on" href="/lc">
+                        <button class = "button menu_button">Leading Cause </button>
+                    </a>
+                    <a href="/dp">
+                        <button class= "button menu_button">Deaths Per </button>
+                    </a>
                 </ul> 
             </nav>
         </div>
@@ -32,7 +40,7 @@
                                 <option value="{{state}}">{{state}}</option>
                             {% endif %}
                         {% endfor %}
-                    </select>
+                    </select><br><br>
 
                     <label for="ages">Choose an age:</label>
                     <select name="age">
@@ -59,6 +67,7 @@
                             <option value="100">100+</option>
                         {% endif %}
                     </select>
+                    <br><br>
 
                     <label for="genders">Choose a gender:</label>
                     <select name="gender">
@@ -77,8 +86,12 @@
                             <option value="M">Male</option>
                         {% endif %}
                     </select>
+                    <br><br>
 
-                    <input type="submit" value="Submit">
+
+                    <div class = button_holder>
+                        <button class = "button submit_args_button" type="submit">Find Leading Cause</button>
+                    </div>
                 </form>
             </div>
             <div>

@@ -11,10 +11,18 @@
             <h1>Predictor of Passing</h1>
             <nav>
                 <ul>
-                    <li><a href="/home">Home</a></li>
-                    <li><a href="/dp">Deaths Per</a></li>
-                    <li><a href="/lc">Leading Cause</a></li>
-                    <li><a href="/wwid">When Will I Die?</a></li>
+                    <a href="/wwid">
+                        <button class = "button menu_button">When Will I Die? </button>
+                    </a>
+                    <a href="/home">
+                        <button class = "button menu_button">Home </button>
+                    </a>
+                    <a href="/lc">
+                        <button class = "button menu_button">Leading Cause </button>
+                    </a>
+                    <a id = "on" href="/dp">
+                        <button class= "button menu_button">Deaths Per </button>
+                    </a>
                 </ul> 
             </nav>
         </div>
@@ -36,6 +44,7 @@
                             {% endif %}
                         {% endfor %}
                     </select>
+                    <br><br>
 
                     <label for="ages">Choose an age:</label>
                     <select name="age">
@@ -62,6 +71,7 @@
                             <option value="100">100+</option>
                         {% endif %}
                     </select>
+                    <br><br>
 
                     <label for="genders">Choose a gender:</label>
                     <select name="gender">
@@ -80,13 +90,14 @@
                             <option value="M">Male</option>
                         {% endif %}
                     </select>
+                    <br><br>
 
                     <!-- Autocomplete code source: https://www.geeksforgeeks.org/autocomplete-input-suggestion-using-python-and-flask/ -->
                     <label for="causes">Type a cause:</label>
                     {% if "all causes" == data_points.cause: %}
-                        <textarea type="text" id="cause" name="cause" rows="1" cols="20">Any</textarea>
+                        <input type="text" id="cause" name="cause" placeholder = "Cause of Death" rows="1" cols="20"></input>
                     {% else: %}
-                        <textarea type="text" id="cause" name="cause" rows="1" cols="20">{{data_points.cause}}</textarea>
+                        <input type="text" id="cause" name="cause" placeholder="{{data_points.cause}}" rows="1" cols="20"></input>
                     {% endif %}
                         <script>
                         $(function() {
@@ -100,9 +111,13 @@
                             });
                         });
                         </script>
-                    <input type="submit" value="Submit">
+                    <br><br>
+                    <div class = button_holder>
+                        <button class = "button submit_args_button" type="submit">Find Deaths Per</button>
+                    </div>
                 </form>
             </div>
+            
             <div>
                 {%if data_boolean: %}
                     <p>Number of deaths due to <b>{{data_points.cause.lower()}}</b> for <b>{{data_points.gender}}</b>, age <b>{{data_points.age}}</b> in <b>{{data_points.state}}</b>, is:</p>

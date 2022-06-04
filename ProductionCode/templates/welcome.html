@@ -5,14 +5,22 @@
         <link rel="stylesheet" href="../static/datastyle.css">
     </head>
     <body>
-        <div id = 'header'> 
+        <div id="header"> 
             <h1>Predictor of Passing</h1>
             <nav>
                 <ul>
-                    <li><a href="/home">Home</a></li>
-                    <li><a href="/dp">Deaths Per</a></li>
-                    <li><a href="/lc">Leading Cause</a></li>
-                    <li><a href="/wwid">When Will I Die?</a></li>
+                    <a href="/wwid">
+                        <button class = "button menu_button">When Will I Die? </button>
+                    </a>
+                    <a id = "on" href="/home">
+                        <button class = "button menu_button">Home </button>
+                    </a>
+                    <a href="/lc">
+                        <button class = "button menu_button">Leading Cause </button>
+                    </a>
+                    <a href="/dp">
+                        <button class= "button menu_button">Deaths Per </button>
+                    </a>
                 </ul> 
             </nav>
         </div>
@@ -22,9 +30,11 @@
                 <h2> Welcome to Predictor of Passing!</h2>
                 <h3> Here's a macabre fact: </h3>
                 <p> {{fact}}</p>
-                <button id = "new_fact"> 
-                    <a href = "/home">Another fact!</a>
-                </button> 
+                <div class = button_holder>
+                    <a href = "/home">
+                        <button class = "button facts_button"> Another fact!</button> 
+                    </a>
+                </div>
             </div>
         </div>
 

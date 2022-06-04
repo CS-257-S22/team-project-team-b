@@ -8,33 +8,43 @@
             <h1>Predictor of Passing</h1>
             <nav>
                 <ul>
-                    <li><a href="/home">Home</a></li>
-                    <li><a href="/dp">Deaths Per</a></li>
-                    <li><a href="/lc">Leading Cause</a></li>
-                    <li><a href="/wwid">When Will I Die?</a></li>
+                    <a id = "on" href="/wwid">
+                        <button class = "button menu_button">When Will I Die? </button>
+                    </a>
+                    <a href="/home">
+                        <button class = "button menu_button">Home </button>
+                    </a>
+                    <a href="/lc">
+                        <button class = "button menu_button">Leading Cause </button>
+                    </a>
+                    <a href="/dp">
+                        <button class= "button menu_button">Deaths Per </button>
+                    </a>
                 </ul> 
             </nav>
         </div>
+        
         <div>
             <h2>When Will I Die?</h2>
             <div>
                 <p>Please enter your information.</p>
                 <form action="choose_arguments">
-                    <label for="name">Input your name:</label>
-                    <input type = "text" id = "name_input" name = "name_input" rows="1"><br><br>
+                    <label for="name">Input your full name:</label>
+                    <input type = "text" id = "name_input" name = "name_input" placeholder="Your Name Here" rows="1"><br><br>
 
                     <!-- <textarea type="text" id="name_input" name="name_input" rows="1" cols="20"></textarea> -->
                     <label for="states">Choose your state:</label>
-                    <select name="state_choice">
+                    <select name="state_choice" >
                         
+                        <option value="Placeholder" disabled selected>Choose State:</option>
                         {% for state in states: %}
                         <option value="{{state}}">{{state}}</option>
                         {% endfor %}
                            
-                    </select>
+                    </select><br><br>
                    <!--https://www.w3schools.com/TAGS/att_input_type_date.asp -->
                     <label for="birthday">Date of Birth:</label>
-                        <input type="date" id="birthday" name="birthday">
+                        <input type="date" id="birthday" name="birthday"><br><br>
                     <label for="genders">Choose your gender:</label>
                     <select name="gender_choice">
                         
@@ -42,9 +52,10 @@
                         <option value="F">Female</option>
                         <option value="M">Male</option>
                            
-                    </select>
-                    <!-- <input type="data" name="data" id="dateinput"> -->
-                    <button class = submit_button type="submit">Make Prediction</button>
+                    </select><br><br>
+                    <div class = button_holder>
+                        <button class = "button prediction_button" type="submit">Make Prediction</button>
+                    </div>
                 </form>
             </div>
             <div>
