@@ -7,6 +7,7 @@ from SearchArgs import *
 import random
 from csv_reading import *
 from psql_access import *
+from clarification import clarify
 
 class Prediction():
     def __init__(self, date_of_death, age_at_death, main_cause, misc_cause, name):
@@ -29,9 +30,9 @@ class Prediction():
     def set_combined_cause(self):
         if self.misc_cause != None:
             base_string = '{} ({})' 
-            self.combined_cause = base_string.format(self.misc_cause, self.main_cause)
+            self.combined_cause = clarify(base_string.format(self.misc_cause, self.main_cause))
         else:
-            self.combined_cause = self.main_cause
+            self.combined_cause = clarify(self.main_cause)
 
     def get_days_remaining(self):
         full_object = str(self.date - self.today)

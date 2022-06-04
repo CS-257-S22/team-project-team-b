@@ -95,9 +95,9 @@
                     <!-- Autocomplete code source: https://www.geeksforgeeks.org/autocomplete-input-suggestion-using-python-and-flask/ -->
                     <label for="causes">Type a cause:</label>
                     {% if "all causes" == data_points.cause: %}
-                        <input type="text" id="cause" name="cause" placeholder = "Cause of Death" rows="1" cols="20"></input>
+                        <textarea type="text" id="cause" name="cause" placeholder = "Cause of Death" rows="1" cols="20">Any</textarea>
                     {% else: %}
-                        <input type="text" id="cause" name="cause" placeholder="{{data_points.cause}}" rows="1" cols="20"></input>
+                        <textarea type="text" id="cause" name="cause" rows="1" cols="20">{{data_points.cause}}</textarea>
                     {% endif %}
                         <script>
                         $(function() {
