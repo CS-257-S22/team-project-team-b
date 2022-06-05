@@ -177,7 +177,7 @@ class SearchArgs:
             if ((self.get_term_from_string(key) != None) and (self.get_term_from_string(key) != "Any") and (key != "age")):
                 query += " AND "+key+" = %s"
                 query_inputs += (self.get_term_from_string(key),)
-            elif (key == "age"):
+            elif ((key == "age") and (self.get_term_from_string(key) != None)):
                 query += " AND "+key+" >= %s"
                 query_inputs += (self.get_term_from_string(key),)
         return query, query_inputs
