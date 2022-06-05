@@ -31,7 +31,7 @@
         </div>
         <div>
             <h2>Deaths Per</h2>
-            <div>
+            <div id = "input_fields">
                 <p>Which category of people would you like to see the number of deaths of? Choose "Any" for everyone in that category.</p>
                 <form action="choose_arguments">
 
@@ -123,7 +123,7 @@
             
             <div>
                 {%if data_boolean: %}
-                    <p>Number of deaths due to <b>{{data_points.cause.lower()}}</b> for <b>{{data_points.gender}}</b>, age <b>{{data_points.age}}</b> in <b>{{data_points.state}}</b>, is:</p>
+                    <p>Number of deaths due to <b>{{data_points.cause.lower()}}</b> for <b>{{data_points.gender}}</b>, age <b>{{data_points.age}}</b> in <b>{{data_points.state}}</b>, between the years 2016 and 2020 is:</p>
                     <p><b>{{data_points.deaths}}</b></p>
                 {%endif%}
             </div>
