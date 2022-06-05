@@ -79,7 +79,6 @@ class DeathPredictor():
         self.input_arguments = InputArguments(list_of_inputs)
         self.search_args = SearchArgs(self.input_arguments.state, None, None, None)
         self.set_today()
-        self.set_earliest()
         self.set_min_date()
         self.set_age_and_DoB()
         self.set_gender()
@@ -321,11 +320,15 @@ class DeathPredictor():
         '''
         self.today = date.today() 
     
-    def set_earliest(self):
+    def set_min_date(self):
         '''
         Stores earliest accessible date in self.min_date
         '''
-        self.min_date = self.today - "100-01-10"
+        # int_list = []
+        # for string in ((str(int(str(self.today)[0:2])-1)+str(self.today)[2:]).split('-')):
+        #     int_list.append(int(string))
+        # self.min_date = date(int_list[0], int_list[1], int_list[2])
+        # print(self.min_date)
 
     def set_age(self):
         '''
