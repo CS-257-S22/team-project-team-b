@@ -123,33 +123,6 @@ textarea, input,select {
     background-color: var(--page_backgroundd_color);
 }
 
-#welcome h1 { 
-    animation-fill-mode: backwards;
-    animation-name: fade_in; 
-    animation-duration: 2s;
-    color: var(--content_text);
-} 
-
-.animate-fadeIn h2{
-    animation-fill-mode: backwards;
-    animation-name: fade_in; 
-    animation-duration: 2s;
-    animation-delay: 0.5s;
-}
-
-.animate-fadeIn h3, .animate-fadeIn p, .animate-fadeIn button{ 
-    animation-fill-mode: backwards;
-    animation-name: fade_in;
-    animation-duration: 2s; 
-    animation-delay: 1s;
-}
-.animation-fadeIn { 
-    animation-fill-mode: backwards;
-    animation-name: fade_in;
-    animation-duration: 2s; 
-    animation-delay: 1.5s;
-}
-
 #welcome,
 #input_fields{ 
     padding: 8px;
