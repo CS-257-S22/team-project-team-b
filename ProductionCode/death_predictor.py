@@ -303,18 +303,6 @@ class DeathPredictor():
         death_line = self.select_death(relevant_data, pick_number)
         return death_line
 
-    def equal_or_none(self, compared, value):
-        '''
-        detects if compared and value are equal or value is None, returns True if so
-        
-        Args: 
-            compared: main test subject value
-            value: value as it would be found in search_args
-        Returns:
-            Boolean
-        '''
-        return (value == compared) | (value == None)
-
     def set_DoB(self, date_of_birth_list):
         '''
         Takes in date_of_birth_list and creates date object from datetime library. Stores it in self.date_of_birth
