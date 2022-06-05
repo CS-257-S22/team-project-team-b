@@ -45,7 +45,9 @@
                     </select><br><br>
                    <!--https://www.w3schools.com/TAGS/att_input_type_date.asp -->
                     <label for="birthday">Date of Birth:</label>
-                        <input type="date" id="birthday" name="birthday" value= {{data_points.today}} min={{data_points.min_date}}><br><br>
+                        <input type="date" id="birthday" name="birthday" min={{data_points.min_date}} required pattern="\d{4}-\d{2}-\d{2}">
+                        <span class="validity"></span><br><br>
+                        <!-- Referenced https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date for forcing fields to be input-->
                     <label for="genders">Choose your gender:</label>
                     <select name="gender_choice">
                         
