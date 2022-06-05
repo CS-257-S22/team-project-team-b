@@ -213,7 +213,7 @@ class DeathPredictor():
 
     def set_cause_elimination_list(self):
         '''
-        Creates a list of the ICD-10 codes in relevant_data at the age_at_death and stores it in self.cause_emimination_list.
+        Creates a list of causes of death in relevant_data at the age_at_death and stores it in self.cause_emimination_list.
         '''
         self.cause_emimination_list = []
         for line in self.relevant_lines:
