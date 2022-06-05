@@ -16,6 +16,8 @@ class Prediction():
         self.main_cause = main_cause
         self.misc_cause = misc_cause
         self.today = date.today()
+        self.set_min_date()
+        self.set_max_date()
         self.set_combined_cause()
         self.name = name
         self.reformat_date()
@@ -24,6 +26,49 @@ class Prediction():
         self.month = months[int(self.date_list[1])-1]
         self.day =  self.number_to_string(self.date_list[2])
         self.year = self.date_list[0]
+    
+    def set_min_date(self):
+        '''
+        Stores earliest accessible date in self.min_date
+        '''
+        self.min_date = self.return_x_centuries_after_date(self.today, -1)
+    
+    def set_max_date(self):
+        '''
+        Stores lastest accessible date in self.max_date
+        '''
+        self.max_date = self.return_x_centuries_after_date(self.today, 10)
+    
+    def return_x_centuries_after_date(self, date, centuries_after):
+        '''
+        Returns a date object an inputted number of centuries after an inputted date
+
+        Args:
+            date: the date a a specified amount of centuries before the desired output
+            centuries_after: the requested amount of centuries after the input date
+        Returns:
+            a date object a specified amount of centuries after the given
+        '''
+        decade_through_day_slice = str(date)[2:]
+        millennia_and_century_slice = str(date)[0:2]
+        updated_millennia_and_century_slice = str(int(millennia_and_century_slice)+centuries_after)
+        new_date_as_string = updated_millennia_and_century_slice+decade_through_day_slice
+
+        new_date = self.return_string_as_date(new_date_as_string)
+        return new_date
+    
+    def return_string_as_date(self, string):
+        '''
+        Returns as string as a date object
+
+        Args:
+            string: a string in the format of a date object
+        Return:
+            the date object encoded by the input string
+        '''
+        string_list = string.split('-')
+        new_date = date(int(string_list[0]), int(string_list[1]), int(string_list[2]))
+        return new_date
 
     def set_combined_cause(self):
         if self.misc_cause != None:
@@ -79,7 +124,6 @@ class DeathPredictor():
         self.input_arguments = InputArguments(list_of_inputs)
         self.search_args = SearchArgs(self.input_arguments.state, None, None, None)
         self.set_today()
-        self.set_min_date()
         self.set_age_and_DoB()
         self.set_gender()
         self.generate_seed()
@@ -319,16 +363,6 @@ class DeathPredictor():
         Stores current date in self.today
         '''
         self.today = date.today() 
-    
-    def set_min_date(self):
-        '''
-        Stores earliest accessible date in self.min_date
-        '''
-        # int_list = []
-        # for string in ((str(int(str(self.today)[0:2])-1)+str(self.today)[2:]).split('-')):
-        #     int_list.append(int(string))
-        # self.min_date = date(int_list[0], int_list[1], int_list[2])
-        # print(self.min_date)
 
     def set_age(self):
         '''
