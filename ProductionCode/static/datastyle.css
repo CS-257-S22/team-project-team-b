@@ -125,7 +125,7 @@ textarea, input,select {
     border-radius: 3px;
     margin: auto;
     color: var(--content_text_color);
-    background-color: var(--page_backgroundd_color)
+    background-color: var(--page_backgroundd_color);
 }
 
 #welcome h1 { 
@@ -138,21 +138,21 @@ textarea, input,select {
 .animate-fadeIn h2{
     animation-fill-mode: backwards;
     animation-name: fade_in; 
-    animation-duration: 4s;
-    animation-delay: 1.5s;
+    animation-duration: 2s;
+    animation-delay: 0.5s;
 }
 
 .animate-fadeIn h3, .animate-fadeIn p, .animate-fadeIn button{ 
     animation-fill-mode: backwards;
     animation-name: fade_in;
-    animation-duration: 4s; 
-    animation-delay: 2s;
+    animation-duration: 2s; 
+    animation-delay: 1s;
 }
 .animation-fadeIn { 
     animation-fill-mode: backwards;
-    animation-name: fade_in; 
-    animation-delay: 4.5s;
-    animation-duration: 1s;
+    animation-name: fade_in;
+    animation-duration: 2s; 
+    animation-delay: 1.5s;
 }
 
 #welcome,
