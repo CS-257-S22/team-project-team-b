@@ -2,10 +2,8 @@
 Written by Jonas Bartels
 '''
 from datetime import datetime, date, timedelta
-from sys import argv
 from SearchArgs import *
 import random
-from csv_reading import *
 from psql_access import *
 from clarification import clarify
 
