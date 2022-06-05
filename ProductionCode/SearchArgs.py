@@ -162,3 +162,22 @@ class SearchArgs:
                 query += " AND "+key+" = %s"
                 query_inputs += (self.get_term_from_string(key),)
         return query, query_inputs
+    
+    def return_search_as_query_death_predictor(self):
+        """
+        Returns the terms in the SearchArgs object as a query string
+
+        Return:
+            The terms in the SearchArgs object as a query string
+        """
+        
+        query = ""
+        query_inputs = ()
+        for key in self.get_arguments():
+            if ((self.get_term_from_string(key) != None) and (self.get_term_from_string(key) != "Any") and (key != "age")):
+                query += " AND "+key+" = %s"
+                query_inputs += (self.get_term_from_string(key),)
+            elif ((key == "age") and (self.get_term_from_string(key) != None)):
+                query += " AND "+key+" >= %s"
+                query_inputs += (self.get_term_from_string(key),)
+        return query, query_inputs
