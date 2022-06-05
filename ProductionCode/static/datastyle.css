@@ -79,9 +79,7 @@ label{
     padding:0 5px 0 0
 }
 
-/* Making the form items be on new lines
-    https://stackoverflow.com/questions/10349276/how-to-put-web-form-elements-on-a-new-line#10349338
-*/
+/* Centers buttons */
 
 .button_holder{
     text-align: center;
@@ -163,16 +161,13 @@ textarea, input,select {
 
 #ux { 
     padding: 50px 0px;
-    
     margin: 25px;
     border-bottom: 4px double var(--content_text_color);
 }
 
 li{
-
     font-family: Verdana, Geneva, sans-serif;
     line-height: 1.4;
-
 }
 
 
