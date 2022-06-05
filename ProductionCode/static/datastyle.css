@@ -128,35 +128,6 @@ textarea, input,select {
     background-color: var(--page_backgroundd_color)
 }
 
-#new_fact{ 
-    display: block;
-    padding: 16px;
-    color: var(--banner_text_color);
-    background-color:var(--banner_background_color);
-    border: none;
-    margin: auto;
-}
-
-#new_fact:hover{ 
-    background-color: var(--banner_text_color)
-}
-
-#new_fact a{ 
-    padding: 18px;
-    text-decoration: none;
-    color: var(--banner_text_color);
-    font: Verdana, Geneva, sans-serif;
-}
-
-#new_fact a:hover{ 
-    color: var(--banner_background_color);
-}
-
-@keyframes fade_in {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
-}
-
 #welcome h1 { 
     animation-fill-mode: backwards;
     animation-name: fade_in; 
@@ -184,7 +155,8 @@ textarea, input,select {
     animation-duration: 1s;
 }
 
-#welcome{ 
+#welcome,
+#input_fields{ 
     padding: 8px;
     margin: 25px;
 }
