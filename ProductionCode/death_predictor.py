@@ -80,14 +80,12 @@ class DeathPredictor():
         self.seed_influencer = seed_influencer
         self.input_arguments = InputArguments(list_of_inputs)
         self.search_args = SearchArgs(self.input_arguments.state, None, None, None)
-        self.misc_search_args = SearchArgs(None, None, None, None)
         self.set_today()
         self.set_age_and_DoB()
         self.set_gender()
         self.generate_seed()
         self.set_seed()
-
-        self.data, self.misc_data = self.initialize_death_data(), self.initialize_misc_data()
+        self.relevant_lines, self.misc_data = self.initialize_death_data(), self.initialize_misc_data()
     
     def set_gender(self):
         '''
@@ -98,7 +96,6 @@ class DeathPredictor():
         if gender_user_input == "None":
             gender_user_input = None
         self.search_args.set_gender(gender_user_input)
-        self.misc_search_args.set_gender(gender_user_input)
 
     def list_to_line_object(self, list):
         '''
@@ -124,13 +121,11 @@ class DeathPredictor():
         Returns:
             a 1D list of DataLine objects
         '''
-        query_string = "SELECT * FROM death_data;"
-        dataline_list = get_query_result(query_string)
+        query_string = "SELECT * FROM death_data WHERE True"
+        search_query, query_inputs = self.search_args.return_search_as_query_death_predictor()
+        query_string += search_query+";"
 
-        for i in range(len(dataline_list)):
-            lst = dataline_list[i]  
-            if len(lst) == 4:
-                dataline_list[i] = ('fillerstate',) + lst
+        dataline_list = get_query_result(query_string, query_inputs)
         return self.list_to_line_object(dataline_list)
 
     def initialize_misc_data(self):
@@ -147,48 +142,18 @@ class DeathPredictor():
         dataline_list = get_query_result(query_string)
 
         for i in range(len(dataline_list)):
-            lst = dataline_list[i]  
-            if len(lst) == 4:
-                dataline_list[i] = ('fillerstate',) + lst
+            dataline_list[i] = ('fillerstate',) + dataline_list[i]
         return self.list_to_line_object(dataline_list)
-        
-    def is_relevant_line(self, line):
-        '''
-        Checks whether a line of data could describe a possible death of the user
-        
-        Args:
-            line: a DataLine object containing death data
-        Returns:
-            a Boolean.
-        '''
 
-        # if self.equal_or_none(line.state, self.search_args.get_state()) & \
-        #     self.equal_or_none(line.gender, self.search_args.get_gender()) & \
-        #     (int(line.age) >= int(self.search_args.get_age())):
-        #     return True
-        # else:
-        #     return False
+        # query_string = "SELECT * FROM misc_data WHERE True"
+        # misc_search = SearchArgs(None, None, None, None)
+        # misc_search.set_gender(self.search_args.get_gender())
+        # search_query, query_inputs = misc_search.return_search_as_query_death_predictor()
+        # query_string += search_query+";"
 
-        if (self.equal_or_none(line.state, self.search_args.get_state())):
-            if (self.equal_or_none(line.gender, self.search_args.get_gender())):
-                if (int(line.age) >= int(self.search_args.get_age())):
-                    return True
-                else:
-                    return False
-            else:
-                return False
-        else:
-            return False
+        # dataline_list = get_query_result(query_string, query_inputs)
 
-    def set_relevant_lines(self):
-        '''
-        Adds DataLine lines to self.relevant_lines if they are possible ways the user might perish
-        '''
-        self.relevant_lines = []
-        for line in self.data:
-            if self.is_relevant_line(line):
-                self.relevant_lines.append(line)
-
+        # return self.list_to_line_object(dataline_list)
 
     def set_death_toll(self):
         '''
@@ -476,7 +441,6 @@ class DeathPredictor():
         Prepares some lists and variables that are required for set_misc_prediction().
         '''
         self.set_cause_elimination_list()
-        self.misc_search_args.set_age(self.age_at_death)
         self.set_relevant_misc_lines()
         self.set_misc_death_toll()
 
@@ -515,7 +479,6 @@ class DeathPredictor():
         Returns:
             a Prediction object
         '''
-        self.set_relevant_lines()
         self.set_death_toll()
         self.generate_base_prediction()
         self.generate_misc_prediction()
