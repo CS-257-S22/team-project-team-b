@@ -38,8 +38,6 @@
                     <input type = "text" id = "name_input" name = "name_input" placeholder="Your Name Here" rows="1"><br><br>
                     <label for="states">Choose your state:</label>
                     <select name="state_choice" >
-                        
-                        <option value="Placeholder" disabled selected>Choose State:</option>
                         {% for state in states: %}
                         <option value="{{state}}">{{state}}</option>
                         {% endfor %}
@@ -47,7 +45,7 @@
                     </select><br><br>
                    <!--https://www.w3schools.com/TAGS/att_input_type_date.asp -->
                     <label for="birthday">Date of Birth:</label>
-                        <input type="date" id="birthday" name="birthday"><br><br>
+                        <input type="date" id="birthday" name="birthday" value= {{data_points.today}} min={{data_points.min_date}}><br><br>
                     <label for="genders">Choose your gender:</label>
                     <select name="gender_choice">
                         
