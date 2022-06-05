@@ -61,7 +61,7 @@ class Prediction():
 class DataLine():
     def __init__(self, line):
         self.state = line[0]
-        self.age = line[1]
+        self.age = str(line[1])
         self.gender = line[2]
         self.cause = line[3]
         self.death_toll = line[4]
