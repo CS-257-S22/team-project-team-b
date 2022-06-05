@@ -67,8 +67,6 @@ p, label {
     line-height: 1.4;
 }
 
-
-
 /* Making the form items be on new lines
     https://stackoverflow.com/questions/10349276/how-to-put-web-form-elements-on-a-new-line#10349338
 */
@@ -92,8 +90,8 @@ a:visited,
 a:hover,
 a:active{
     text-decoration: none;
-    
 }
+
 .button { 
     border: 2px solid var(--button_background_color);
     font-size:100%;
@@ -117,7 +115,6 @@ a:active{
 
 #on .menu_button{
     background-color: var(--main_color_dark);
-   
 }
 
 textarea, input,select { 
@@ -163,18 +160,11 @@ textarea, input,select {
 
 #ux { 
     padding: 50px 0px;
-    
     margin: 25px;
     border-bottom: 4px double var(--content_text_color);
 }
 
 li{
-
     font-family: Verdana, Geneva, sans-serif;
     line-height: 1.4;
-
 }
-
-
-
-
