@@ -98,6 +98,17 @@ def leading_cause_template_arguments():
     """
     return return_render_template('lc')
 
+@app.route('/about')
+def about_template():
+    """
+    Returns the render template for the about page.
+
+    Returns:
+        the render template for the about page
+    """
+    return render_template("about.html")
+    
+
 @app.errorhandler(404)
 def page_not_found(e):
     """
@@ -125,4 +136,3 @@ if __name__ == '__main__':
     """ Runs the app. """
     #app.run()
     app.run(port = 5130, host = "0.0.0.0")
-    #app.run(port = 5120, host = "0.0.0.0")
