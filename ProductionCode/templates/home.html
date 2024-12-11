@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <title>PoP - Home</title>
+        <link rel="stylesheet" href="../static/datastyle.css">
+        <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    </head>
+    <body>
+        <div id="header"> 
+            <h1>Predictor of Passing</h1>
+            <nav>
+                <ul>
+                    <a id = "on" href="/home">
+                        <button class = "button menu_button">Home </button>
+                    </a>
+                    <a href="/wwid">
+                        <button class = "button menu_button">When Will I Die? </button>
+                    </a>
+                    <a href="/lc">
+                        <button class = "button menu_button">Leading Cause </button>
+                    </a>
+                    <a href="/dp">
+                        <button class = "button menu_button">Deaths Per </button>
+                    </a>
+                    <a href="/about">
+                        <button class = "button menu_button">About </button>
+                    </a>
+                </ul> 
+            </nav>
+        </div>
+        
+        <div id = "ux">
+            <h2> Here are the ways to interact with the death data:</h2>
+            <p> Use the navigation bar above to locate: </p>
+            <li> When Will I die?: As the name describes, you can find your most "probable" death based on your current state. </li>
+            <li> Leading Cause: find the leading cause of death based on a gender, age and/or state </li>
+            <li> Deaths Per: find the total number of deaths based on a cause, gender, age and/or state </li>
+        </div>
+        <div id = "welcome">
+            <h2> Here's a macabre fact! </h2>
+            <p> {{fact}}</p>
+            <br>
+            <div class = button_holder>
+                <a href = "/home">
+                    <button class = "button facts_button"> Another fact!</button> 
+                </a>
+            </div>
+        </div>
+    </body>
+</html>

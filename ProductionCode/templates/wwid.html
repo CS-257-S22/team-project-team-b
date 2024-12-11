@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <title>PoP - When Will I Die?</title>
+        <link rel="stylesheet" href="../static/datastyle.css">
+    </head>
+    <body>
+        <div id="header"> 
+            <h1>Predictor of Passing</h1>
+            <nav>
+                <ul>
+                    <a href="/home">
+                        <button class = "button menu_button">Home </button>
+                    </a>
+                    <a id = "on" href="/wwid">
+                        <button class = "button menu_button">When Will I Die? </button>
+                    </a>
+                    <a href="/lc">
+                        <button class = "button menu_button">Leading Cause </button>
+                    </a>
+                    <a href="/dp">
+                        <button class = "button menu_button">Deaths Per </button>
+                    </a>
+                    <a href="/about">
+                        <button class = "button menu_button">About </button>
+                    </a>
+                </ul> 
+            </nav>
+        </div>
+        <div>
+            <div id="Welcome">
+                <h2>Welcome to the Death Predictor</h2>
+                <p>This Predictor is based around the same database as the other functions on this website. It uses this database to determine the probabilities of different fatal circumstances and then selects one that matches your demographic. </p>
+            </div>
+            <div id = "input_fields">
+                <h3>Please enter your information.</h3>
+                <form action="choose_arguments">
+                    <label for="name">Input your full name:</label>
+                    <input type = "text" id = "name_input" name = "name_input" placeholder="Your Name Here" rows="1"><br><br>
+                    <label for="states">Choose your state:</label>
+                    <select name="state_choice" >
+                        {% for state in states: %}
+                        <option value="{{state}}">{{state}}</option>
+                        {% endfor %}
+                           
+                    </select><br><br>
+                   <!--https://www.w3schools.com/TAGS/att_input_type_date.asp -->
+                    <label for="birthday">Date of Birth:</label>
+                        <input type="date" id="birthday" name="birthday" required pattern="\d{4}-\d{2}-\d{2}" min={{data_points.min_date}} max={{data_points.max_date}}>
+                        <span class="validity"></span><br><br>
+                        <!-- Referenced https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date for forcing fields to be input-->
+                    <label for="genders">Choose your gender:</label>
+                    <select name="gender_choice">
+                        
+                        <option value=None>Any</option>
+                        <option value="F">Female</option>
+                        <option value="M">Male</option>
+                           
+                    </select><br><br>
+                    <div class = button_holder>
+                        <button class = "button prediction_button" type="submit">Make Prediction</button>
+                    </div>
+                </form>
+            </div>
+            <div>
+                {%if data_boolean: %}
+                <p>{{data_points.name}} will die on the {{data_points.day}} of {{data_points.month}}, {{data_points.year}}, at {{data_points.age_at_death}} years of age. The cause of death will be {{data_points.combined_cause.lower()}}. Remaining: {{data_points.days_remaining}} days.</p>
+                {%endif%}
+            </div>
+        </div>
+    </body>
+</html>
